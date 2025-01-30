@@ -3,7 +3,7 @@
   padding: 0;
   margin: 0;
  
-  outline:  1px solid red;
+  /* outline:  1px solid red; */
 }
 
 body {
@@ -28,6 +28,10 @@ body {
   height: 10vh;
   border-radius: 30%;
   
+}
+
+.mobile-header{
+  display: none;
 }
 .header {
   width: 100%;
@@ -261,48 +265,7 @@ nav .right-part ul li:hover .submenu {
   visibility: inherit;
   top: 140%;
 }
- /* slider banner  */
 
- /* .slider-container{
-  position: relative;
-  width: 100%; 
-  overflow: hidden;
- 
- } 
-.image-container{
-  height: 60vh;
-  display: flex;
-  object-fit: cover;
-}
-.image-container .activeSlider{
- transform: translateX();
-}
-
-
-.slider-container .left-arrow{
-  position: absolute;
-  top: 48%;
-  left: 4%;
-  font-size: 3rem;
-  color: #1e1b1b;
-  background-color: #ffff;
-  border-radius: 50%;
-}
-.slider-container .right-arrow{
-  position: absolute;
-  top: 48%;
-  right:4%;
-  font-size: 3rem;
-  color: #1e1b1b;
-  background-color: #ffff;
-  border-radius: 50%;
-}
-
-.slider-container .right-arrow:hover,.left-arrow:hover{
-  color: #389be2;
-  cursor: pointer;
-} 
-  */
   .slider-container {
     position: relative;
     width: 90%; /* Set the width of the slider */
@@ -727,7 +690,9 @@ list-style: none;
 @media (max-width: 480px) {
   /* Adjust logo */
   
-
+.mobile-header{
+  display: block;
+}
 .mobilelogo{
   height: 12vh;
 }
@@ -753,7 +718,7 @@ list-style: none;
   .header {
     width: 70%;
     display: none;
-    background: rebeccapurple;
+    background: rgb(135, 75, 194);
     /* flex-direction:column; */
     padding: 15px;
     position: absolute;
@@ -812,12 +777,10 @@ list-style: none;
   }
 
   /* Login and cart buttons */
-  .login,
+  
   .wishlist,
   .cart {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    display: none;
   }
 
   /* Navbar adjustments */
@@ -830,7 +793,7 @@ list-style: none;
   }
 
   nav .right-part ul li a button {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     padding: 5px;
   }
 
