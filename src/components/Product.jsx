@@ -10,6 +10,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Dialog from "@mui/material/Dialog";
 import CloseIcon from '@mui/icons-material/Close';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import product1 from "../assets/photos/pic1.jpg"
 const Product = () => {
@@ -63,7 +64,7 @@ const closeModal=()=>{
         </Typography>
       </CardContent>
       <div className="card-buttons mt-0">
-        <Button size="small">buy now</Button>
+        <Button size="small"> <ShoppingCartIcon/>buy now</Button>
       </div>
     </Card>
 
@@ -74,6 +75,9 @@ const closeModal=()=>{
 
    
     <img src={product1} alt="" />
+    <div className="card-buttons">
+        <Button size="small"> <ShoppingCartIcon/>buy now</Button>
+      </div>
    
       
       </Dialog>}
