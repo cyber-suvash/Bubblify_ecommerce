@@ -7,11 +7,19 @@ import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import OpenWithRoundedIcon from "@mui/icons-material/OpenWithRounded";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Dialog from "@mui/material/Dialog";
+import CloseIcon from '@mui/icons-material/Close';
+
+import product1 from "../assets/photos/pic1.jpg"
 const Product = () => {
 
+  const [wishlist,setWishlist]=useState(false)
+  const handleWishlist=()=>{
+    setWishlist((prev)=>!prev)
+  }
 
-  const [isOpenModal,setIsopenModal]=useState(false)
+const [isOpenModal,setIsopenModal]=useState(false)
 const openProductModal=(id)=>{
   setIsopenModal(true)
 
@@ -28,16 +36,16 @@ const closeModal=()=>{
     <Card sx={{ maxWidth: 240, padding: 1 }} className="card">
       <CardMedia
         component="img"
-        alt="green iguana"
-        image="https://api.spicezgold.com/download/file_1734526836569_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-0-202403231855.jpg"
+        alt="t-shirt"
+        image={product1}
       />
       <div className="expand-whishlist ">
         <OpenWithRoundedIcon fontSize="large"  onClick={()=>openProductModal(1)}/>
-        <FavoriteBorderIcon fontSize="large" color="red" />
+        {wishlist? <FavoriteIcon  fontSize="large" sx={{color:"red"}} onClick={handleWishlist}/>   :<FavoriteBorderIcon fontSize="large"  onClick={handleWishlist}/>}
       </div>
       <CardContent>
-        <Typography component="p">
-          Cotton Co Ord Set-Tie & Dye....
+        <Typography component="span">
+        GESPO Peach Solid Mandarin Collar
         </Typography>
         <Typography variant="body2" color="success">
           In Stock
@@ -50,17 +58,25 @@ const closeModal=()=>{
           sx={{ color: "text.secondary" }}
           className="d-flex align-items-center mb-0 price"
         >
-          <span className="mb-0 me-2 text-decoration-line-through">Rs 2999 </span>
-          <p className=" mb-0">Rs 899</p>
+          <p className="mb-0 me-2 text-decoration-line-through">Rs 2999 </p>
+          <span className=" mb-0">Rs 899</span>
         </Typography>
       </CardContent>
       <div className="card-buttons mt-0">
-        <Button size="small">add to cart</Button>
         <Button size="small">buy now</Button>
       </div>
     </Card>
 
-    {isOpenModal===true && <Dialog open={true} onClose={()=>closeModal(1)}><OpenWithRoundedIcon></OpenWithRoundedIcon></Dialog>}
+    {isOpenModal===true && <Dialog open={true} onClose={()=>closeModal(1)}>
+     <Button onClick={closeModal}>
+     <CloseIcon fontSize="large"/>
+      </Button> 
+
+   
+    <img src={product1} alt="" />
+   
+      
+      </Dialog>}
 
     </>
   );

@@ -1,76 +1,145 @@
-import logo from "../assets/photos/logo.png";
-import CountrydropDown from "./CountrydropDown";
+import { useState } from 'react';
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import Badge from "@mui/material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Badge from "@mui/material/Badge";
-import SearchBox from "./SearchBox";
-import Navbar from "./Navbar";
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from "@mui/icons-material/Menu";
+import logo from "../assets/photos/logo.png";
+import SearchBox from './SearchBox'
+import CountrydropDown from './CountrydropDown'
+import Navbar from './Navbar'
+import './Header.css'
+const Header = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-const Header = ({ isOpenSidebar }) => {
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <>
-     
-        <div className={`header ${isOpenSidebar?'sidebar-active':""}`}>
-          <div className="container">
-            <div className="row">
-              {/* Logo Section */}
-              <div className="logo col-sm-1 d-flex align-items-center">
-                <Link to={"/"}>
-                  <img src={logo} alt="logo_img" />
+      {/* Mobile Header */}
+      <div className="mobile-header d-lg-none ">
+        <div className="container ">
+          <div className="d-flex justify-content-between align-items-center">
+            <Button onClick={toggleSidebar}>
+              <MenuIcon />
+            </Button>
+            <Link to="/">
+              <img src={logo} alt="logo_img" className="mobile-logo" />
+            </Link>
+            <Link to="/cart">
+            <Button>
+            <Badge badgeContent={2} color="primary">
+                <ShoppingCartIcon style={{ color: "#2518ddbb" }} />
+              </Badge>
+            </Button>
+             
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div className="sidebar-overlay" onClick={toggleSidebar}></div>
+      )}
+
+      {/* Sidebar */}
+      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <Button>
+            <img src={logo} alt="" className='mobile-logo' />
+          </Button>
+          <Button onClick={toggleSidebar}>
+            <CloseIcon />
+          </Button>
+        </div>
+        <div className="sidebar-content">
+          <div className="sidebar-search my-3">
+            <SearchBox />
+          </div>
+          <div className="sidebar-country my-3">
+            <CountrydropDown />
+          </div>
+          <div className="sidebar-links">
+            <Link to="/login">
+            <Button className='sidebar-link' onClick={toggleSidebar}>
+            <AccountCircleIcon /> Sign In
+            </Button>
+             
+            </Link>
+            <Link to="/wishlist">
+             <Button className='sidebar-link' onClick={toggleSidebar}>
+             <Badge badgeContent={1} color="primary">
+                <FavoriteBorderIcon />
+              </Badge>
+              Wishlist
+             </Button>
+             
+            </Link>
+            <Link to="/cart">
+            <Button className='sidebar-link' onClick={toggleSidebar}>
+            <Badge badgeContent={2} color="primary">
+                <ShoppingCartIcon />
+              </Badge>
+              Cart
+            </Button>
+             
+            </Link>
+          </div>
+          
+        </div>
+      </div>
+
+      {/* Desktop Header */}
+      <div className="header d-none d-lg-block">
+        <div className="container">
+          <div className="row">
+            <div className="logo col-lg-3 d-flex align-items-center justify-content-between">
+              <Link to="/">
+                <img src={logo} alt="logo_img" />
+              </Link>
+              <CountrydropDown />
+            </div>
+            <div className="col-lg-9 d-flex align-items-center part2">
+              <SearchBox />
+              <div className="login d-flex align-items-center">
+                <AccountCircleIcon sx={{ fontSize: 30 }} />
+                <Link to="/login">
+                  <Button className="login-btn ms-2">Sign In</Button>
                 </Link>
               </div>
-
-              {/* Right Section */}
-              <div className="col-sm-11 d-flex align-items-center part2">
-                <CountrydropDown />
-
-                {/* Search Box */}
-                <SearchBox />
-
-                {/* Login Section */}
-                <div className="login d-flex align-items-center">
-                  <AccountCircleIcon sx={{ fontSize: 30 }} />
-                  <Link to={"/login"}>
-                    <Button className="login-btn ms-2">Sign In</Button>
-                  </Link>
-                </div>
-
-                {/* Wishlist */}
-                <div className="wishlist">
+              <div className="wishlist">
+                <Button>
+                  <Badge badgeContent={1} color="primary">
+                    <FavoriteBorderIcon style={{ color: "#2518ddbb", fontSize: "30px" }} />
+                  </Badge>
+                  Wishlist
+                </Button>
+              </div>
+              <div className="cart">
+                <Link to="/cart">
                   <Button>
-                    <Badge badgeContent={1} color="primary">
-                      <FavoriteBorderIcon
-                        style={{ color: "#2518ddbb", fontSize: "30px" }}
-                      />
+                    <Badge badgeContent={2} color="primary">
+                      <ShoppingCartIcon style={{ color: "#2518ddbb", fontSize: "30px" }} />
                     </Badge>
-                    Wishlist
+                    Cart
                   </Button>
-                </div>
-
-                {/* Cart Section */}
-                <div className="cart">
-                  <Link to={"/cart"}>
-                    <Button>
-                      <Badge badgeContent={2} color="primary">
-                        <ShoppingCartIcon
-                          style={{ color: "#2518ddbb", fontSize: "30px" }}
-                        />
-                      </Badge>
-                      Cart
-                    </Button>
-                  </Link>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
         </div>
+      </div>
       
-
-      {/* Navbar should always be visible */}
-      <Navbar />
+      {/* Navbar for desktop */}
+      <div className="d-none d-lg-block">
+        <Navbar />
+      </div>
     </>
   );
 };

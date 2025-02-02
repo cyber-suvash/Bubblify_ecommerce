@@ -18,8 +18,8 @@ const ProductsPage = () => {
             Do not miss the current offers until the end of March
           </p>
         </div>
-        <div className="col-md-5 products-menu list-inline ">
-          <li className="me-2">
+        <div className="col-md-5 products-menu ">
+          
             <Link to={"/"}>
               <Button
                 className={isActiveButton ? "active-button" : ""}
@@ -28,8 +28,7 @@ const ProductsPage = () => {
                 Electronics
               </Button>
             </Link>
-          </li>
-          <li className="me-2">
+    
             <Link to={"/"}>
               <Button
                 className={isActiveButton ? "active-button" : ""}
@@ -38,8 +37,8 @@ const ProductsPage = () => {
                 Fashion
               </Button>
             </Link>
-          </li>
-          <li className="me-2">
+        
+         
             <Link to={"/"}>
               <Button
                 className={isActiveButton ? "active-button" : ""}
@@ -48,8 +47,8 @@ const ProductsPage = () => {
                 Footware
               </Button>
             </Link>
-          </li>
-          <li className="me-2">
+          
+         
             <Link to={"/"}>
               <Button
                 className={isActiveButton ? "active-button" : ""}
@@ -58,7 +57,7 @@ const ProductsPage = () => {
                 Beauty
               </Button>
             </Link>
-          </li>
+        
         </div>
         <div className="col-md-2  d-flex align-items-center justify-content-end">
           <Button className="view-all mb-0">

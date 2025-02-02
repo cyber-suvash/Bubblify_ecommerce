@@ -65,7 +65,7 @@ const Navbar = () => {
               )}
             </div>
           </div>
-          <div className="col-md-8 col-sm-5 right-part">
+          <div className="col-md-8 right-part">
             <ul className="p-0">
               <li className="">
                 <Link to={"/"}>

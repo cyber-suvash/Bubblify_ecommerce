@@ -1,6 +1,5 @@
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from '@mui/icons-material/Close';
 import { Link } from "react-router-dom";
 import logo from "../assets/photos/logo.png";
 import Button from "@mui/material/Button";
@@ -13,7 +12,7 @@ const MobileHeader = ({isOpenSidebar,handleSidebar}) => {
     <section className="mobile-header">
         <div className="container d-flex justify-content-between align-items-center">
       <div>
-          {isOpenSidebar? <CloseIcon onClick={handleSidebar}/>:<MenuIcon  onClick={handleSidebar}/>}
+          <MenuIcon  onClick={handleSidebar}/>
       </div>
 
       <div className="mobilelogo">

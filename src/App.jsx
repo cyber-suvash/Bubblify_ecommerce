@@ -8,6 +8,7 @@ import SignupForm from "./components/SignupForm";
 import Cart from "./components/Cart";
 import Header from "./components/Header";
 import ForgotPass from "./components/ForgotPass";
+import Wishlist from "./components/Wishlist";
 
 
 
@@ -59,6 +60,13 @@ const routers = createBrowserRouter([
       <Cart/>
       </>
      
+    )
+  },{path:'/wishlist',
+    element:(
+      <>
+      <Header/>
+      <Wishlist/>
+      </>
     )
   }
 ]);

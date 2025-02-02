@@ -4,7 +4,7 @@ const SearchBox = () => {
   return (
     <>
       <div className="searchbar d-flex">
-        <input type="text" placeholder="Search products here..." />
+        <input type="text" placeholder="Search products.." />
         <Button className="search-icon">
           <SearchIcon style={{ color: "#2518ddbb" }} sx={{ fontSize: 40 }} />
         </Button>

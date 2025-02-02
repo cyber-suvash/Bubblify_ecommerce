@@ -18,7 +18,7 @@ const LoginForm = () => {
 
             <div className="cancel">
               <Link to={"/"}>
-                <DisabledByDefaultIcon className="" />
+                <DisabledByDefaultIcon fontSize="large" />
               </Link>
             </div>
             <h3>sign in</h3>

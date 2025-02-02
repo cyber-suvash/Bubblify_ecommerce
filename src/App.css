@@ -23,40 +23,34 @@ body {
 }
 
 
-
 .logo img {
   height: 10vh;
   border-radius: 30%;
   
 }
 
-.mobile-header{
-  display: none;
-}
+
 .header {
   width: 100%;
   height: auto;
-  padding: 10px 0px;
-  /* background-color: rgb(148, 148, 211); */
+
 }
 
 .countryDrop {
   width: 150px;
-  min-width: 170px;
   height: 60px;
   text-align: left;
-  justify-content: flex-start !important;
   border: 1px solid rgba(0, 0, 0, 0.2) !important;
   border-radius: 8px !important;
 }
 .countryDrop .label {
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(0, 0, 0, 0.7);
   text-transform: capitalize;
   line-height: 18px;
 }
 .countryDrop .name {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   line-height: 16px;
   text-transform: capitalize;
@@ -296,13 +290,15 @@ nav .right-part ul li:hover .submenu {
     transform: translateY(-50%);
     cursor: pointer;
     z-index: 10; /* Ensure arrows are above the images */
-    fill: rgb(38, 84, 163); /* Change arrow color */
-    font-size: 3rem;
+    font-size: 2rem;
+    fill: #0c00baf0;
+    
    
 }
 
 .left-arrow {
     left: 10px; /* Position the left arrow */
+    
 }
 
 .right-arrow {
@@ -322,8 +318,8 @@ nav .right-part ul li:hover .submenu {
 
 .products-menu{
   display: flex;
-  justify-content: end;
-  align-items:end;
+ justify-content: center;
+ align-items: center;
 
 }
 
@@ -336,16 +332,15 @@ nav .right-part ul li:hover .submenu {
   border-radius: 20px !important;
   padding: 5px 20px !important;
 }
-.list-inline li  a button{
+.products-menu a button{
   text-transform: capitalize;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: #464242;
-  font-weight: 600;
-  
-  
+  font-weight: 600; 
+  margin-right: 10px;
 }
 
-.list-inline a .active-button{
+.products-menu a .active-button{
   /* outline: none; */
   color: green;
 
@@ -356,7 +351,6 @@ nav .right-part ul li:hover .submenu {
 /* products tab */
 
 .productstab{
-  margin-top: 20px;
   display:flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -368,10 +362,6 @@ height:25vh;
 object-fit: cover;
 }
 
-
-.card p{
-  font-size: 1.2rem;
-}
 .card{
   width: 100%;
   overflow: hidden;
@@ -380,19 +370,14 @@ object-fit: cover;
   box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.7);
 }
 
-.card-buttons{
- display: flex;
- justify-content: space-between;
- 
-}
+
 .card-buttons button{
   background: #2518ddbb;
   color: #fff8f8;
   padding: 5px 10px;
   font-size: 0.8rem;
-  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 20px;  
-  display: none;
+ width: 100%;
 }
 .card .expand-whishlist{
   cursor: pointer;
@@ -410,13 +395,13 @@ object-fit: cover;
 
 }
 
-.card .price span{
+.card .price p{
   font-size: 1.2rem;
 
 }
 
 
-.card .price p{
+.card .price span{
   color: rgba(255, 0, 0, 0.774);
 
 }
@@ -683,246 +668,129 @@ list-style: none;
   border-bottom-right-radius: 10px;
 }
 
-
-
-
-
-@media (max-width: 480px) {
-  /* Adjust logo */
-  
-.mobile-header{
-  display: block;
-}
-.mobilelogo{
-  height: 12vh;
-}
-.mobilelogo img{
-  height: 12vh;
+/* QuantityBox - / + count */
+.QuantityBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  border-radius: 8px;
+  width: fit-content;
+  background: #f9f9f9;
 }
 
-  .logo{
-    display: none;  
-  }
-  .logo img {
-    height: 15vh;
+.QuantityBox div {
+  font-size: 14px;
+  font-weight: bold;
+  min-width: 25px;
+  text-align: center;
+}
 
-  }
+.QuantityBox button {
+  color: #1e1b1b;/* MUI primary blue */
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: 0.3s;
+}
 
-  .countryDrop{
-    height: 30px;
-    width: 5vw;
-  }
+.QuantityBox button:hover {
+  background: rgba(25, 118, 210, 0.1);
+}
 
+
+
+
+/* Mobile devices (320px to 480px) */
+@media screen and (max-width: 480px) {
   
-  /* Header adjustments */
-  .header {
-    width: 70%;
-    display: none;
-    background: rgb(135, 75, 194);
-    /* flex-direction:column; */
-    padding: 15px;
-    position: absolute;
-    height: 100vh;
-    transform: translateX(-300px);
-    z-index: 2000;
-    transition: all 0.4s ease-in-out; 
-  } 
-
-  .sidebar-active{
-    display: block;
-    transform: translateX(0);
-  }
-
-  .part2 {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .login{
+  /* Slider  */
   
-   background-color: #5f5c6b;
-  
-
-  }
- 
-
-  /* Search bar adjustments */
-  .searchbar {
-    width:100%;
-    height: 40px;
-    padding: 5px;
-  }
-  .searchbar input {
-    font-size: 1rem;
-    padding: 5px;
-  }
-
-  .searchbar input::placeholder{
-  font-size: 0.7rem;
-  font-weight: 600;
-  }
-
-  .searchbar .search-icon{
-   
-    padding: 0;
+  .image-container{
+    height: 25vh;
   }
 
 
-
-  /* Country dropdown */
-  .countryDrop {
-    width: 50%;
-    height: auto;
-  }
-
-  /* Login and cart buttons */
-  
-  .wishlist,
-  .cart {
+  .left-arrow ,.right-arrow{
     display: none;
   }
 
-  /* Navbar adjustments */
+.view-all{
+  display: none;
+}
 
-  .left-part{
-    display: none;
-  }
-  nav .right-part ul {
-    /* flex-direction: column; */
-  }
-
-  nav .right-part ul li a button {
-    font-size: 0.7rem;
-    padding: 5px;
-  }
-
-
-  /* Image container adjustments for slider */
-
- 
-  .image-container img {
-    
-   height: 25vh;
-   
-  }
-
-  .slider-container .left-arrow,.slider-container .right-arrow{
-    font-size: 2rem;
-    display: none;
-  }
- 
-
-  /* Product section */
+  /* products page */
 
   .products-heading p{
+    font-size: 0.8rem;
+  }
+  .products-menu a button{
     font-size: 0.9rem;
   }
-
-  .products-menu{
- justify-content: center;
+  .productstab {
+    gap: 10px;
   }
 
-  .products-menu li a button{
-    font-size: 1rem;
-    margin-bottom: 10px;
-    padding-bottom: 0;
+  .card {
+    width: 40%;    
+    flex-grow: 1;
+    
+  }
+  .card p{
+    font-size: 0.8rem;
+  }
+  .card .price p{
+    font-size: 0.8rem;
+
   }
  
-
-/* card section */
-
-
-.card{
-  
-  gap: 0px;
-  width: 45%;
- 
-}
-
-.card img{
- object-fit: fill;
-}
-.card p{
-  font-size: 0.8rem;
-  
-}
-.card span{
-font-size: 0.8rem;
-
-}
-.card .price p{
-  font-size: 1rem;
-}
-
-  .card-buttons button {
-    font-size: 0.5rem;
-    padding: 4px;
-  }
-.card .price span{
-  font-size: 0.8rem;
-}
-
-
-  /* Newsletter section */
   .newsletter-section {
     height: auto;
     padding: 20px;
   }
-  .newsletter-section p{
-    font-size: 1.2rem;
-  }
 
-  .newsletter-section img{
-    height: 20vh;
-  }
-  .newsletter-section h3 {
-    font-size: 1.6rem;
-    text-align: center;
-    margin-bottom: 0;
-  }
-  .newsletter-section ,
-  .newsletter-section span {
-    text-align: center;
-    font-size: 0.8rem;
-  }
-  .subc-email {
-    gap: 5px;
-  }
-  
-  .subc-email input {
-    width: 100%;
+  .newsletter-section p{
     font-size: 1rem;
   }
-
-  /* Footer adjustments */
-  .foot-top {
-    width: 40%;
-    margin: 10px;
+  .newsletter-section h3{
+    font-size: 1.5rem;
   }
-  .address,
-  .contact {
-    gap: 10px;
-    text-align: center;
-  }
-  .foot-top span{
-    font-size: 0.8rem;
-  }
-
-  .contact p{
-    margin-bottom: 0;
-  }
-  .foot-icon {
   
-    gap: 10px;
-  }
- 
-  .foot-icon span {
-    padding: 8px;
+
+  .newsletter-section img {
+    height: 25vh;
   }
 
-  .copyright{
-    font-size: 0.8rem;
+  .foot-top {
+    width:100%;
+    margin-bottom: 10px;
+  }
+
+  /* cart page */
+
+
+  .cartpage .table th,td{
+    font-size: 0.9rem;
+    vertical-align: middle;
+  }
+
+ 
+.QuantityBox{
+  padding: 0;
+  gap: 0;
+  border: none;
+}
+
+  .contact{
+    align-items: center;
   }
 }
 
+/* Tablets (481px to 768px) */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .products-menu a button{
+    font-size: 0.8rem;
+  }
+
+}
