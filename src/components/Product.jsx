@@ -7,81 +7,98 @@ import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import OpenWithRoundedIcon from "@mui/icons-material/OpenWithRounded";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Dialog from "@mui/material/Dialog";
-import CloseIcon from '@mui/icons-material/Close';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CloseIcon from "@mui/icons-material/Close";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import product1 from "../assets/photos/pic1.jpg"
-const Product = () => {
+const Product = ({ data }) => {
+  const [wishlist, setWishlist] = useState({});
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const [wishlist,setWishlist]=useState(false)
-  const handleWishlist=()=>{
-    setWishlist((prev)=>!prev)
-  }
+  // Toggle wishlist for each product
+  const handleWishlist = (id) => {
+    setWishlist((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
-const [isOpenModal,setIsopenModal]=useState(false)
-const openProductModal=(id)=>{
-  setIsopenModal(true)
+  // Open product modal dynamically
+  const openProductModal = (product) => {
+    setSelectedProduct(product);
+    setIsOpenModal(true);
+  };
 
-}
-const closeModal=()=>{
-  setIsopenModal(false)
-}
-
+  // Close modal
+  const closeModal = () => {
+    setIsOpenModal(false);
+    setSelectedProduct(null);
+  };
 
   return (
-
     <>
-    
-    <Card sx={{ maxWidth: 240, padding: 1 }} className="card">
-      <CardMedia
-        component="img"
-        alt="t-shirt"
-        image={product1}
-      />
-      <div className="expand-whishlist ">
-        <OpenWithRoundedIcon fontSize="large"  onClick={()=>openProductModal(1)}/>
-        {wishlist? <FavoriteIcon  fontSize="large" sx={{color:"red"}} onClick={handleWishlist}/>   :<FavoriteBorderIcon fontSize="large"  onClick={handleWishlist}/>}
+      <div className="productstab">
+        {data.map((each) => (
+          <Card sx={{ maxWidth: 240, padding: 1 }} className="card" key={each.id}>
+            <CardMedia component="img" alt={each.title} image={each.image} />
+            <div className="expand-whishlist">
+              <OpenWithRoundedIcon fontSize="large" onClick={() => openProductModal(each)}  sx={{color:"green"}}/>
+              {wishlist[each.id] ? (
+                <FavoriteIcon fontSize="large" sx={{ color: "red" }} onClick={() => handleWishlist(each.id)} />
+              ) : (
+                <FavoriteBorderIcon fontSize="large" onClick={() => handleWishlist(each.id)} />
+              )}
+            </div>
+            <CardContent sx={{padding:0}}>
+              <Typography component="span">{each.desc.slice(0,16)}</Typography>
+              <Typography variant="body2" color="success">
+                In Stock
+              </Typography>
+              <Typography variant="body2">
+                <Rating name="read-only" value={4} readOnly />
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ color: "text.secondary" }}
+              >
+                <p className="mb-0 text-decoration-line-through">{each.price} </p>
+                <p className="price mb-0">Rs {each.discount}</p>
+              </Typography>
+              </CardContent>
+            
+            <div className="card-buttons mt-0">
+              <Button size="small">
+                <ShoppingCartIcon /> Buy Now
+              </Button>
+            </div>
+            
+          </Card>
+        ))}
       </div>
-      <CardContent>
-        <Typography component="span">
-        GESPO Peach Solid Mandarin Collar
-        </Typography>
-        <Typography variant="body2" color="success">
-          In Stock
-        </Typography>
-        <Typography>
-          <Rating name="read-only" value={4} readOnly />
-        </Typography>
-        <Typography
-          variant="h6"
-          sx={{ color: "text.secondary" }}
-          className="d-flex align-items-center mb-0 price"
-        >
-          <p className="mb-0 me-2 text-decoration-line-through">Rs 2999 </p>
-          <span className=" mb-0">Rs 899</span>
-        </Typography>
-      </CardContent>
-      <div className="card-buttons mt-0">
-        <Button size="small"> <ShoppingCartIcon/>buy now</Button>
-      </div>
-    </Card>
 
-    {isOpenModal===true && <Dialog open={true} onClose={()=>closeModal(1)}>
-     <Button onClick={closeModal}>
-     <CloseIcon fontSize="large"/>
-      </Button> 
+      {/* Modal */}
+      {isOpenModal && selectedProduct && (
+        <Dialog open={isOpenModal} onClose={closeModal} sx={{padding:1}}>
+          <div className="position-absolute top-0 start-0">
+          <Button onClick={closeModal}>
+            <CloseIcon fontSize="large" className="" sx={{color:"crimson"}} />
+          </Button>
 
-   
-    <img src={product1} alt="" />
-    <div className="card-buttons">
-        <Button size="small"> <ShoppingCartIcon/>buy now</Button>
-      </div>
-   
-      
-      </Dialog>}
-
+          </div>
+          <img src={selectedProduct.image} alt={selectedProduct.title} height=""/>
+          <div>
+           <p className="mb-0">{selectedProduct.desc}</p>
+            <Rating name="read-only" value={4} readOnly />
+          </div>
+          <div className="card-buttons">
+            <Button size="small">
+              <ShoppingCartIcon /> Buy Now
+            </Button>
+          </div>
+        </Dialog>
+      )}
     </>
   );
 };

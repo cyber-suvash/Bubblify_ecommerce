@@ -28,12 +28,14 @@ const LoginForm = () => {
                 id="standard-basic"
                 label="Enter Email"
                 variant="standard"
+                
               />
               <TextField
                 id="standard-basic"
                 label="password"
                 variant="standard"
                 type="password"
+                
               />
 
              <Link to={'/forgotpassword'}><span>forgot password?</span></Link> 

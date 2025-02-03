@@ -44,7 +44,7 @@ const HomeBanner = () => {
        
 
   
-       <div className="slider-container" onMouseEnter={stopSliding}
+       <div className="slider-container mb-3 " onMouseEnter={stopSliding}
       onMouseLeave={startSliding}>
 
         {}
