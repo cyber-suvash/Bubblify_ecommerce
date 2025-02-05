@@ -5,6 +5,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import QuantityBox from "./QuantityBox";
 import { Button } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import Data from "./Data";
+
 const Cart = () => {
   return (
     <section className="cartpage">
@@ -26,7 +28,7 @@ const Cart = () => {
                 <thead>
                   <tr>
                     <th>product</th>
-                    <th>price</th>
+                  
                     <th>quantity</th>
                     <th>subtotal</th>
                     <th>remove</th>
@@ -35,12 +37,12 @@ const Cart = () => {
 
                 <tbody>
                   <tr>
-                    <td>Example Product1</td>
-                    <td>$40</td>
+                    <td><img src={Data[0].image} alt="" /></td>
+      
                     <td>
                       <QuantityBox />
                     </td>
-                    <td>$40</td>
+                    <td>$150</td>
                     <td>
                       <Button>
                         <DeleteIcon sx={{ color: "crimson" }} />
@@ -48,12 +50,12 @@ const Cart = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Example Product2</td>
-                    <td>$20</td>
+                    <td><img src={Data[2].image} alt="" /></td>
+                  
                     <td>
                       <QuantityBox />
                     </td>
-                    <td>$20</td>
+                    <td>$250</td>
                     <td>
                       <Button>
                         <DeleteIcon sx={{ color: "crimson" }} />
@@ -70,7 +72,7 @@ const Cart = () => {
               <hr />
               <div className="d-flex align-items-center justify-content-between mb-2">
                 <span>Subtotal</span>
-                <span className="ml-auto">$60</span>
+                <span className="ml-auto">$500</span>
               </div>
               <div className="d-flex align-items-center justify-content-between mb-2">
                 <span>Shipping</span>
@@ -82,10 +84,11 @@ const Cart = () => {
                   <b>India</b>
                 </span>
               </div>
+              <hr />
 
               <div className="d-flex align-items-center justify-content-between mb-2">
                 <span><b>Total</b></span>
-                <span className="ml-auto"><b>$60</b></span>
+                <span className="ml-auto"><b>$500</b></span>
               </div>
 
               <div className="card-buttons">

@@ -63,7 +63,7 @@ const Product = ({ data }) => {
                 variant="h6"
                 sx={{ color: "text.secondary" }}
               >
-                <p className="mb-0 text-decoration-line-through">{each.price} </p>
+                <p className="mb-0 text-decoration-line-through">Rs {each.price} </p>
                 <p className="price mb-0">Rs {each.discount}</p>
               </Typography>
               </CardContent>

@@ -1,0 +1,31 @@
+
+.product-main{
+display: flex;
+flex-wrap: wrap;
+}
+.product-card{
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    width: 200px;
+    padding: 10px;
+    margin: 5px;
+}
+.product-card img{
+    height: 150px;
+    width: 150px;
+    
+}
+
+
+.page-number-main{
+    padding: 10px;
+}
+.page-number{
+    border: 1px solid black;
+    padding: 10px;
+    margin: 5px;
+}
+.page-active{
+    background-color: blueviolet;
+}

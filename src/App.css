@@ -606,8 +606,6 @@ list-style: none;
 }
 
 
-
-
 /* signup page */
 
 .outer{
@@ -657,7 +655,7 @@ list-style: none;
 .cartpage .table thead th  {
   background: #ececec !important;
   border: none;
-  
+  text-transform: capitalize;
 }
 .cartpage .table th:first-child{
   border-top-left-radius: 10px;
@@ -672,9 +670,6 @@ list-style: none;
 .QuantityBox {
   display: flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid #ccc;
-  padding: 5px 8px;
   border-radius: 8px;
   width: fit-content;
   background: #f9f9f9;
@@ -689,7 +684,7 @@ list-style: none;
 
 .QuantityBox button {
   color: #1e1b1b;/* MUI primary blue */
-  min-width: 40px;
+  min-width: 35px;
   height: 40px;
   border-radius: 50%;
   transition: 0.3s;
@@ -767,11 +762,13 @@ list-style: none;
     vertical-align: middle;
   }
 
+  .cartpage .table td img{
+    height: 60px;
+  }
  
 .QuantityBox{
   padding: 0;
   gap: 0;
-  border: none;
 }
 
   .contact{
@@ -784,5 +781,14 @@ list-style: none;
   .products-menu button{
     font-size: 0.8rem;
   }
+  .cartpage .table td img{
+    height: 10vh;
+  }
 
+}
+@media  screen and (min-width:992px) {
+  
+  .cartpage .table td img{
+    height: 12vh;
+  }
 }

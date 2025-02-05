@@ -4,9 +4,10 @@ import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDou
 import Product from "../components/Product";
 import Data from "../components/Data";
 
-const ProductsPage = ({ data, setItem, filteredData }) => {
+const ProductsPage = ({ data,viewAll, filteredData,activeCategory }) => {
 
   const menuItems = [...new Set(Data.map((each) => each.category))];
+
 
   return (
     <div className="container">
@@ -18,13 +19,13 @@ const ProductsPage = ({ data, setItem, filteredData }) => {
         <div className="col-md-5 products-menu">
           {menuItems.map((each) => (
             <Button key={each} onClick={() => filteredData(each)}
-            className="">
+            className={each===activeCategory?'active-btn':""}>
               {each}
             </Button>
           ))}
         </div>
         <div className="col-md-2 d-flex align-items-center justify-content-end">
-          <Button className="view-all mb-0" onClick={() => setItem(Data)}>
+          <Button className="view-all mb-0" onClick={viewAll}>
            view all <KeyboardDoubleArrowRightRoundedIcon />
           </Button>
         </div>

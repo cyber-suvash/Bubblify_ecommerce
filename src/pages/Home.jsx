@@ -5,13 +5,23 @@ import ProductsPage from "./ProductPage";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import Data from "../components/Data";
-
+import Pagination from "../components/Pagination";
 export const Home = () => {
   const [item, setItem] = useState(Data);
+  const [activeCategory,setActiveCategory]=useState("")
+
+  const handleViewallProducts=()=>{
+    setItem(Data)
+    setActiveCategory('')
+    
+  }
+  
 
   const filteredData = (category) => {
     const newItems = Data.filter((each) => each.category === category);
     setItem(newItems);
+    setActiveCategory(category)
+
   };
 
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
@@ -22,9 +32,10 @@ export const Home = () => {
 
   return (
     <>
-      <Header isOpenSidebar={isOpenSidebar} handleSidebar={handleSidebar} />
+      <Header isOpenSidebar={isOpenSidebar} handleSidebar={handleSidebar}  />
       <HomeBanner />
-      <ProductsPage data={item} filteredData={filteredData} setItem={setItem} />
+      {/* <Pagination/> */}
+      <ProductsPage data={item} filteredData={filteredData} viewAll={handleViewallProducts} activeCategory={activeCategory} />
       <Newsletter />
       <Footer />
     </>

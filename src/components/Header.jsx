@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../assets/photos/logo.png";
-import SearchBox from './SearchBox'
-import CountrydropDown from './CountrydropDown'
-import Navbar from './Navbar'
-import './Header.css'
+import SearchBox from "./SearchBox";
+import CountrydropDown from "./CountrydropDown";
+import Navbar from "./Navbar";
+import "./Header.css";
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -32,12 +32,11 @@ const Header = () => {
               <img src={logo} alt="logo_img" className="mobile-logo" />
             </Link>
             <Link to="/cart">
-            <Button>
-            <Badge badgeContent={2} color="primary">
-                <ShoppingCartIcon style={{ color: "#2518ddbb" }} />
-              </Badge>
-            </Button>
-             
+              <Button>
+                <Badge badgeContent={2} color="primary">
+                  <ShoppingCartIcon style={{ color: "#2518ddbb" }} />
+                </Badge>
+              </Button>
             </Link>
           </div>
         </div>
@@ -49,10 +48,10 @@ const Header = () => {
       )}
 
       {/* Sidebar */}
-      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <Button>
-            <img src={logo} alt="" className='mobile-logo' />
+            <img src={logo} alt="" className="mobile-logo" />
           </Button>
           <Button onClick={toggleSidebar}>
             <CloseIcon />
@@ -67,31 +66,27 @@ const Header = () => {
           </div>
           <div className="sidebar-links">
             <Link to="/login">
-            <Button className='sidebar-link' onClick={toggleSidebar}>
-            <AccountCircleIcon /> Sign In
-            </Button>
-             
+              <Button className="sidebar-link" onClick={toggleSidebar}>
+                <AccountCircleIcon /> Sign In
+              </Button>
             </Link>
             <Link to="/wishlist">
-             <Button className='sidebar-link' onClick={toggleSidebar}>
-             <Badge badgeContent={1} color="primary">
-                <FavoriteBorderIcon />
-              </Badge>
-              Wishlist
-             </Button>
-             
+              <Button className="sidebar-link" onClick={toggleSidebar}>
+                <Badge badgeContent={1} color="primary">
+                  <FavoriteBorderIcon />
+                </Badge>
+                Wishlist
+              </Button>
             </Link>
             <Link to="/cart">
-            <Button className='sidebar-link' onClick={toggleSidebar}>
-            <Badge badgeContent={2} color="primary">
-                <ShoppingCartIcon />
-              </Badge>
-              Cart
-            </Button>
-             
+              <Button className="sidebar-link" onClick={toggleSidebar}>
+                <Badge badgeContent={2} color="primary">
+                  <ShoppingCartIcon />
+                </Badge>
+                Cart
+              </Button>
             </Link>
           </div>
-          
         </div>
       </div>
 
@@ -114,18 +109,25 @@ const Header = () => {
                 </Link>
               </div>
               <div className="wishlist">
-                <Button>
-                  <Badge badgeContent={1} color="primary">
-                    <FavoriteBorderIcon style={{ color: "#2518ddbb", fontSize: "30px" }} />
-                  </Badge>
-                  Wishlist
-                </Button>
+                <Link to={"/wishlist"}>
+                  {" "}
+                  <Button>
+                    <Badge badgeContent={1} color="primary">
+                      <FavoriteBorderIcon
+                        style={{ color: "#2518ddbb", fontSize: "30px" }}
+                      />
+                    </Badge>
+                    Wishlist
+                  </Button>{" "}
+                </Link>
               </div>
               <div className="cart">
                 <Link to="/cart">
                   <Button>
                     <Badge badgeContent={2} color="primary">
-                      <ShoppingCartIcon style={{ color: "#2518ddbb", fontSize: "30px" }} />
+                      <ShoppingCartIcon
+                        style={{ color: "#2518ddbb", fontSize: "30px" }}
+                      />
                     </Badge>
                     Cart
                   </Button>
@@ -135,7 +137,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Navbar for desktop */}
       <div className="d-none d-lg-block">
         <Navbar />
