@@ -18,7 +18,7 @@ const Header = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  
   return (
     <>
       {/* Mobile Header */}
@@ -33,7 +33,7 @@ const Header = () => {
             </Link>
             <Link to="/cart">
               <Button>
-                <Badge badgeContent={2} color="primary">
+                <Badge badgeContent="4" color="primary">
                   <ShoppingCartIcon style={{ color: "#2518ddbb" }} />
                 </Badge>
               </Button>

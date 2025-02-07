@@ -10,73 +10,67 @@ import Header from "./components/Header";
 import ForgotPass from "./components/ForgotPass";
 import Wishlist from "./components/Wishlist";
 
-const routers = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <>
-        <Home />
-      </>
-    ),
-  },
-  {
-    path: "/login",
-    element: (
-      <>
-        <Header/>
-        <LoginForm />
-      </>
-    ),
-    
-  },
-  {
-    path:"/signUp",
-    element:(
-      <>
-       <Header/>
-       <SignupForm/>
-      </>
-     
-    )
-  },
-  ,{
-    path:'/forgotpassword',
-    element:(
-      <>
-      <Header/>
-      <ForgotPass/>
-      </>
-    )
-  },
-  {
-    path:"/cart",
-    element:(
-      <>
-      <Header/>
-      <Cart/>
-      </>
-     
-    )
-  },{path:'/wishlist',
-    element:(
-      <>
-      <Header/>
-      <Wishlist/>
-      </>
-    )
-  }
-]);
-
 const App = () => {
-
+  const [addtoCart, setAddtoCart] = useState([]);
   
- 
+  const handleAddtoCart = (eachProduct) => {
+    setAddtoCart((prevCart) => [...prevCart,eachProduct]);
+    alert('Product added successfully')
+  }
 
-  return (
-    <>
-      <RouterProvider router={routers} />
-    </>
-  );
+  const routers = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home addtoCart={addtoCart} handleAddtoCart={handleAddtoCart} />,
+    },
+    {
+      path: "/login",
+      element: (
+        <>
+          <Header/>
+          <LoginForm />
+        </>
+      ),
+    },
+    {
+      path: "/signup",
+      element: (
+        <>
+          <Header />
+          <SignupForm />
+        </>
+      ),
+    },
+    {
+      path: "/forgotpassword",
+      element: (
+        <>
+          <Header />
+          <ForgotPass />
+        </>
+      ),
+    },
+    {
+      path: "/cart",
+      element: (
+        <>
+          <Header />
+          <Cart addtoCart={addtoCart} setAddtoCart={setAddtoCart}/>
+        </>
+      ),
+    },
+    {
+      path: "/wishlist",
+      element: (
+        <>
+          <Header />
+          <Wishlist />
+        </>
+      ),
+    },
+  ]);
+
+  return <RouterProvider router={routers} />;
 };
 
 export default App;

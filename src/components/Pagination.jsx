@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
+import { Button } from '@mui/material'
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "./Pagination.css"
-const Pagination = () => {
+const Pagination = ({handleAddtoCart}) => {
   const [everyproducts,setEveryproducts]=useState([])
   const [currentPage,setCurrentPage]=useState(0)
 
@@ -17,9 +19,12 @@ const Pagination = () => {
         
        }
       }
+
       useEffect(()=>{
       fetchData()
       },[])
+
+    
 
 const Page_Size=10
 const totalProducts=everyproducts.length
@@ -33,8 +38,6 @@ const handleCurrentPage=(currPageNumber)=>{
     
 }
 
-// console.log(numberOfPages);
-
   return (
     <div><h2>Pagination</h2>
     <div className='page-number-main'> {[...Array(numberOfPages).keys()].map((each)=>(
@@ -45,7 +48,11 @@ const handleCurrentPage=(currPageNumber)=>{
             <div className='product-card' key={each.id}>
             <img src={each.images} alt={each.title}/>
             <span>price={each.price}</span>
-            <span></span>
+            <div className="card-buttons mt-0">
+              <Button size="small" onClick={()=>handleAddtoCart(each)}>
+                <ShoppingCartIcon /> Buy Now
+              </Button>
+            </div>
             </div>
      ))}
     </div>}

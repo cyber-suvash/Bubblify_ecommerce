@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowRightRounded";
-import Product from "../components/Product";
+import Alert from '@mui/material/Alert';
 import Data from "../components/Data";
 
-const ProductsPage = ({ data,viewAll, filteredData,activeCategory }) => {
+const ProductsPage = ({ viewAll, filteredData,activeCategory }) => {
 
   const menuItems = [...new Set(Data.map((each) => each.category))];
 
@@ -30,7 +30,6 @@ const ProductsPage = ({ data,viewAll, filteredData,activeCategory }) => {
           </Button>
         </div>
       </div>
-      <Product data={data} />
     </div>
   );
 };

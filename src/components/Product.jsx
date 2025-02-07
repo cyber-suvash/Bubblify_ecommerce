@@ -12,7 +12,7 @@ import Dialog from "@mui/material/Dialog";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-const Product = ({ data }) => {
+const Product = ({ data ,handleAddtoCart}) => {
   const [wishlist, setWishlist] = useState({});
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -23,6 +23,8 @@ const Product = ({ data }) => {
       ...prev,
       [id]: !prev[id],
     }));
+
+    
   };
 
   // Open product modal dynamically
@@ -69,7 +71,7 @@ const Product = ({ data }) => {
               </CardContent>
             
             <div className="card-buttons mt-0">
-              <Button size="small">
+              <Button size="small" onClick={()=>handleAddtoCart(each)}>
                 <ShoppingCartIcon /> Buy Now
               </Button>
             </div>

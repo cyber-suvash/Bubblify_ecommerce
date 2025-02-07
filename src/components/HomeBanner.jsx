@@ -42,12 +42,8 @@ const HomeBanner = () => {
 
   return (
        
-
-  
        <div className="slider-container mb-3 " onMouseEnter={stopSliding}
-      onMouseLeave={startSliding}>
-
-        {}
+      onMouseLeave={startSliding}>        
         <ArrowCircleLeftIcon
           className="left-arrow"
           onClick={handleLeftImages}

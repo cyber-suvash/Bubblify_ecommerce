@@ -3,8 +3,8 @@ const Data= [
     "id": 1,
     "title": "mobile",
     "category": "electronics",
-    "discount":"26,999",
-    "price": "33,999",
+    "discount":"26999",
+    "price": "33999",
     "image": "https://m.media-amazon.com/images/I/41yHj1h1+gL._SY300_SX300_.jpg",
     "desc": "iQOO Z9S Pro 5G (Luxe Marble, 12Gb Ram, 256Gb Storage) | Snapdragon 7 Gen 3 Processor | 120 Hz Curved Amoled Display with 4500 Nits Local Peak Brightness | 5500 Mah Battery | Ai Erase, White"
   },
@@ -21,8 +21,8 @@ const Data= [
       "id": 3,
       "title": "laptop",
       "category":"electronics",
-       "discount":"63,990",
-      "price": "83,990",
+       "discount":"63990",
+      "price": "83990",
       "image": "https://m.media-amazon.com/images/I/41Aw8+krn+L._SY300_SX300_.jpg",
       "desc": "ASUS TUF Gaming A15,AMD Ryzen 7 7435Hs, 15.6-Inch, FHD 144Hz, Gaming Laptop (16GB RAM/512GB SSD/NVIDIA Geforce RTX 3050/Windows 11/48WHR/Graphite Black/2.3 Kg), FA506NCR-HN054W"
     },
