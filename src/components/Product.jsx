@@ -12,20 +12,9 @@ import Dialog from "@mui/material/Dialog";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-const Product = ({ data ,handleAddtoCart}) => {
-  const [wishlist, setWishlist] = useState({});
+const Product = ({ data, handleAddtoCart, wishlist, handleWishlist }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
-  // Toggle wishlist for each product
-  const handleWishlist = (id) => {
-    setWishlist((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-
-    
-  };
 
   // Open product modal dynamically
   const openProductModal = (product) => {
@@ -43,59 +32,82 @@ const Product = ({ data ,handleAddtoCart}) => {
     <>
       <div className="productstab">
         {data.map((each) => (
-          <Card sx={{ maxWidth: 240, padding: 1 }} className="card" key={each.id}>
+          <Card
+            sx={{ maxWidth: 240, padding: 1 }}
+            className="card"
+            key={each.id}
+          >
             <CardMedia component="img" alt={each.title} image={each.image} />
             <div className="expand-whishlist">
-              <OpenWithRoundedIcon fontSize="large" onClick={() => openProductModal(each)}  sx={{color:"green"}}/>
-              {wishlist[each.id] ? (
-                <FavoriteIcon fontSize="large" sx={{ color: "red" }} onClick={() => handleWishlist(each.id)} />
+              <OpenWithRoundedIcon
+                fontSize="large"
+                onClick={() => openProductModal(each)}
+                sx={{ color: "green" }}
+              />
+              {wishlist.some((item) => item.id === each.id) ? (
+                <FavoriteIcon
+                  fontSize="large"
+                  sx={{ color: "red" }}
+                  onClick={() => handleWishlist(each)}
+                />
               ) : (
-                <FavoriteBorderIcon fontSize="large" onClick={() => handleWishlist(each.id)} />
+                <FavoriteBorderIcon
+                  fontSize="large"
+                  onClick={() => handleWishlist(each)}
+                />
               )}
             </div>
-            <CardContent sx={{padding:0}}>
-              <Typography component="span">{each.desc.slice(0,16)}</Typography>
+            <CardContent sx={{ padding: 0 }}>
+              <Typography component="span">{each.desc.slice(0, 16)}</Typography>
               <Typography variant="body2" color="success">
                 In Stock
               </Typography>
               <Typography variant="body2">
                 <Rating name="read-only" value={4} readOnly />
               </Typography>
-              <Typography
-                variant="h6"
-                sx={{ color: "text.secondary" }}
-              >
-                <p className="mb-0 text-decoration-line-through">Rs {each.price} </p>
+              <Typography variant="h6" sx={{ color: "text.secondary" }}>
+                <p className="mb-0 text-decoration-line-through">
+                  Rs {each.price}{" "}
+                </p>
                 <p className="price mb-0">Rs {each.discount}</p>
               </Typography>
-              </CardContent>
-            
+            </CardContent>
+
             <div className="card-buttons mt-0">
-              <Button size="small" onClick={()=>handleAddtoCart(each)}>
+              <Button size="small" onClick={() => handleAddtoCart(each)}>
                 <ShoppingCartIcon /> Buy Now
               </Button>
             </div>
-            
           </Card>
         ))}
       </div>
 
       {/* Modal */}
       {isOpenModal && selectedProduct && (
-        <Dialog open={isOpenModal} onClose={closeModal} sx={{padding:1}}>
+        <Dialog open={isOpenModal} onClose={closeModal} sx={{ padding: 1 }}>
           <div className="position-absolute top-0 start-0">
-          <Button onClick={closeModal}>
-            <CloseIcon fontSize="large" className="" sx={{color:"crimson"}} />
-          </Button>
-
+            <Button onClick={closeModal}>
+              <CloseIcon
+                fontSize="large"
+                className=""
+                sx={{ color: "crimson" }}
+              />
+            </Button>
           </div>
-          <img src={selectedProduct.image} alt={selectedProduct.title} height=""/>
+          <img
+            src={selectedProduct.image}
+            alt={selectedProduct.title}
+            height=""
+          />
           <div>
-           <p className="mb-0">{selectedProduct.desc}</p>
+            <p className="mb-0">{selectedProduct.desc}</p>
             <Rating name="read-only" value={4} readOnly />
           </div>
           <div className="card-buttons">
-            <Button size="small">
+            <Button
+              size="small"
+              onClick={() => handleAddtoCart(selectedProduct)}
+            >
               <ShoppingCartIcon /> Buy Now
             </Button>
           </div>

@@ -12,7 +12,8 @@ import SearchBox from "./SearchBox";
 import CountrydropDown from "./CountrydropDown";
 import Navbar from "./Navbar";
 import "./Header.css";
-const Header = () => {
+const Header = ({addtoCart=[],wishlist=[]}) => {
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -33,7 +34,7 @@ const Header = () => {
             </Link>
             <Link to="/cart">
               <Button>
-                <Badge badgeContent="4" color="primary">
+                <Badge badgeContent={addtoCart.length} color="primary">
                   <ShoppingCartIcon style={{ color: "#2518ddbb" }} />
                 </Badge>
               </Button>
@@ -41,7 +42,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div className="sidebar-overlay" onClick={toggleSidebar}></div>
@@ -72,7 +72,7 @@ const Header = () => {
             </Link>
             <Link to="/wishlist">
               <Button className="sidebar-link" onClick={toggleSidebar}>
-                <Badge badgeContent={1} color="primary">
+                <Badge badgeContent={wishlist.length} color="warning">
                   <FavoriteBorderIcon />
                 </Badge>
                 Wishlist
@@ -80,7 +80,7 @@ const Header = () => {
             </Link>
             <Link to="/cart">
               <Button className="sidebar-link" onClick={toggleSidebar}>
-                <Badge badgeContent={2} color="primary">
+                <Badge badgeContent={addtoCart.length} color="warning">
                   <ShoppingCartIcon />
                 </Badge>
                 Cart
@@ -112,7 +112,7 @@ const Header = () => {
                 <Link to={"/wishlist"}>
                   {" "}
                   <Button>
-                    <Badge badgeContent={1} color="primary">
+                    <Badge badgeContent={wishlist.length} color="primary">
                       <FavoriteBorderIcon
                         style={{ color: "#2518ddbb", fontSize: "30px" }}
                       />
@@ -124,7 +124,7 @@ const Header = () => {
               <div className="cart">
                 <Link to="/cart">
                   <Button>
-                    <Badge badgeContent={2} color="primary">
+                    <Badge badgeContent={addtoCart.length} color="primary">
                       <ShoppingCartIcon
                         style={{ color: "#2518ddbb", fontSize: "30px" }}
                       />

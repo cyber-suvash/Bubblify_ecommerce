@@ -9,25 +9,47 @@ import Cart from "./components/Cart";
 import Header from "./components/Header";
 import ForgotPass from "./components/ForgotPass";
 import Wishlist from "./components/Wishlist";
+import toast from 'react-hot-toast';
 
 const App = () => {
   const [addtoCart, setAddtoCart] = useState([]);
+   const [wishlist, setWishlist] = useState([]);
   
-  const handleAddtoCart = (eachProduct) => {
-    setAddtoCart((prevCart) => [...prevCart,eachProduct]);
-    alert('Product added successfully')
-  }
+   const handleAddtoCart = (eachProduct) => {
+    setAddtoCart((prevCart) =>
+      prevCart.some((item) => item.id === eachProduct.id)
+        ? prevCart.map((item) =>
+            item.id === eachProduct.id ? { ...item, quantity: item.quantity + 1 } : item
+          )
+        : [...prevCart, { ...eachProduct, quantity: 1 }]
+    );
+    toast.success("Product added Successsfully!")
+  };
+  
+  const handleWishlist = (eachProduct) => {
+    setWishlist((prevWishlist) => {
+      const isAlreadyInWishlist = prevWishlist.some((item) => item.id === eachProduct.id);
+      if (isAlreadyInWishlist) {
+        return prevWishlist.filter((item) => item.id !== eachProduct.id); // Remove if exists
+      } else {
+        return [...prevWishlist, eachProduct]; // Add if not exists
+      }
+    });
+  };
+  
 
   const routers = createBrowserRouter([
     {
       path: "/",
-      element: <Home addtoCart={addtoCart} handleAddtoCart={handleAddtoCart} />,
+      element: 
+      <Home addtoCart={addtoCart} handleAddtoCart={handleAddtoCart} 
+      wishlist={wishlist} handleWishlist={handleWishlist}/>,
     },
     {
       path: "/login",
       element: (
         <>
-          <Header/>
+          <Header addtoCart={addtoCart}/>
           <LoginForm />
         </>
       ),
@@ -36,7 +58,7 @@ const App = () => {
       path: "/signup",
       element: (
         <>
-          <Header />
+          <Header addtoCart={addtoCart}/>
           <SignupForm />
         </>
       ),
@@ -45,7 +67,7 @@ const App = () => {
       path: "/forgotpassword",
       element: (
         <>
-          <Header />
+          <Header addtoCart={addtoCart} />
           <ForgotPass />
         </>
       ),
@@ -54,7 +76,7 @@ const App = () => {
       path: "/cart",
       element: (
         <>
-          <Header />
+          <Header  addtoCart={addtoCart}/>
           <Cart addtoCart={addtoCart} setAddtoCart={setAddtoCart}/>
         </>
       ),
@@ -63,8 +85,9 @@ const App = () => {
       path: "/wishlist",
       element: (
         <>
-          <Header />
-          <Wishlist />
+          <Header wishlist={wishlist} addtoCart={addtoCart}/>
+          <Wishlist  wishlist={wishlist} handleWishlist={handleWishlist} 
+          handleAddtoCart={handleAddtoCart}/>
         </>
       ),
     },

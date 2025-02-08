@@ -6,17 +6,13 @@ import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import Data from "../components/Data";
 import Product from "../components/Product";
+import { Toaster } from 'react-hot-toast';
 import Pagination from "../components/Pagination";
 
-
-
-
-
-export const Home = ({handleAddtoCart,addtoCart,buyNowbtn}) => {
+export const Home = ({ handleAddtoCart, addtoCart, wishlist,handleWishlist }) => {
   const [item, setItem] = useState(Data);
   const [activeCategory, setActiveCategory] = useState("");
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
-  
 
   const handleSidebar = () => {
     setIsOpenSidebar((prev) => !prev);
@@ -35,11 +31,14 @@ export const Home = ({handleAddtoCart,addtoCart,buyNowbtn}) => {
 
   return (
     <>
-   
-       
-      <Header isOpenSidebar={isOpenSidebar} handleSidebar={handleSidebar}/>
+    <Toaster/>
+      <Header
+        isOpenSidebar={isOpenSidebar}
+        handleSidebar={handleSidebar}
+        addtoCart={addtoCart}
+        wishlist={wishlist}
+      />
       <HomeBanner />
-      
       {/* <Pagination handleAddtoCart={handleAddtoCart}/> */}
       <ProductsPage
         data={item}
@@ -48,7 +47,12 @@ export const Home = ({handleAddtoCart,addtoCart,buyNowbtn}) => {
         activeCategory={activeCategory}
         handleAddtoCart={handleAddtoCart}
       />
-      <Product  data={item} handleAddtoCart={handleAddtoCart}/>
+      <Product
+        data={item}
+        handleAddtoCart={handleAddtoCart}
+        wishlist={wishlist}
+        handleWishlist={handleWishlist}
+      />
       <Newsletter />
       <Footer />
     </>

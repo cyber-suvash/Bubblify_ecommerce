@@ -2,10 +2,10 @@ import React from "react";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-import QuantityBox from "./QuantityBox";
 import { Button } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 const Cart = ({ addtoCart, setAddtoCart }) => {
   // Remove product from cart
   const removeProduct = (index) => {
@@ -13,7 +13,10 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
   };
 
   // Calculate subtotal dynamically
-  const subtotal = addtoCart.reduce((acc, item) => acc + parseInt(item.discount), 0);
+  const subtotal = addtoCart.reduce(
+    (acc, item) => acc + parseInt(item.discount * item.quantity),
+    0
+  );
 
   return (
     <section className="cartpage">
@@ -25,12 +28,14 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
               <DisabledByDefaultIcon sx={{ fontSize: "2rem" }} />
             </Link>
           </div>
-          {console.log(addtoCart)
-          }
+          {console.log(addtoCart)}
 
           {addtoCart.length > 0 ? (
             <>
-            <p>You have <b>{addtoCart.length}</b> {addtoCart.length>1?"items":"item"} in your cart</p>
+              <p>
+                You have <b>{addtoCart.length}</b>{" "}
+                {addtoCart.length > 1 ? "items" : "item"} in your cart
+              </p>
               {/* Cart Table */}
               <div className="col-md-8">
                 <div className="table-responsive">
@@ -50,9 +55,18 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
                             <img src={item.image} alt={item.title} width="50" />
                           </td>
                           <td>
-                            <QuantityBox addtoCart={addtoCart}/>
+                            <div className="QuantityBox">
+                              <Button>
+                                <RemoveCircleIcon />
+                              </Button>
+                              <div>{item.quantity}</div>
+                              <Button>
+                                {" "}
+                                <AddCircleIcon />
+                              </Button>
+                            </div>
                           </td>
-                          <td>₹ {item.discount}</td>
+                          <td>₹ {item.discount * item.quantity}</td>
                           <td>
                             <Button onClick={() => removeProduct(index)}>
                               <DeleteIcon sx={{ color: "crimson" }} />
@@ -112,7 +126,6 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
           )}
         </div>
       </div>
-
     </section>
   );
 };

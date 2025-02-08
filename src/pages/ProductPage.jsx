@@ -1,13 +1,9 @@
-import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowRightRounded";
-import Alert from '@mui/material/Alert';
 import Data from "../components/Data";
 
-const ProductsPage = ({ viewAll, filteredData,activeCategory }) => {
-
+const ProductsPage = ({ viewAll, filteredData, activeCategory }) => {
   const menuItems = [...new Set(Data.map((each) => each.category))];
-
 
   return (
     <div className="container">
@@ -18,15 +14,18 @@ const ProductsPage = ({ viewAll, filteredData,activeCategory }) => {
         </div>
         <div className="col-md-5 products-menu">
           {menuItems.map((each) => (
-            <Button key={each} onClick={() => filteredData(each)}
-            className={each===activeCategory?'active-btn':""}>
+            <Button
+              key={each}
+              onClick={() => filteredData(each)}
+              className={each === activeCategory ? "active-btn" : ""}
+            >
               {each}
             </Button>
           ))}
         </div>
         <div className="col-md-2 d-flex align-items-center justify-content-end">
           <Button className="view-all mb-0" onClick={viewAll}>
-           view all <KeyboardDoubleArrowRightRoundedIcon />
+            view all <KeyboardDoubleArrowRightRoundedIcon />
           </Button>
         </div>
       </div>
