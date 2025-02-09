@@ -12,7 +12,7 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
   // Remove product from cart
   const removeProduct = (index) => {
     setAddtoCart((prev) => prev.filter((_, i) => i !== index));
-    toast.error("Product Removed",{duration:1500});
+    toast.error("Product Removed", { duration: 1500 });
   };
 
   // Calculate subtotal dynamically
@@ -41,9 +41,6 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
   };
 
   // save using localstorage
-
-
-
 
   return (
     <section className="cartpage">
@@ -83,12 +80,12 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
                           <td>
                             <div className="QuantityBox">
                               <Button onClick={() => handleDecrement(item.id)}>
-                                <RemoveCircleIcon />
+                                <RemoveCircleIcon  fontSize="small"/>
                               </Button>
                               <div>{item.quantity}</div>
                               <Button onClick={() => handleIncrement(item.id)}>
                                 {" "}
-                                <AddCircleIcon />
+                                <AddCircleIcon fontSize="small"/>
                               </Button>
                             </div>
                           </td>
