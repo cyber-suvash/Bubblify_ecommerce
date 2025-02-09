@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -6,10 +6,13 @@ import { Button } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import toast, { Toaster } from "react-hot-toast";
+
 const Cart = ({ addtoCart, setAddtoCart }) => {
   // Remove product from cart
   const removeProduct = (index) => {
     setAddtoCart((prev) => prev.filter((_, i) => i !== index));
+    toast.error("Product Removed",{duration:1500});
   };
 
   // Calculate subtotal dynamically
@@ -18,8 +21,33 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
     0
   );
 
+  // Increment
+  const handleIncrement = (id) => {
+    setAddtoCart((previtem) =>
+      previtem.map((each) =>
+        each.id === id ? { ...each, quantity: each.quantity + 1 } : each
+      )
+    );
+  };
+  // Decrement
+  const handleDecrement = (id) => {
+    setAddtoCart((previtem) =>
+      previtem.map((each) =>
+        each.id === id && each.quantity > 1
+          ? { ...each, quantity: each.quantity - 1 }
+          : each
+      )
+    );
+  };
+
+  // save using localstorage
+
+
+
+
   return (
     <section className="cartpage">
+      <Toaster />
       <div className="container">
         <div className="row">
           <div className="d-flex justify-content-between">
@@ -28,8 +56,6 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
               <DisabledByDefaultIcon sx={{ fontSize: "2rem" }} />
             </Link>
           </div>
-          {console.log(addtoCart)}
-
           {addtoCart.length > 0 ? (
             <>
               <p>
@@ -56,11 +82,11 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
                           </td>
                           <td>
                             <div className="QuantityBox">
-                              <Button>
+                              <Button onClick={() => handleDecrement(item.id)}>
                                 <RemoveCircleIcon />
                               </Button>
                               <div>{item.quantity}</div>
-                              <Button>
+                              <Button onClick={() => handleIncrement(item.id)}>
                                 {" "}
                                 <AddCircleIcon />
                               </Button>

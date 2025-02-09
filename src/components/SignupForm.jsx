@@ -6,8 +6,7 @@ import google from "../assets/photos/google.png";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { useState } from "react";
 import Alert from '@mui/material/Alert';
-
-
+import toast ,{ Toaster } from "react-hot-toast";
 
 const SignupForm = () => {
   const [formdata, setFormdata] = useState({
@@ -58,17 +57,17 @@ const SignupForm = () => {
       email: "",
       phone: "",
       password: "",
-      success:""
     })
 
       if(Object.keys(formValidation).length===0){
-       formValidation.success="true"
+       toast.success("Signup Successfull")
       }
+      else{toast.error("please enter correct details")}
   };
 
   return (
     <>
-    
+     <Toaster/>
       <div className="outer">
         <div className="row">
           <div className="col-md-6 col-lg-4 main text-center">
