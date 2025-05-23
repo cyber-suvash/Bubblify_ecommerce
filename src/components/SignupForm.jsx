@@ -5,87 +5,143 @@ import logo from "../assets/photos/logo.png";
 import google from "../assets/photos/google.png";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { useState } from "react";
-import Alert from '@mui/material/Alert';
-import toast ,{ Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+
 
 const SignupForm = () => {
+
+
   const [formdata, setFormdata] = useState({
     fullname: "",
     email: "",
     phone: "",
     password: "",
+    isAdmin:false
   });
 
-  const [errors,setErros]=useState({})
+
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   const handleFormdata = (event) => {
     const { name, value } = event.target;
     setFormdata((prevData) => ({
       ...prevData,
-      [name]: value, // Updating state properly
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const formValidation={}
 
-    if(!formdata.fullname.trim()){
-      formValidation.fullname="required name"
+    const formValidation = {};
+
+    if (!formdata.fullname.trim()) {
+      formValidation.fullname = "Full name is required";
     }
-    if(!formdata.email.trim()){
-      formValidation.email="required email"
-    }
-    else if (!/\S+@\S+\.\S+/.test(formdata.email)) {
+
+    if (!formdata.email.trim()) {
+      formValidation.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formdata.email)) {
       formValidation.email = "Invalid email format";
     }
-    if(!formdata.phone.trim()){
-      formValidation.phone="required mobile number"
+
+    if (!formdata.phone.trim()) {
+      formValidation.phone = "Phone number is required";
+    } else if (!/^\d{10}$/.test(formdata.phone)) {
+      formValidation.phone = "Enter a valid 10-digit phone number";
     }
-    if(!formdata.password.trim()){
-      formValidation.password="required password"
+
+    if (!formdata.password.trim()) {
+      formValidation.password = "Password is required";
     } else if (formdata.password.length < 6) {
       formValidation.password = "Password must be at least 6 characters";
     }
 
-    
+    setErrors(formValidation);
 
-   setErros(formValidation)
-   
-    console.log("Form submitted with:", formdata);
-    setFormdata({fullname: "",
-      email: "",
-      phone: "",
-      password: "",
-    })
-
-      if(Object.keys(formValidation).length===0){
-       toast.success("Signup Successfull")
+    if (Object.keys(formValidation).length === 0) {
+      const toastID = toast.loading("Signing up...");
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_SERVER_URL}/api/user/register`,
+          formdata
+        );
+        toast.success("Signup Successful", { id: toastID });
+        setFormdata({
+          fullname: "",
+          email: "",
+          phone: "",
+          password: "",
+          isAdmin:''
+        });
+        navigate("/login");
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          toast.error("Email already exists", { id: toastID });
+        } else {
+          toast.error("Something went wrong!", { id: toastID });
+        }
       }
-      else{toast.error("please enter correct details")}
+    } else {
+      toast.error("Please enter correct details");
+    }
   };
 
   return (
     <>
-     <Toaster/>
+      <Toaster />
       <div className="outer">
         <div className="row">
           <div className="col-md-6 col-lg-4 main text-center">
-          {errors.success==='true'&& <Alert severity="success">Signup Successfully</Alert> }
             <div className="logo">
               <img src={logo} alt="Logo" />
             </div>
             <div className="cancel">
               <Link to={"/"}>
-                <DisabledByDefaultIcon fontSize="large"/>
+                <DisabledByDefaultIcon fontSize="large" />
               </Link>
             </div>
             <h3 className="mb-0">Sign Up</h3>
-            
+
             <form className="signup-form" onSubmit={handleSubmit}>
-          
+              <div className="">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="isAdmin"
+                    id="inlineRadio1"
+                    value='false'
+                    onChange={()=>setFormdata((prev)=>({...prev,isAdmin:false}))}
+                    checked={formdata.isAdmin===false}
+                  />
+                  <label class="form-check-label" for="inlineRadio1">
+                    User
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="isAdmin"
+                    id="inlineRadio2"
+                    value={formdata.isAdmin}
+                    onChange={()=>setFormdata((prev)=>({...prev,isAdmin:true}))}
+                    checked={formdata.isAdmin===true}
+                  />
+                  <label class="form-check-label" for="inlineRadio2">
+                    Admin
+                  </label>
+                </div>
+              </div>
+              {String(formdata.isAdmin)}
+
               <TextField
-              error={errors.fullname}
+                error={Boolean(errors.fullname)}
                 label="Enter full name"
                 variant="standard"
                 name="fullname"
@@ -93,12 +149,10 @@ const SignupForm = () => {
                 onChange={handleFormdata}
                 fullWidth
                 helperText={errors.fullname}
-              /> 
-            
-              
-              
+              />
+
               <TextField
-              error={errors.email}
+                error={Boolean(errors.email)}
                 label="Email"
                 variant="standard"
                 name="email"
@@ -106,14 +160,14 @@ const SignupForm = () => {
                 onChange={handleFormdata}
                 fullWidth
                 helperText={errors.email}
-              /> 
+              />
 
               <TextField
-              error={errors.phone}
+                error={Boolean(errors.phone)}
                 label="Phone number"
                 variant="standard"
                 name="phone"
-                type="number"
+                type="tel"
                 value={formdata.phone}
                 onChange={handleFormdata}
                 fullWidth
@@ -121,7 +175,7 @@ const SignupForm = () => {
               />
 
               <TextField
-               error={errors.password}
+                error={Boolean(errors.password)}
                 label="Password"
                 variant="standard"
                 type="password"
@@ -131,7 +185,6 @@ const SignupForm = () => {
                 fullWidth
                 helperText={errors.password}
               />
-      
 
               <div className="signup-btn">
                 <Button type="submit">Sign Up</Button>

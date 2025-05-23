@@ -1,5 +1,6 @@
+// Header.jsx
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -12,14 +13,21 @@ import SearchBox from "./SearchBox";
 import CountrydropDown from "./CountrydropDown";
 import Navbar from "./Navbar";
 import "./Header.css";
-const Header = ({addtoCart=[],wishlist=[]}) => {
+import Avatar from "@mui/material/Avatar";
 
+const Header = ({
+  addtoCart = [],
+  wishlist = [],
+  isLoggedIn,
+  handleLogout,
+  user = [],
+  profile_img,
+}) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  
   return (
     <>
       {/* Mobile Header */}
@@ -42,6 +50,7 @@ const Header = ({addtoCart=[],wishlist=[]}) => {
           </div>
         </div>
       </div>
+
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div className="sidebar-overlay" onClick={toggleSidebar}></div>
@@ -49,27 +58,53 @@ const Header = ({addtoCart=[],wishlist=[]}) => {
 
       {/* Sidebar */}
       <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-        <div className="sidebar-header">
-          <Button>
-            <img src={logo} alt="" className="mobile-logo" />
-          </Button>
+        <div className="sidebar-header px-3 py-1">
+          <img src={logo} alt="" className="mobile-logo" />
           <Button onClick={toggleSidebar}>
-            <CloseIcon />
+            <CloseIcon sx={{ color: "red" }} />
           </Button>
         </div>
         <div className="sidebar-content">
-          <div className="sidebar-search my-3">
-            <SearchBox />
+          <div className="d-flex justify-content-between align-items-center">
+            <div>
+              <CountrydropDown />
+            </div>
+           {isLoggedIn? <div>
+              <Avatar
+                alt="Admin Avatar"
+                src={profile_img}
+                sx={{ width: 80, height: 80}}
+              />
+            </div>:""}
           </div>
-          <div className="sidebar-country my-3">
-            <CountrydropDown />
-          </div>
+
           <div className="sidebar-links">
-            <Link to="/login">
-              <Button className="sidebar-link" onClick={toggleSidebar}>
-                <AccountCircleIcon /> Sign In
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link to="/profile">
+                  <Button className="sidebar-link">
+                    <span>
+                      welcome , <AccountCircleIcon /> {user.fullname}
+                    </span>
+                  </Button>
+                </Link>
+
+                <Button
+                  className="bg-danger text-white"
+                  onClick={() => {
+                    handleLogout(), toggleSidebar();
+                  }}
+                >
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Link to="/login">
+                <Button className="sidebar-link" onClick={toggleSidebar}>
+                  Sign In
+                </Button>
+              </Link>
+            )}
             <Link to="/wishlist">
               <Button className="sidebar-link" onClick={toggleSidebar}>
                 <Badge badgeContent={wishlist.length} color="warning">
@@ -91,6 +126,7 @@ const Header = ({addtoCart=[],wishlist=[]}) => {
       </div>
 
       {/* Desktop Header */}
+
       <div className="header d-none d-lg-block">
         <div className="container">
           <div className="row">
@@ -103,14 +139,41 @@ const Header = ({addtoCart=[],wishlist=[]}) => {
             <div className="col-lg-9 d-flex align-items-center part2">
               <SearchBox />
               <div className="login d-flex align-items-center">
-                <AccountCircleIcon sx={{ fontSize: 30 }} />
-                <Link to="/login">
-                  <Button className="login-btn ms-2">Sign In</Button>
-                </Link>
+                {isLoggedIn && (
+                  <>
+                    <Link to={"/profile"}>
+                      <Button>
+                        <Avatar
+                          alt="Avatar"
+                          src={profile_img}
+                          sx={{ width: 60, height: 60 }}
+                        />
+                        <span
+                          style={{
+                            color: "#333",
+                            fontWeight: "bold",
+                            marginRight: "8px",
+                          }}
+                        >
+                          {isLoggedIn && user?.fullname ? user.fullname.split(" ")[0] : ""}
+
+                        </span>
+                      </Button>
+                  
+                    </Link>
+                    <Button className="logout-btn ms-2" onClick={handleLogout}>
+                      Sign Out
+                    </Button>
+                  </>
+                )}
+                {!isLoggedIn && (
+                  <Link to="/login">
+                    <Button className="login-btn ms-2">Sign In</Button>
+                  </Link>
+                )}
               </div>
               <div className="wishlist">
-                <Link to={"/wishlist"}>
-                  {" "}
+                <Link to="/wishlist">
                   <Button>
                     <Badge badgeContent={wishlist.length} color="primary">
                       <FavoriteBorderIcon
@@ -118,7 +181,7 @@ const Header = ({addtoCart=[],wishlist=[]}) => {
                       />
                     </Badge>
                     Wishlist
-                  </Button>{" "}
+                  </Button>
                 </Link>
               </div>
               <div className="cart">
@@ -138,8 +201,9 @@ const Header = ({addtoCart=[],wishlist=[]}) => {
         </div>
       </div>
 
-      {/* Navbar for desktop */}
-      <div className="d-none d-lg-block">
+      {/* Desktop Navbar */}
+      <div className="d-none d-xs-block">
+        <SearchBox />
         <Navbar />
       </div>
     </>

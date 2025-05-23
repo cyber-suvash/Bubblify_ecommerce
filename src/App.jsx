@@ -1,18 +1,47 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+// App.jsx
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Home } from "./pages/Home";
 import LoginForm from "./components/LoginForm";
-import { useEffect, useState } from "react";
 import SignupForm from "./components/SignupForm";
 import Cart from "./components/Cart";
 import Header from "./components/Header";
 import ForgotPass from "./components/ForgotPass";
 import Wishlist from "./components/Wishlist";
-import toast from "react-hot-toast";
+import AdminDashboard from "./pages/Admin";
+import UserDashboard from "./pages/Profile"
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 const App = () => {
-  // Initialize state from localStorage or empty array if no data exists
+const [user, setUser] = useState(() => {
+  const data = localStorage.getItem("keepLoggedIn");
+  return data ? JSON.parse(data) : null;
+});
+ const [profile_img,setProfile_img]=useState(null)
+//  geting profile image
+const getImages=async()=>{
+    try { 
+      const response= await fetch(`${import.meta.env.VITE_SERVER_URL}/api/images/${user._id}`)
+    const result= await response.json()
+    if(response.ok && result.data){
+        const imageURl=`${import.meta.env.VITE_SERVER_URL}/uploads/${result.data.filename}`
+    setProfile_img(imageURl);
+    }
+    else{
+      setProfile_img(null)
+    }
+   
+    } catch (error) {
+      toast.error('Internal fetching error')
+      console.log('error fetching',error) 
+      setProfile_img(null)
+    } 
+  }
+
+const isLoggedIn = !!user;
+
   const [addtoCart, setAddtoCart] = useState(() => {
     const savedCart = localStorage.getItem("Localcart");
     return savedCart ? JSON.parse(savedCart) : [];
@@ -23,15 +52,26 @@ const App = () => {
     return savedWishlist ? JSON.parse(savedWishlist) : [];
   });
 
-  // Save to localStorage whenever cart changes
   useEffect(() => {
     localStorage.setItem("Localcart", JSON.stringify(addtoCart));
   }, [addtoCart]);
 
-  // Save to localStorage whenever wishlist changes
   useEffect(() => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   }, [wishlist]);
+
+   useEffect (() => {
+    if (user?._id) {
+       getImages();
+    }
+  }, [user]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("keepLoggedIn");
+    toast.success("Logged out successfully!");
+    setUser(null)
+    setProfile_img(null)
+  };
 
   const handleAddtoCart = (eachProduct) => {
     setAddtoCart((prevCart) => {
@@ -42,7 +82,6 @@ const App = () => {
               : item
           )
         : [...prevCart, { ...eachProduct, quantity: 1 }];
-
       return updatedCart;
     });
     toast.success("Product added Successfully!");
@@ -53,12 +92,9 @@ const App = () => {
       const isAlreadyInWishlist = prevWishlist.some(
         (item) => item.id === eachProduct.id
       );
-
-      const updatedWishlist = isAlreadyInWishlist
+      return isAlreadyInWishlist
         ? prevWishlist.filter((item) => item.id !== eachProduct.id)
         : [...prevWishlist, eachProduct];
-
-      return updatedWishlist;
     });
   };
 
@@ -71,15 +107,19 @@ const App = () => {
           handleAddtoCart={handleAddtoCart}
           wishlist={wishlist}
           handleWishlist={handleWishlist}
+          isLoggedIn={isLoggedIn} handleLogout={handleLogout}
+        setUser={setUser} user={user} profile_img={profile_img}
         />
       ),
     },
     {
       path: "/login",
-      element: (
+      element: isLoggedIn ? (
+        <Navigate to="/" />
+      ) : (
         <>
-          <Header addtoCart={addtoCart} />
-          <LoginForm />
+          <Header addtoCart={addtoCart} wishlist={wishlist} isLoggedIn={isLoggedIn} user={user}/>
+          <LoginForm isLoggedIn={isLoggedIn} setUser={setUser} User={user} />
         </>
       ),
     },
@@ -87,7 +127,7 @@ const App = () => {
       path: "/signup",
       element: (
         <>
-          <Header addtoCart={addtoCart} />
+          <Header addtoCart={addtoCart} wishlist={wishlist} isLoggedIn={isLoggedIn} user={user}/>
           <SignupForm />
         </>
       ),
@@ -96,25 +136,24 @@ const App = () => {
       path: "/forgotpassword",
       element: (
         <>
-          <Header addtoCart={addtoCart} />
+          <Header addtoCart={addtoCart} wishlist={wishlist} isLoggedIn={isLoggedIn}/>
           <ForgotPass />
         </>
       ),
     },
     {
       path: "/cart",
-      element: (
+      element:
         <>
-          <Header addtoCart={addtoCart} />
-          <Cart addtoCart={addtoCart} setAddtoCart={setAddtoCart} />
+          <Header addtoCart={addtoCart} wishlist={wishlist} isLoggedIn={isLoggedIn}user={user} />
+          <Cart addtoCart={addtoCart} setAddtoCart={setAddtoCart}  />
         </>
-      ),
     },
     {
       path: "/wishlist",
       element: (
         <>
-          <Header wishlist={wishlist} addtoCart={addtoCart} />
+          <Header wishlist={wishlist} addtoCart={addtoCart} isLoggedIn={isLoggedIn} />
           <Wishlist
             wishlist={wishlist}
             handleWishlist={handleWishlist}
@@ -123,6 +162,17 @@ const App = () => {
         </>
       ),
     },
+    {
+      path:'/admin-dashboard',
+      element:<ProtectedRoutes isLoggedIn={user&& user.isAdmin===true}>
+        <AdminDashboard user={user}/>
+      </ProtectedRoutes>
+    },{ 
+      path:'/profile',
+      element:<ProtectedRoutes isLoggedIn={isLoggedIn}>
+        <UserDashboard user={user} isLoggedIn={isLoggedIn} handleLogout={handleLogout} setUser={setUser} profile_img={profile_img} getImages={getImages} setProfile_img={setProfile_img}/>
+      </ProtectedRoutes>
+    }
   ]);
 
   return <RouterProvider router={routers} />;

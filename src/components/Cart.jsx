@@ -140,7 +140,7 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
               </div>
             </>
           ) : (
-            <div className="col-12 text-center">
+            <div className="col-12 text-center mt-4">
               <h4>Your cart is empty 😔</h4>
               <Link to="/" className="btn btn-primary mt-3">
                 Continue Shopping

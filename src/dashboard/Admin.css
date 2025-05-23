@@ -1,0 +1,30 @@
+/* In your CSS file */
+.dropdown-toggle::after {
+  display: none !important;
+}
+/* Custom hover effect for dropdown items */
+.custom-dropdown-menu .dropdown-item:hover {
+  background-color: #f0f0f0; /* Light grey background on hover */
+                 /* Darker text on hover */
+  font-weight: 600;          /* Optional: make it bold */
+}
+.dash-logo{
+  width: 100%;
+  height: 90px;
+  object-fit:contain;
+}
+body{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.custom-list{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.custom-list .active{
+  color:#fff;
+  background:  #2518ddbb;
+}
+

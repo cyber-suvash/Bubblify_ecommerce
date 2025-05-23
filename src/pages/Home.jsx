@@ -4,12 +4,12 @@ import HomeBanner from "../components/HomeBanner";
 import ProductsPage from "./ProductPage";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
-import Data from "../components/Data";
+import Data from "../components/Data.js";
 import Product from "../components/Product";
 import { Toaster } from 'react-hot-toast';
 import Pagination from "../components/Pagination";
 
-export const Home = ({ handleAddtoCart, addtoCart, wishlist,handleWishlist }) => {
+export const Home = ({ handleAddtoCart, addtoCart, wishlist,handleWishlist,isLoggedIn,handleLogout ,user,setUser,profile_img}) => {
   const [item, setItem] = useState(Data);
   const [activeCategory, setActiveCategory] = useState("");
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
@@ -37,6 +37,9 @@ export const Home = ({ handleAddtoCart, addtoCart, wishlist,handleWishlist }) =>
         handleSidebar={handleSidebar}
         addtoCart={addtoCart}
         wishlist={wishlist}
+        isLoggedIn={isLoggedIn}
+        handleLogout={handleLogout}
+        setUser={setUser} user={user} profile_img={profile_img}
       />
       <HomeBanner />
       {/* <Pagination handleAddtoCart={handleAddtoCart}/> */}
