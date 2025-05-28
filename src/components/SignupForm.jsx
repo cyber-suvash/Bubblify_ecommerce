@@ -1,27 +1,22 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import logo from "../assets/photos/logo.png";
-import google from "../assets/photos/google.png";
+import logo from "/photos/logo.png";
+import google from "/photos/google.png";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
-
 const SignupForm = () => {
-
-
   const [formdata, setFormdata] = useState({
     fullname: "",
     email: "",
     phone: "",
     password: "",
-    isAdmin:false
+    isAdmin: false,
   });
-
 
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
@@ -76,7 +71,7 @@ const SignupForm = () => {
           email: "",
           phone: "",
           password: "",
-          isAdmin:''
+          isAdmin: "",
         });
         navigate("/login");
       } catch (error) {
@@ -94,9 +89,9 @@ const SignupForm = () => {
   return (
     <>
       <Toaster />
-      <div className="outer">
+      <div className="outer min-vh-100">
         <div className="row">
-          <div className="col-md-6 col-lg-4 main text-center">
+          <div className="col-md-6 col-lg-4 main text-center main-outer">
             <div className="logo">
               <img src={logo} alt="Logo" />
             </div>
@@ -115,9 +110,11 @@ const SignupForm = () => {
                     type="radio"
                     name="isAdmin"
                     id="inlineRadio1"
-                    value='false'
-                    onChange={()=>setFormdata((prev)=>({...prev,isAdmin:false}))}
-                    checked={formdata.isAdmin===false}
+                    value="false"
+                    onChange={() =>
+                      setFormdata((prev) => ({ ...prev, isAdmin: false }))
+                    }
+                    checked={formdata.isAdmin === false}
                   />
                   <label class="form-check-label" for="inlineRadio1">
                     User
@@ -130,16 +127,16 @@ const SignupForm = () => {
                     name="isAdmin"
                     id="inlineRadio2"
                     value={formdata.isAdmin}
-                    onChange={()=>setFormdata((prev)=>({...prev,isAdmin:true}))}
-                    checked={formdata.isAdmin===true}
+                    onChange={() =>
+                      setFormdata((prev) => ({ ...prev, isAdmin: true }))
+                    }
+                    checked={formdata.isAdmin === true}
                   />
                   <label class="form-check-label" for="inlineRadio2">
                     Admin
                   </label>
                 </div>
               </div>
-              {String(formdata.isAdmin)}
-
               <TextField
                 error={Boolean(errors.fullname)}
                 label="Enter full name"

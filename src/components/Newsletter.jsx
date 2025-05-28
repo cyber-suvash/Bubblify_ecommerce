@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import MailIcon from "@mui/icons-material/Mail";
-import emailbanner from "../assets/photos/email-banner.png";
+import emailbanner from "/photos/email-banner.png";
 import toast ,{ Toaster } from "react-hot-toast";
 const Newsletter = () => {
 

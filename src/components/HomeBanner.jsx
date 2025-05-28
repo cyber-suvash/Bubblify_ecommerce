@@ -42,9 +42,9 @@ const HomeBanner = () => {
 
   return (
     <>
-      <div>
+      <div className="">
         <div
-          className="slider-container mb-3 mt-5 p-2"
+          className="slider-container mb-3 p-2"
           onMouseEnter={stopSliding}
           onMouseLeave={startSliding}
         >

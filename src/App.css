@@ -9,7 +9,6 @@
 body {
   font-family: "Lato", serif;
   max-width: 100%;
-  
 }
 
 ::-webkit-scrollbar {
@@ -30,6 +29,7 @@ body {
 .header {
   width: 100%;
   height: auto;
+  box-shadow: 0 5px 10px #2518dd8d;
 }
 
 .countryDrop {
@@ -264,7 +264,7 @@ nav .right-part ul li:hover .submenu {
 
 .slider-container {
   position: relative;
-  width: 90%; /* Set the width of the slider */
+  margin-top:70px !important;
   margin: auto;
   overflow: hidden; /* Hide the overflow of images */
   box-shadow: 0 4px 8px rgba(220, 144, 144, 0.3); /* Adding a shadow for depth */
@@ -332,7 +332,7 @@ h3 {
 }
 
 .products-menu .active-btn {
-  color:white;
+  color: white;
   background: rgba(11, 152, 11, 0.785);
 
   box-shadow: 0 3px 1px rgba(217, 43, 43, 0.847);
@@ -349,12 +349,14 @@ h3 {
 
 .card img {
   width: 100%;
-  height: 170px;
+  height: 130px;
+  object-fit: contain;
 }
 
 .card {
   width: 100%;
   overflow: hidden;
+  text-align: center;
 }
 .card:hover {
   box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.7);
@@ -368,6 +370,7 @@ h3 {
   border-radius: 20px;
   width: 100%;
 }
+
 .card .expand-whishlist {
   cursor: pointer;
   display: flex;
@@ -511,28 +514,35 @@ h3 {
 }
 
 /* footer-3 */
+
+.foot3 {
+  background: #2518dd8d;
+  padding: 10px 10px 0 10px;
+  border-radius: 15px;
+  color: #f5eded;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+}
 .foot-icon {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
 
-.foot p {
+.foot3 p {
   font-size: 1.2rem;
   text-transform: capitalize;
 }
 
 .foot-icon span {
   border: 1px solid rgba(0, 0, 0, 0.2);
-  color: #2518dd8d;
+  color: white;
   padding: 10px;
   border-radius: 50%;
   cursor: pointer;
 }
 
 .foot-icon span:hover {
-  background: #2518dd8d;
-  color: #fff;
+  transform: scale(1.2);
 }
 
 /* login page */
@@ -572,8 +582,14 @@ h3 {
 /* signup page */
 
 .outer {
-  background: #b0aeb853;
   padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-outer {
+  background: #b0aeb853;
 }
 .signup-form,
 .signup-btn,
@@ -611,6 +627,9 @@ h3 {
 /* forgot password */
 
 /* cart page */
+.cartpage{
+  padding-top: 70px;
+}
 
 .cartpage .table thead th {
   background: #ececec !important;
@@ -654,12 +673,19 @@ h3 {
   background: rgba(25, 118, 210, 0.1);
 }
 
+
 /* Profile  */
+
+
+/* dashboard */
+.active{
+  background: #2518ddb5 !important;
+  color: white !important;
+}
 
 
 /* Mobile devices (320px to 480px) */
 @media screen and (max-width: 480px) {
-
   /* Slider  */
 
   .image-container {
@@ -708,8 +734,12 @@ h3 {
   }
 
   .foot-top {
-    width: 100%;
+    margin: auto;
+    width: 60%;
     margin-bottom: 10px;
+  }
+  .foot3 p{
+    font-size: 0.8rem;
   }
 
   /* cart page */
@@ -737,17 +767,23 @@ h3 {
 /* Tablets (481px to 768px) */
 @media screen and (min-width: 481px) and (max-width: 768px) {
   .products-menu button {
-    font-size: 0.8rem;
+    font-size:1rem;
   }
   .cartpage .table td img {
     height: 10vh;
   }
-  .foot-top{
-      width: 40%;
-      margin-bottom: 20px;
-}
+  .foot-top {
+    width: 40%;
+    margin-bottom: 20px;
+  }
+  .address{
+    gap: 10px;
+  }
+  .info p{
+    font-size: 1.2rem;
+  }
 
- .newsletter-section {
+  .newsletter-section {
     height: auto;
     padding: 20px;
   }
@@ -767,8 +803,13 @@ h3 {
   }
 }
 
+
+@media  screen and (min-width:769) and (max-width:1023){
+  
+
+
+}
 /* @media screen and (min-width: 992px) {
   .cartpage .table td img {
     height: 10vh;
   } */
-

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import AdminSidebar from "../dashboard/AdminSidebar";
-import "../dashboard/Admin.css";
+import React, { useState, useEffect } from "react";
+import { Link, Outlet } from "react-router-dom";
+import AdminSidebar from "../components/AdminSidebar";
+import "../components/Admin.css";
 import Avatar from "@mui/material/Avatar";
 import Dropdown from "react-bootstrap/Dropdown";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -10,30 +10,46 @@ import PersonIcon from "@mui/icons-material/Person";
 import Badge from "@mui/material/Badge";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Button } from "@mui/material";
-import Listing from "../components/Listing";
-
+import CreateProduct from "./CreateProduct";
+import { Toaster } from "react-hot-toast";
+import MenuIcon from "@mui/icons-material/Menu";
+import { IconButton } from "@mui/material";
 
 const date = new Date();
 
-const Admin = () => {
+const Admin = ({ user, handleLogout }) => {
+  const [isopen, setIsopen] = useState(false);
+  const toggleSidebar = () => {
+    setIsopen(!isopen);
+  };
+
+  const [BootModal, setBootModal] = useState(false);
+
   return (
-    <div className="container-fluid">
+    <div className="container-fluied px-3 ">
+      <Toaster />
       <div className="row min-vh-100">
         {/* Sidebar */}
-        <div className="col-md-2 p-0 bg-light col">
-          <AdminSidebar />
+        <div className="col-12 col-md-2 ">
+          <AdminSidebar isopen={isopen} toggleSidebar={toggleSidebar} />
         </div>
 
         {/* Main Content */}
-        <div className="col-md-10 bg-warning d-flex flex-column p-0">
+        <div className=" col-12 col-md-10 d-flex flex-column p-0">
           {/* Top Navbar */}
           <nav className="navbar navbar-expand-lg bg-body-tertiary px-3">
             <div className="container-fluid d-flex justify-content-between align-items-center">
+              <IconButton
+                onClick={toggleSidebar}
+                className="menu-icon"
+                sx={{ display: { xs: "block", md: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
               <div className="d-flex align-items-center gap-3">
-                
                 <Link
                   to="/admin-dashboard"
-                  className="navbar-brand text-primary"
+                  className="navbar-brand text-primary "
                 >
                   Dashboard
                 </Link>
@@ -69,7 +85,7 @@ const Admin = () => {
                   >
                     <Avatar
                       alt="Admin Avatar"
-                      src="/static/images/avatar/1.jpg"
+                      src=""
                       sx={{ width: 40, height: 40 }}
                     />
                   </Dropdown.Toggle>
@@ -85,26 +101,28 @@ const Admin = () => {
                         sx={{ width: 40, height: 40 }}
                       />
                       <div>
-                        <h6 className="mb-0">Name here</h6>
-                        <small>testadmin@gmail.com</small>
+                        <h6 className="mb-0">{user.fullname}</h6>
+                        <small>{user.email}</small>
                       </div>
                     </Dropdown.Header>
                     <Dropdown.Divider />
-                    <Dropdown.Item href="#/profile">
+                    <Dropdown.Item as={Link} to="/profile">
                       <PersonIcon className="me-2" /> Profile
                     </Dropdown.Item>
-                    <Dropdown.Item href="/settings">
+                    <Dropdown.Item as={Link} to="/settings">
                       <SettingsIcon className="me-2" /> Settings
                     </Dropdown.Item>
-                    <Dropdown.Item href="/logout">
-                      <LogoutIcon className="me-2" /> Logout
+                    <Dropdown.Item onClick={handleLogout}>
+                      <LogoutIcon className=" text-danger me-2" /> Logout
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
 
                 <div className="d-none d-md-flex flex-column ms-2">
-                  <span>Name here</span>
-                  <span className="text-secondary">Admin</span>
+                  <span>{user.fullname}</span>
+                  <span className="text-secondary">
+                    {user.isAdmin ? "Admin" : ""}
+                  </span>
                 </div>
               </div>
             </div>
@@ -112,33 +130,38 @@ const Admin = () => {
 
           {/* Page Content */}
           <div className="px-3 py-2">
-            <div className="row bg-success">
+            <div className="row ">
               <div className="col-md-5">
                 <div className="d-block mb-3 ">{date.toDateString()}</div>
                 <div>
-                  <Button variant="contained" className="mb-3">
+                  <Button
+                    variant="contained"
+                    className="mb-3"
+                    onClick={() => setBootModal(true)}
+                  >
                     Create
                   </Button>
                 </div>
               </div>
             </div>
-            <div className="row bg-danger p-2 gap-4 rounded">
-              <div className="col-md-3 bg-white rounded p-3">
-              <h4>Total orders</h4>
-              <h2>50</h2>
-
+            <div className="row  p-2 gap-4 rounded ">
+              <div className="col-md-3 bg-danger text-white rounded p-3">
+                <h4>Total orders</h4>
+                <h2>50</h2>
               </div>
-              <div className="col-md-3 bg-success rounded p-3">
-               <h4>Total customers</h4>
-               <h2>500</h2>
+              <div className="col-md-3 bg-success rounded text-white p-3">
+                <h4>Total customers</h4>
+                <h2>500</h2>
               </div>
-              <div className="col-md-3 bg-success rounded p-3">
-             <h4>Total products</h4>
-             <h2>800</h2>
+              <div className="col-md-3 bg-warning rounded p-3 ">
+                <h4>Total products</h4>
+                <h2>800</h2>
               </div>
             </div>
 
-            <div><Listing/></div>
+            <CreateProduct BootModal={BootModal} setBootModal={setBootModal} />
+
+            <Outlet />
           </div>
         </div>
       </div>

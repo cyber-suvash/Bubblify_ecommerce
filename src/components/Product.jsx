@@ -75,7 +75,7 @@ const Product = ({ data, handleAddtoCart, wishlist, handleWishlist }) => {
 
             <div className="card-buttons mt-0">
               <Button size="small" onClick={() => handleAddtoCart(each)}>
-                <ShoppingCartIcon /> Buy Now
+                <ShoppingCartIcon /> Add to Cart
               </Button>
             </div>
           </Card>

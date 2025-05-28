@@ -1,8 +1,8 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/photos/logo.png";
-import google from "../assets/photos/google.png";
+import logo from "/photos/logo.png";
+import google from "/photos/google.png";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { useState } from "react";
 import axios from "axios";
@@ -51,11 +51,16 @@ const LoginForm = ({ setUser }) => {
 
       if (response.status === 200 && response.data.user) {
         const user = response.data.user;
-
         localStorage.setItem("keepLoggedIn", JSON.stringify(user));
         setUser(user);
         toast.success(`Welcome back ${user.fullname}`, { id: toastID });
 
+          // Navigate based on user role
+        if (user.isAdmin===true) {
+          navigate('/admin-dashboard');
+        } else {
+          navigate('/profile');
+        }
       } else {
         toast.error("Login failed, try again later", { id: toastID });
       }
@@ -73,9 +78,9 @@ const LoginForm = ({ setUser }) => {
   return (
     <>
       <Toaster />
-      <div className="outer">
+      <div className="outer min-vh-100">
         <div className="row">
-          <div className="col-md-6 col-lg-4 main text-center">
+          <div className="col-md-6 col-lg-4 main text-center main-outer">
             <div className="logo">
               <img src={logo} alt="Logo" />
             </div>
@@ -122,7 +127,7 @@ const LoginForm = ({ setUser }) => {
               <div className="main-last">
                 <p>
                   Don’t have an account?{" "}
-                  <Link to={"/signUp"}>
+                  <Link to={"/signup"}>
                     <span>Signup</span>
                   </Link>
                 </p>

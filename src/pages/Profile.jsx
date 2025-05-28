@@ -11,12 +11,8 @@ import {
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
-
-import image from "../assets/photos/goku.jpg";
-
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { toast, Toaster } from "react-hot-toast";
-import Header from "../components/Header";
 
 const Profile = ({
   user,
@@ -57,10 +53,13 @@ const Profile = ({
 
     try {
       setLoader(true);
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/images/upload`, {
-        method: "PUT",
-        body: formdata,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/api/images/upload`,
+        {
+          method: "PUT",
+          body: formdata,
+        }
+      );
       const result = await response.json();
       if (response.ok) {
         toast.success(result.msg || "Profile successfully updated.");
@@ -86,18 +85,17 @@ const Profile = ({
 
   return (
     <>
-      <Header> </Header>
       {isLoggedIn ? (
         <>
           <Toaster />
-          <div className="container mt-5 pt-2">
+          <div className="container pt-5 mt-5">
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-6 mb-3">
                 <Card sx={{ maxWidth: 345 }} className="m-auto">
                   <CardMedia
                     component="img"
                     alt="profile"
-                    image={profile_img || image}
+                    image={profile_img}
                     sx={{
                       width: 200,
                       height: 200,
@@ -137,13 +135,13 @@ const Profile = ({
                   </CardActions> */}
                   <CardActions>
                     <Link to={"/"}>
-                      <Button className="mb-2 ">
+                      <Button>
                         <ArrowBackRoundedIcon /> Back
                       </Button>
                     </Link>
 
                     <Button
-                      className="mb-2 bg-danger text-white"
+                      className="bg-danger text-white"
                       onClick={handleLogout}
                     >
                       <LogoutIcon /> Logout
@@ -151,7 +149,7 @@ const Profile = ({
                   </CardActions>
                 </Card>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 mb-3">
                 <Card>
                   <Typography variant="h5" color="textPrimary">
                     profile update

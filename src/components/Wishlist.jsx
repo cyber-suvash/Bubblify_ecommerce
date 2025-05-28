@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const Wishlist = ({ wishlist = [] ,handleWishlist,handleAddtoCart}) => {
   return (
     <>
-      <div className="container">
+      <div className="container py-4 px-3 ">
         <h2>Wishlist Items ({wishlist.length})</h2>
         {wishlist.length === 0 ? <p>No items in wishlist.</p> : null}
         <div className="wishlist-container d-flex flex-wrap gap-3">

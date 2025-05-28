@@ -12,7 +12,7 @@ const ProductsPage = ({ viewAll, filteredData, activeCategory }) => {
           <h3 className="mb-1">Top Products</h3>
         
         </div>
-        <div className="col-md-6 products-menu">
+        <div className="col-md-8 products-menu">
           {menuItems.map((each) => (
             <Button
               key={each}

@@ -8,12 +8,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "../assets/photos/logo.png";
-import SearchBox from "./SearchBox";
-import CountrydropDown from "./CountrydropDown";
-import Navbar from "./Navbar";
+import logo from "/photos/logo.png";
+import SearchBox from "../SearchBox";
+import CountrydropDown from "../CountrydropDown";
+import Navbar from "../Navbar";
 import "./Header.css";
 import Avatar from "@mui/material/Avatar";
+
 
 const Header = ({
   addtoCart = [],
@@ -69,13 +70,17 @@ const Header = ({
             <div>
               <CountrydropDown />
             </div>
-           {isLoggedIn? <div>
-              <Avatar
-                alt="Admin Avatar"
-                src={profile_img}
-                sx={{ width: 80, height: 80}}
-              />
-            </div>:""}
+            {isLoggedIn ? (
+              <div>
+                <Avatar
+                  alt="Admin Avatar"
+                  src={profile_img}
+                  sx={{ width: 60, height: 60 }}
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="sidebar-links">
@@ -84,7 +89,7 @@ const Header = ({
                 <Link to="/profile">
                   <Button className="sidebar-link">
                     <span>
-                      welcome , <AccountCircleIcon /> {user.fullname}
+                      welcome, {user.fullname}
                     </span>
                   </Button>
                 </Link>
@@ -127,7 +132,7 @@ const Header = ({
 
       {/* Desktop Header */}
 
-      <div className="header d-none d-lg-block">
+      <div className="mobile-header d-none d-lg-block">
         <div className="container">
           <div className="row">
             <div className="logo col-lg-3 d-flex align-items-center justify-content-between">
@@ -146,7 +151,7 @@ const Header = ({
                         <Avatar
                           alt="Avatar"
                           src={profile_img}
-                          sx={{ width: 60, height: 60 }}
+                          sx={{ width: 50, height: 50 ,objectFit:'contain'}}
                         />
                         <span
                           style={{
@@ -155,11 +160,11 @@ const Header = ({
                             marginRight: "8px",
                           }}
                         >
-                          {isLoggedIn && user?.fullname ? user.fullname.split(" ")[0] : ""}
-
+                          {isLoggedIn && user?.fullname
+                            ? user.fullname.split(" ")[0]
+                            : ""}
                         </span>
                       </Button>
-                  
                     </Link>
                     <Button className="logout-btn ms-2" onClick={handleLogout}>
                       Sign Out
