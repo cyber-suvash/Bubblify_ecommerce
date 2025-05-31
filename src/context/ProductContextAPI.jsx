@@ -4,7 +4,7 @@ import axios from "axios";
 // 1st step
 const ProductContext = createContext();
 
-const API = "http://localhost:3000/api/products";
+const API = `${import.meta.env.VITE_SERVER_URL}/api/products`;
 
 // 2nd step
 const ProductProvider = ({ children }) => {

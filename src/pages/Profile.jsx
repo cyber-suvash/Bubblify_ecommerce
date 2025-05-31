@@ -103,7 +103,7 @@ const Profile = ({
                       objectFit: "cover",
                       display: "block",
                       margin: "0 auto",
-                      outline: "1px solid black", // center horizontally
+                      outline: "1px solid gray", // center horizontally
                     }}
                   />
                   <CardContent>
