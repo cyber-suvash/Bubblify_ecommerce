@@ -21,6 +21,7 @@ import Listing from "./components/Listing";
 import Customers from "./pages/Customers";
 import Orders from "./components/Orders";
 import History from "./components/History"
+import SingleProduct from "./pages/SingleProduct";
 const App = () => {
   const [user, setUser] = useState(() => {
     const data = localStorage.getItem("keepLoggedIn");
@@ -171,6 +172,10 @@ const App = () => {
               <Cart addtoCart={addtoCart} setAddtoCart={setAddtoCart} />
             </>
           ),
+        },
+        {
+          path:"singleproduct/:id",
+          element:<SingleProduct/>
         },
         {
           path: "wishlist",

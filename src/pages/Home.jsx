@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Header from "../components/Layout/Header.jsx";
 import HomeBanner from "../components/HomeBanner";
 import ProductsPage from "./Heading.jsx";
@@ -10,6 +10,8 @@ import Pagination from "../components/Pagination";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import Foooter2 from "../components/Foooter2.jsx";
+
+
 export const Home = ({
   handleAddtoCart,
   wishlist,
@@ -28,7 +30,6 @@ export const Home = ({
     setItem(newItems);
     setActiveCategory(category);
   };
-
   return (
     <>
       <Toaster />
@@ -41,12 +42,16 @@ export const Home = ({
         activeCategory={activeCategory}
         handleAddtoCart={handleAddtoCart}
       />
+
+    
       <Product
         data={item}
         handleAddtoCart={handleAddtoCart}
         wishlist={wishlist}
         handleWishlist={handleWishlist}
       />
+
+     
       <Newsletter />
       <div className="container">
         <div className="row d-flex justify-content-between">

@@ -91,21 +91,21 @@ const Profile = ({
           <div className="container pt-5 mt-5">
             <div className="row">
               <div className="col-md-6 mb-3">
-                <Card sx={{ maxWidth: 345 }} className="m-auto">
+                <Card sx={{ maxWidth: 350 }} className="m-auto">
                   <CardMedia
                     component="img"
-                    alt="profile"
+                    alt="profile-picture"
                     image={profile_img}
                     sx={{
-                      width: 200,
-                      height: 200,
+                      height: 250,
+                      width: 250,
                       borderRadius: "50%",
                       objectFit: "cover",
                       display: "block",
-                      margin: "0 auto", // center horizontally
+                      margin: "0 auto",
+                      outline: "1px solid black", // center horizontally
                     }}
                   />
-
                   <CardContent>
                     <Typography gutterBottom variant="h6" component="div">
                       Name ~ {user?.fullname}

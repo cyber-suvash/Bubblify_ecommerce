@@ -2,7 +2,6 @@ import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link } from "react-router-dom";
-import Dropdown from "react-bootstrap/Dropdown";
 import { useState } from "react";
 import CategoryDropDown from "./CategoryDropDown";
 

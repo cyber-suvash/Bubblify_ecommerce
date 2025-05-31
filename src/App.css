@@ -654,11 +654,11 @@ h3 {
   background: #f9f9f9;
 }
 
-.QuantityBox div {
+.QuantityBox div ,p {
   font-size: 14px;
   font-weight: bold;
   min-width: 25px;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .QuantityBox button {
@@ -673,9 +673,7 @@ h3 {
   background: rgba(25, 118, 210, 0.1);
 }
 
-
 /* Profile  */
-
 
 /* dashboard */
 .active{
@@ -683,6 +681,16 @@ h3 {
   color: white !important;
 }
 
+/* single page product */
+.single-img{
+  display: flex;
+  justify-content: center;
+}
+.single-img img{
+  height:auto;
+  width:35vw ;
+  object-fit:contain;
+}
 
 /* Mobile devices (320px to 480px) */
 @media screen and (max-width: 480px) {
@@ -757,6 +765,9 @@ h3 {
   .QuantityBox {
     padding: 0;
     gap: 0;
+  }
+  .single-product{
+    flex-direction: column;
   }
 
   .contact {

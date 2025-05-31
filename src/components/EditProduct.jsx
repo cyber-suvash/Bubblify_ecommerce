@@ -16,6 +16,9 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
     category: "",
     price: "",
     description: "",
+    availability:"",
+    image:"",
+    rating:null
   });
 
   useEffect(() => {
@@ -72,8 +75,9 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
               </div>
 
               <div className="modal-body">
+                <div className="editpage-img text-center"><img src={editData.image} alt={editData.name} height={150} /></div>
                 <form className="row g-3" onSubmit={handleSubmit}>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <label htmlFor="product_name" className="form-label">
                       Product Name
                     </label>
@@ -86,7 +90,7 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
                       onChange={handleChange}
                     />
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <label htmlFor="inputState" className="form-label">
                       Category
                     </label>
@@ -107,7 +111,7 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
                       ))}
                     </select>
                   </div>
-                  <div className="mb-3">
+                  <div className="col-md-6">
                     <label htmlFor="price" className="form-label">
                       Price
                     </label>
@@ -119,6 +123,33 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
                       onChange={handleChange}
                       placeholder="xxxxxxxx"
                       name="price"
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor=""
+                    className="form-label">Available Quantity</label>
+                      <input
+                      type="number"
+                      className="form-control"
+                      id="availability"
+                      value={editData.availability}
+                      onChange={handleChange}
+                      placeholder="enter number of quantity"
+                      name="availability"
+                      required
+                    />
+                  </div>
+                   <div className="mb-2">
+                    <label htmlFor=""
+                    className="form-label">Image Link</label>
+                      <input
+                      type="text"
+                      className="form-control"
+                      id="image"
+                      value={editData.image}
+                      onChange={handleChange}
+                      placeholder="paste image link here"
+                      name="image"
                     />
                   </div>
                   <div className="mb-2">
@@ -141,17 +172,6 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
                     Save
                   </button>
                 </form>
-              </div>
-
-              <div className="modal-footer">
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    handleClose(), setEditdata({ ...targetElement });
-                  }}
-                >
-                  Close
-                </button>
               </div>
             </div>
           </div>

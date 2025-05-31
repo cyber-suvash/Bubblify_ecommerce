@@ -16,6 +16,9 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
     category: "",
     price: "",
     description: "",
+    availability: "",
+    image: "",
+    rating: null,
   });
 
   const handleProductValue = (e) => {
@@ -37,25 +40,26 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
     console.log(product_data);
     try {
       const responce = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/products/create`,
+        `${import.meta.env.VITE_SERVER_URL}/create`,
         product_data
       );
       if (responce.status === 201) {
-        toast.success("Product addded on server");
+        toast.success("Product Created Successfully!");
       }
-
       console.log(responce);
       setProduct_data({
         product_name: "",
         category: "",
         price: "",
         description: "",
+        availability: "",
+        image: "",
+        rating: null,
       });
     } catch (error) {
       console.log(error);
       toast.error("Internal server error!");
     }
-    setBootModal(false);
   };
 
   return (
@@ -114,7 +118,7 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
                       ))}
                     </select>
                   </div>
-                  <div className="col">
+                  <div className="col-md-6">
                     <label htmlFor="price" className="form-label">
                       Price
                     </label>
@@ -129,7 +133,23 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
                       required
                     />
                   </div>
-                  <div className="mb-2">
+                  <div className="col-md-6">
+                    <label htmlFor="" className="form-label">
+                      Available Quantity
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="availability"
+                      value={product_data.availability}
+                      onChange={handleProductValue}
+                      placeholder="enter number of quantity"
+                      name="availability"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-0">
                     <label
                       htmlFor="exampleFormControlTextarea1"
                       className="form-label"
@@ -144,7 +164,22 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
                       onChange={handleProductValue}
                       name="description"
                       required
+                      placeholder="product describe here"
                     ></textarea>
+                  </div>
+                  <div className="mb-2">
+                    <label htmlFor="" className="form-label">
+                      Image Link
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="image"
+                      value={product_data.image}
+                      onChange={handleProductValue}
+                      placeholder="paste image link here"
+                      name="image"
+                    />
                   </div>
                   <div className="col-12 ">
                     <button type="submit" className="btn btn-primary">
