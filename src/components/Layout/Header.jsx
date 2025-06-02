@@ -1,9 +1,8 @@
 // Header.jsx
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
@@ -13,17 +12,21 @@ import SearchBox from "../SearchBox";
 import CountrydropDown from "../CountrydropDown";
 import Navbar from "../Navbar";
 import "./Header.css";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import Avatar from "@mui/material/Avatar";
-
+import { ProductContext } from "../../context/ProductContextAPI";
+import Switch from '@mui/material/Switch';
 
 const Header = ({
-  addtoCart = [],
   wishlist = [],
   isLoggedIn,
   handleLogout,
   user = [],
   profile_img,
 }) => {
+  const { addtoCart,darkmode,setDarkmode } = useContext(ProductContext);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -48,6 +51,9 @@ const Header = ({
                 </Badge>
               </Button>
             </Link>
+            <Button onClick={() => setDarkmode((prev) => !prev)}>
+              {darkmode ? <LightModeIcon /> : <DarkModeIcon style={{color:"black"}}/>}
+            </Button>
           </div>
         </div>
       </div>
@@ -65,7 +71,7 @@ const Header = ({
             <CloseIcon sx={{ color: "red" }} />
           </Button>
         </div>
-        <div className="sidebar-content">
+        <div className="sidebar-content min-vh-100">
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <CountrydropDown />
@@ -73,7 +79,7 @@ const Header = ({
             {isLoggedIn ? (
               <div>
                 <Avatar
-                  alt="Admin Avatar"
+                  alt="Avatar"
                   src={profile_img}
                   sx={{ width: 60, height: 60 }}
                 />
@@ -88,9 +94,7 @@ const Header = ({
               <>
                 <Link to="/profile">
                   <Button className="sidebar-link">
-                    <span>
-                      welcome, {user.fullname}
-                    </span>
+                    <span>welcome, {user.fullname}</span>
                   </Button>
                 </Link>
 
@@ -127,13 +131,14 @@ const Header = ({
               </Button>
             </Link>
           </div>
+       {isLoggedIn && user.isAdmin ?<Link to={'/admin-dashboard'}><Button>go to Admin</Button></Link>:'' }
         </div>
       </div>
 
       {/* Desktop Header */}
 
       <div className="mobile-header d-none d-lg-block">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <div className="logo col-lg-3 d-flex align-items-center justify-content-between">
               <Link to="/">
@@ -141,7 +146,7 @@ const Header = ({
               </Link>
               <CountrydropDown />
             </div>
-            <div className="col-lg-9 d-flex align-items-center part2">
+            <div className="col-lg-9 d-flex align-items-center justify-content-between part2">
               <SearchBox />
               <div className="login d-flex align-items-center">
                 {isLoggedIn && (
@@ -151,19 +156,13 @@ const Header = ({
                         <Avatar
                           alt="Avatar"
                           src={profile_img}
-                          sx={{ width: 50, height: 50 ,objectFit:'contain'}}
+                          sx={{ width: 50, height: 50, objectFit: "contain" }}
                         />
-                        <span
-                          style={{
-                            color: "#333",
-                            fontWeight: "bold",
-                            marginRight: "8px",
-                          }}
-                        >
+                        <p className="text-center">
                           {isLoggedIn && user?.fullname
                             ? user.fullname.split(" ")[0]
                             : ""}
-                        </span>
+                        </p>
                       </Button>
                     </Link>
                     <Button className="logout-btn ms-2" onClick={handleLogout}>
@@ -201,6 +200,9 @@ const Header = ({
                   </Button>
                 </Link>
               </div>
+              <Button onClick={() => setDarkmode((prev) => !prev)}>
+                {darkmode ? <LightModeIcon /> : <DarkModeIcon style={{color:"black"}} />}
+              </Button>
             </div>
           </div>
         </div>

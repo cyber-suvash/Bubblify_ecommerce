@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import MailIcon from "@mui/icons-material/Mail";
 import emailbanner from "/photos/email-banner.png";
-import toast ,{ Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const Newsletter = () => {
 
 
@@ -28,7 +28,6 @@ const Newsletter = () => {
   return (
   
     <section className="newsletter-section mb-3 mt-3 d-flex align-items-center">
-      <Toaster/>
       <div className="container">
         <div className="row">
           <div className="col-md-6 img-section">

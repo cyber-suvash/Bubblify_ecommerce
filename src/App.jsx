@@ -13,21 +13,26 @@ import SignupForm from "./components/SignupForm";
 import Cart from "./components/Cart";
 import ForgotPass from "./components/ForgotPass";
 import Wishlist from "./components/Wishlist";
-import AdminDashboard from "./pages/Admin";
+import AdminDashboard from "./admin/Admin";
 import UserDashboard from "./pages/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import AppLayout from "./components/Layout/AppLayout";
-import Listing from "./components/Listing";
+import Listing from "./admin/Listing";
 import Customers from "./pages/Customers";
 import Orders from "./components/Orders";
-import History from "./components/History"
+import History from "./components/History";
 import SingleProduct from "./pages/SingleProduct";
+import { Toaster } from "react-hot-toast";
+
 const App = () => {
+
+
   const [user, setUser] = useState(() => {
     const data = localStorage.getItem("keepLoggedIn");
     return data ? JSON.parse(data) : null;
   });
   const [profile_img, setProfile_img] = useState(null);
+
   //  geting profile image
   const getImages = async () => {
     try {
@@ -52,19 +57,10 @@ const App = () => {
 
   const isLoggedIn = !!user;
 
-  const [addtoCart, setAddtoCart] = useState(() => {
-    const savedCart = localStorage.getItem("Localcart");
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
-
   const [wishlist, setWishlist] = useState(() => {
     const savedWishlist = localStorage.getItem("wishlist");
     return savedWishlist ? JSON.parse(savedWishlist) : [];
   });
-
-  useEffect(() => {
-    localStorage.setItem("Localcart", JSON.stringify(addtoCart));
-  }, [addtoCart]);
 
   useEffect(() => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
@@ -76,39 +72,17 @@ const App = () => {
     }
   }, [user]);
 
- const handleLogout = () => {
-  toast.success("Logging out...");
-  setTimeout(() => {
-    localStorage.removeItem("keepLoggedIn");
-    setUser(null);
-    setProfile_img(null);
-  },1000); // 0.5s delay
-};
-
-
-  const handleAddtoCart = (eachProduct) => {
-    setAddtoCart((prevCart) => {
-      const updatedCart = prevCart.some((item) => item.id === eachProduct.id)
-        ? prevCart.map((item) =>
-            item.id === eachProduct.id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          )
-        : [...prevCart, { ...eachProduct, quantity: 1 }];
-      return updatedCart;
-    });
-    toast.success("Product added Successfully!");
+  const handleLogout = () => {
+    toast.success("Logging out...");
+    setTimeout(() => {
+      localStorage.removeItem("keepLoggedIn");
+      setUser(null);
+      setProfile_img(null);
+    }, 1000);
   };
 
   const handleWishlist = (eachProduct) => {
-    setWishlist((prevWishlist) => {
-      const isAlreadyInWishlist = prevWishlist.some(
-        (item) => item.id === eachProduct.id
-      );
-      return isAlreadyInWishlist
-        ? prevWishlist.filter((item) => item.id !== eachProduct.id)
-        : [...prevWishlist, eachProduct];
-    });
+  
   };
 
   const routers = createBrowserRouter([
@@ -116,7 +90,6 @@ const App = () => {
       path: "/",
       element: (
         <AppLayout
-          addtoCart={addtoCart}
           wishlist={wishlist}
           isLoggedIn={isLoggedIn}
           handleLogout={handleLogout}
@@ -128,18 +101,16 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: (
-            <Home
-              handleAddtoCart={handleAddtoCart}
-              wishlist={wishlist}
-              handleWishlist={handleWishlist}
-            />
-          ),
+          element: <Home wishlist={wishlist} handleWishlist={handleWishlist} />,
         },
         {
           path: "login",
-          element: isLoggedIn ? (user?.isAdmin===true?
-            <Navigate to={"/admin-dashboard"} />:<Navigate to='/profile'/>
+          element: isLoggedIn ? (
+            user?.isAdmin === true ? (
+              <Navigate to={"/admin-dashboard"} />
+            ) : (
+              <Navigate to="/profile" />
+            )
           ) : (
             <>
               <LoginForm
@@ -162,37 +133,32 @@ const App = () => {
         },
         {
           path: "forgotpassword",
-          element: isLoggedIn ? <ForgotPass />:<Navigate to={'/login'}/>
-          ,
+          element: isLoggedIn ? <ForgotPass /> : <Navigate to={"/login"} />,
         },
         {
           path: "cart",
           element: (
             <>
-              <Cart addtoCart={addtoCart} setAddtoCart={setAddtoCart} />
+              <Cart />
             </>
           ),
         },
         {
-          path:"singleproduct/:id",
-          element:<SingleProduct/>
+          path: "singleproduct/:id",
+          element: <SingleProduct />,
         },
         {
           path: "wishlist",
           element: (
             <>
-              <Wishlist
-                wishlist={wishlist}
-                handleWishlist={handleWishlist}
-                handleAddtoCart={handleAddtoCart}
-              />
+              <Wishlist wishlist={wishlist} handleWishlist={handleWishlist} />
             </>
           ),
         },
         {
           path: "profile",
           element: (
-            <ProtectedRoutes isLoggedIn={isLoggedIn } user={user}>
+            <ProtectedRoutes isLoggedIn={isLoggedIn} user={user}>
               <UserDashboard
                 user={user}
                 isLoggedIn={isLoggedIn}
@@ -210,9 +176,12 @@ const App = () => {
 
     {
       path: "/admin-dashboard",
-      element:  (
-        <ProtectedRoutes isLoggedIn={isLoggedIn && user.isAdmin===true} user={user}>
-          <AdminDashboard user={user} handleLogout={handleLogout}/>
+      element: (
+        <ProtectedRoutes
+          isLoggedIn={isLoggedIn && user.isAdmin === true}
+          user={user}
+        >
+          <AdminDashboard user={user} handleLogout={handleLogout} />
         </ProtectedRoutes>
       ),
       children: [
@@ -225,21 +194,27 @@ const App = () => {
           element: <Customers />,
         },
         {
-          path:"orders",
-          element:<Orders/>
-        },{
-          path:"history",
-          element:<History/>
-        }
+          path: "orders",
+          element: <Orders />,
+        },
+        {
+          path: "history",
+          element: <History />,
+        },
       ],
     },
     {
-      path:'*',
-      element:<h2>Page not found</h2>
-    }
+      path: "*",
+      element: <h2>Page not found</h2>,
+    },
   ]);
 
-  return <RouterProvider router={routers} />;
+  return (
+    <>
+      <Toaster position="top-center" />
+      <RouterProvider router={routers} />
+    </>
+  );
 };
 
 export default App;

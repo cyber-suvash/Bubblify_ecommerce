@@ -28,7 +28,7 @@ const Footer3 = () => {
         </div>
 
         <div className="col-md-4 d-flex align-items-end">
-          <p className="copyright">© 2025, Bubblify Ecommerce All rights reserved</p>
+          <p className="copyright mb-0">© 2025, Bubblify Ecommerce All rights reserved</p>
         </div>
       </div>
     </div>

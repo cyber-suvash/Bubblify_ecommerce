@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
-import AdminSidebar from "../components/AdminSidebar";
-import "../components/Admin.css";
+import AdminSidebar from "../components/AdminSidebar"
+import "./Admin.css";
 import Avatar from "@mui/material/Avatar";
 import Dropdown from "react-bootstrap/Dropdown";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -11,7 +11,6 @@ import Badge from "@mui/material/Badge";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Button } from "@mui/material";
 import CreateProduct from "./CreateProduct";
-import { Toaster } from "react-hot-toast";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 
@@ -27,7 +26,6 @@ const Admin = ({ user, handleLogout }) => {
 
   return (
     <div className="container-fluied px-3 ">
-      <Toaster />
       <div className="row min-vh-100">
         {/* Sidebar */}
         <div className="col-12 col-md-2 ">

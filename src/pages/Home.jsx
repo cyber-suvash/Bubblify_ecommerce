@@ -1,11 +1,9 @@
 import React, { useContext, useState } from "react";
 import Header from "../components/Layout/Header.jsx";
 import HomeBanner from "../components/HomeBanner";
-import ProductsPage from "./Heading.jsx";
+import Heading from "./Heading.jsx";
 import Newsletter from "../components/Newsletter";
-import Data from "../components/Data.js";
 import Product from "../components/Product";
-import { Toaster } from "react-hot-toast";
 import Pagination from "../components/Pagination";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
@@ -17,41 +15,19 @@ export const Home = ({
   wishlist,
   handleWishlist,
 }) => {
-  const [item, setItem] = useState(Data);
-  const [activeCategory, setActiveCategory] = useState("");
 
-  const handleViewallProducts = () => {
-    setItem(Data);
-    setActiveCategory("");
-  };
-
-  const filteredData = (category) => {
-    const newItems = Data.filter((each) => each.category === category);
-    setItem(newItems);
-    setActiveCategory(category);
-  };
   return (
     <>
-      <Toaster />
       <HomeBanner />
       {/* <Pagination handleAddtoCart={handleAddtoCart}/> */}
-      <ProductsPage
-        data={item}
-        filteredData={filteredData}
-        viewAll={handleViewallProducts}
-        activeCategory={activeCategory}
+      <Heading
         handleAddtoCart={handleAddtoCart}
       />
-
-    
       <Product
-        data={item}
         handleAddtoCart={handleAddtoCart}
         wishlist={wishlist}
         handleWishlist={handleWishlist}
       />
-
-     
       <Newsletter />
       <div className="container">
         <div className="row d-flex justify-content-between">

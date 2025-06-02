@@ -41,38 +41,27 @@ const HomeBanner = () => {
   }, []);
 
   return (
-    <>
-      <div className="">
-        <div
-          className="slider-container mb-3 p-2"
-          onMouseEnter={stopSliding}
-          onMouseLeave={startSliding}
-        >
-          <ArrowCircleLeftIcon
-            className="left-arrow"
-            onClick={handleLeftImages}
+    <div
+      className="slider-container mb-3 p-3"
+      onMouseEnter={stopSliding}
+      onMouseLeave={startSliding}
+    >
+      <ArrowCircleLeftIcon className="left-arrow" onClick={handleLeftImages} />
+      <div className="image-container">
+        {imagefiles.map((each, index) => (
+          <img
+            key={index}
+            src={each}
+            alt={`Slider ${each + 1}`}
+            className={`slide ${currentImage === index ? "activeSlider" : ""}`}
           />
-
-          <div className="image-container">
-            {imagefiles.map((each, index) => (
-              <img
-                key={index}
-                src={each}
-                alt={`Slider ${each + 1}`}
-                className={`slide ${
-                  currentImage === index ? "activeSlider" : ""
-                }`}
-              />
-            ))}
-          </div>
-
-          <ArrowCircleRightIcon
-            className="right-arrow"
-            onClick={handleRightImages}
-          />
-        </div>
+        ))}
       </div>
-    </>
+      <ArrowCircleRightIcon
+        className="right-arrow"
+        onClick={handleRightImages}
+      />
+    </div>
   );
 };
 

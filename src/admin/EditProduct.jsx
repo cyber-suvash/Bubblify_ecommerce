@@ -1,59 +1,37 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
+import React, { useEffect, useContext, useState } from "react";
+import { AdminProductContext } from "../context/AdminContex";
 
-const EditProduct = ({ targetElement, show, handleClose }) => {
-  const CategoryList = [
-    "Electronics",
-    "Fashion",
-    "Beauty",
-    "Footware",
-    "others",
-  ];
+const EditProduct = ({ show, handleClose, targetProduct }) => {
+  const { updateProduct, products ,CategoryList} = useContext(AdminProductContext);
 
   const [editData, setEditdata] = useState({
     product_name: "",
     category: "",
     price: "",
     description: "",
-    availability:"",
-    image:"",
-    rating:null
+    availability: "",
+    image: "",
+    rating: null,
   });
 
   useEffect(() => {
-    if (targetElement) {
-      setEditdata({ ...targetElement });
+    if (targetProduct) {
+      setEditdata(targetProduct);
     }
-  }, [targetElement]);
+  }, [targetProduct]);
 
-  console.log(editData);
+  useEffect(()=>{
+    console.log('editdata: ',editData);
+  },[editData])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditdata((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleEditProduct(editData._id);
+    updateProduct(editData._id, editData);
     handleClose();
-  };
-
-  const handleEditProduct = async (id) => {
-    try {
-      const res = await axios.put(
-        `${import.meta.env.VITE_SERVER_URL}/api/products/${id}`,
-        editData
-      );
-      console.log(res);
-      if (res.statusText === "OK") {
-        toast.success("Product edited successfully", { duration: 3000 });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Server error: try later!");
-    }
   };
 
   return (
@@ -68,14 +46,14 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
                 <button
                   type="button"
                   className="btn-close"
-                  onClick={() => {
-                    handleClose(), setEditdata({ ...targetElement });
-                  }}
+                  onClick={handleClose}
                 ></button>
               </div>
 
               <div className="modal-body">
-                <div className="editpage-img text-center"><img src={editData.image} alt={editData.name} height={150} /></div>
+                <div className="text-center">
+                  <img src={editData.image} alt={editData.name} height={150} />
+                </div>
                 <form className="row g-3" onSubmit={handleSubmit}>
                   <div className="col-md-6">
                     <label htmlFor="product_name" className="form-label">
@@ -101,9 +79,6 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
                       value={editData.category}
                       onChange={handleChange}
                     >
-                      <option defaultValue={editData.category}>
-                        {editData.category}
-                      </option>
                       {CategoryList.map((each, idx) => (
                         <option value={each} key={idx}>
                           {each}
@@ -126,9 +101,10 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor=""
-                    className="form-label">Available Quantity</label>
-                      <input
+                    <label htmlFor="" className="form-label">
+                      Available Quantity
+                    </label>
+                    <input
                       type="number"
                       className="form-control"
                       id="availability"
@@ -139,10 +115,11 @@ const EditProduct = ({ targetElement, show, handleClose }) => {
                       required
                     />
                   </div>
-                   <div className="mb-2">
-                    <label htmlFor=""
-                    className="form-label">Image Link</label>
-                      <input
+                  <div className="mb-2">
+                    <label htmlFor="" className="form-label">
+                      Image Link
+                    </label>
+                    <input
                       type="text"
                       className="form-control"
                       id="image"

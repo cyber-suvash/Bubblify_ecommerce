@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { ProductContext } from "../context/ProductContextAPI";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CircularProgress from "@mui/material/CircularProgress";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Button from "@mui/material/Button";
 import Forward10Icon from "@mui/icons-material/Forward10";
@@ -14,13 +13,14 @@ import FormatPrice from "../helpers/FormatPrice";
 
 const SingleProduct = () => {
   const { id } = useParams();
-  const { product } = useContext(ProductContext);
+  const { product, handleAddtoCart } = useContext(ProductContext);
 
   const [quantity, setQuantity] = useState(1);
 
   const setDecrease = () => {
-    quantity > 1 ? setQuantity(quantity - 1) : setQuantity(1);
+    if (quantity > 1) setQuantity(quantity - 1);
   };
+
   const setIncrease = (stock) => {
     quantity < stock ? setQuantity(quantity + 1) : setQuantity(stock);
   };
@@ -30,7 +30,6 @@ const SingleProduct = () => {
   // Fix type mismatch
   const single = product.find((each) => each._id === id);
 
-  console.log(single);
   if (!single) return <p>product not found</p>;
 
   return (
@@ -41,21 +40,21 @@ const SingleProduct = () => {
         </NavLink>
         /{single.category}/{single.product_name}
       </h5>
-      <div className="mt-4 bg-succes d-flex justify-content-center gap-3 single-product">
-        <div className="single-img">
+      <div className="mt-4 row">
+        <div className="single-img col-md-5">
           <img src={single.image} alt="" />
         </div>
-        <div className="single-data">
-          <h2>{single.product_name}</h2>
+        <div className="single-data col-md-4">
+          <h3>{single.product_name}</h3>
           <div className="mb-0">
             <Rating stars={4.5} />
           </div>
-          <p className="mb-0">{single.category}</p>
+          <p className="mb-0 fs-4 text-primary">{single.category}</p>
           <p>
             Product Details:{" "}
             <span className="text-secondary">{single.description}</span>{" "}
           </p>
-          <p>
+          <p className="fs-4">
             <strong>Price:</strong> <FormatPrice price={single.price} />
           </p>
           <div className="product-delivery d-flex justify-content-between text-secondary gap-3 ">
@@ -87,14 +86,17 @@ const SingleProduct = () => {
               <Button onClick={setDecrease}>
                 <RemoveCircleIcon fontSize="small" />
               </Button>
-              <div className="text-center">{quantity}</div>
+              <div><span className="text-black">{quantity}</span></div>
               <Button onClick={() => setIncrease(single.availability)}>
                 <AddCircleIcon fontSize="small" />
               </Button>
             </div>
 
             <div className="card-buttons mt-0 ">
-              <Button size="small">
+              <Button
+                size="small"
+                onClick={() => handleAddtoCart({ ...single, quantity })}
+              >
                 {" "}
                 <AddShoppingCartIcon /> Add to Cart
               </Button>

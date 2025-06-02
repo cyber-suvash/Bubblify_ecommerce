@@ -5,7 +5,7 @@ import logo from "/photos/logo.png";
 import google from "/photos/google.png";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -88,7 +88,6 @@ const SignupForm = () => {
 
   return (
     <>
-      <Toaster />
       <div className="outer min-vh-100">
         <div className="row">
           <div className="col-md-6 col-lg-4 main text-center main-outer">
@@ -104,9 +103,9 @@ const SignupForm = () => {
 
             <form className="signup-form" onSubmit={handleSubmit}>
               <div className="">
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name="isAdmin"
                     id="inlineRadio1"
@@ -116,13 +115,13 @@ const SignupForm = () => {
                     }
                     checked={formdata.isAdmin === false}
                   />
-                  <label class="form-check-label" for="inlineRadio1">
+                  <label className="form-check-label" htmlFor="inlineRadio1">
                     User
                   </label>
                 </div>
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name="isAdmin"
                     id="inlineRadio2"
@@ -132,7 +131,7 @@ const SignupForm = () => {
                     }
                     checked={formdata.isAdmin === true}
                   />
-                  <label class="form-check-label" for="inlineRadio2">
+                  <label className="form-check-label" htmlFor="inlineRadio2">
                     Admin
                   </label>
                 </div>

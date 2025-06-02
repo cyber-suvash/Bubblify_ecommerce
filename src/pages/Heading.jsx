@@ -1,9 +1,15 @@
 import Button from "@mui/material/Button";
 import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowRightRounded";
-import Data from "../components/Data.js";
+import { useContext, useState } from "react";
+import { ProductContext } from "../context/ProductContextAPI";
 
-const ProductsPage = ({ viewAll, filteredData, activeCategory }) => {
-  const menuItems = [...new Set(Data.map((each) => each.category))];
+const Heading = () => {
+  const {product,setProduct} =useContext(ProductContext);
+
+
+  const menuItems = [...new Set(product.map((each) => each.category))];
+
+  const [activeCategory,setActiveCategory]=useState('')
 
   return (
     <div className="container">
@@ -22,7 +28,7 @@ const ProductsPage = ({ viewAll, filteredData, activeCategory }) => {
               {each}
             </Button>
           ))}
-           <Button className="" onClick={viewAll}>
+           <Button className="">
             <KeyboardDoubleArrowRightRoundedIcon sx={{fontSize:'20px'}} />
           </Button>
            
@@ -33,4 +39,4 @@ const ProductsPage = ({ viewAll, filteredData, activeCategory }) => {
   );
 };
 
-export default ProductsPage;
+export default Heading;

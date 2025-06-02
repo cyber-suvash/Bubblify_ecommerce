@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "react-hot-toast";
+import React, { useEffect, useState, useContext } from "react";
+import { AdminProductContext } from "../context/AdminContex";
 
 const CreateProduct = ({ BootModal, setBootModal }) => {
-  const CategoryList = [
-    "Electronics",
-    "Fashion",
-    "Beauty",
-    "Footware",
-    "others",
-  ];
+  const { createProduct, CategoryList } = useContext(AdminProductContext);
 
   const [product_data, setProduct_data] = useState({
     product_name: "",
@@ -21,45 +14,25 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
     rating: null,
   });
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await createProduct(product_data);
+    setBootModal(false);
+    setProduct_data({product_name: "",
+    category: "",
+    price: "",
+    description: "",
+    availability: "",
+    image: "",
+    rating: null})
+  };
+
   const handleProductValue = (e) => {
     const { name, value } = e.target;
     setProduct_data((prev) => ({
       ...prev,
       [name]: name === "price" ? parseInt(value) : value,
     }));
-  };
-
-  const handleCreateProduct = async (e) => {
-    e.preventDefault();
-    if (!product_data.product_name) {
-      return alert("please fill name");
-    }
-    if (!product_data.price) {
-      alert("please enter price");
-    }
-    console.log(product_data);
-    try {
-      const responce = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/create`,
-        product_data
-      );
-      if (responce.status === 201) {
-        toast.success("Product Created Successfully!");
-      }
-      console.log(responce);
-      setProduct_data({
-        product_name: "",
-        category: "",
-        price: "",
-        description: "",
-        availability: "",
-        image: "",
-        rating: null,
-      });
-    } catch (error) {
-      console.log(error);
-      toast.error("Internal server error!");
-    }
   };
 
   return (
@@ -83,7 +56,7 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
               </div>
 
               <div className="modal-body">
-                <form className="row g-3" onSubmit={handleCreateProduct}>
+                <form className="row g-3" onSubmit={handleSubmit}>
                   <div className="col-md-6">
                     <label htmlFor="product_name" className="form-label">
                       Product Name

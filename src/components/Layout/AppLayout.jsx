@@ -5,13 +5,12 @@ import { useState } from "react";
 import Footer3 from "../Footer3";
 
 const AppLayout = ({
-  addtoCart = { addtoCart },
   wishlist = { wishlist },
   isLoggedIn = { isLoggedIn },
   handleLogout = { handleLogout },
   setUser = { setUser },
   user = { user },
-  profile_img = { profile_img },
+  profile_img = { profile_img }
 }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
@@ -24,7 +23,6 @@ const AppLayout = ({
       <Header
         isOpenSidebar={isOpenSidebar}
         handleSidebar={handleSidebar}
-        addtoCart={addtoCart}
         wishlist={wishlist}
         isLoggedIn={isLoggedIn}
         handleLogout={handleLogout}

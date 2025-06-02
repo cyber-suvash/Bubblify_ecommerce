@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -6,45 +6,48 @@ import { Button } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import { ProductContext } from "../context/ProductContextAPI";
+import FormatPrice from "../helpers/FormatPrice";
 
-const Cart = ({ addtoCart, setAddtoCart }) => {
+const Cart = () => {
+  const { setIncrease, setDecrease, addtoCart, setAddtoCart } =
+    useContext(ProductContext);
   // Remove product from cart
   const removeProduct = (index) => {
     setAddtoCart((prev) => prev.filter((_, i) => i !== index));
-    toast.error("Product Removed", { duration: 1500 });
+    console.log(index)
+    toast.error("Product Removed from cart", { duration: 1500 });
   };
 
   // Calculate subtotal dynamically
   const subtotal = addtoCart.reduce(
-    (acc, item) => acc + parseInt(item.discount * item.quantity),
+    (acc, item) => acc + parseInt(item.price * item.quantity),
     0
   );
-
   // Increment
-  const handleIncrement = (id) => {
-    setAddtoCart((previtem) =>
-      previtem.map((each) =>
-        each.id === id ? { ...each, quantity: each.quantity + 1 } : each
-      )
-    );
-  };
+  // const handleIncrement = (id) => {
+  //   setAddtoCart((previtem) =>
+  //     previtem.map((each) =>
+  //       each.id === id ? { ...each, quantity: each.quantity + 1 } : each
+  //     )
+  //   );
+  // };
   // Decrement
-  const handleDecrement = (id) => {
-    setAddtoCart((previtem) =>
-      previtem.map((each) =>
-        each.id === id && each.quantity > 1
-          ? { ...each, quantity: each.quantity - 1 }
-          : each
-      )
-    );
-  };
+  // const handleDecrement = (id) => {
+  //   setAddtoCart((previtem) =>
+  //     previtem.map((each) =>
+  //       each.id === id && each.quantity > 1
+  //         ? { ...each, quantity: each.quantity - 1 }
+  //         : each
+  //     )
+  //   );
+  // };
 
   // save using localstorage
 
   return (
     <section className="cartpage">
-      <Toaster />
       <div className="container">
         <div className="row">
           <div className="d-flex justify-content-between">
@@ -60,7 +63,7 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
                 {addtoCart.length > 1 ? "items" : "item"} in your cart
               </p>
               {/* Cart Table */}
-              <div className="col-md-8">
+              <div className="col-md-7">
                 <div className="table-responsive">
                   <table className="table">
                     <thead>
@@ -79,17 +82,20 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
                           </td>
                           <td>
                             <div className="QuantityBox">
-                              <Button onClick={() => handleDecrement(item.id)}>
-                                <RemoveCircleIcon  fontSize="small"/>
+                              <Button onClick={() => setDecrease(item._id)}>
+                                <RemoveCircleIcon fontSize="small" />
                               </Button>
                               <div>{item.quantity}</div>
-                              <Button onClick={() => handleIncrement(item.id)}>
-                                {" "}
-                                <AddCircleIcon fontSize="small"/>
+                              <Button
+                                onClick={() =>
+                                  setIncrease(item.availability, item._id)
+                                }
+                              >
+                                <AddCircleIcon fontSize="small" />
                               </Button>
                             </div>
                           </td>
-                          <td>₹ {item.discount * item.quantity}</td>
+                          <td><FormatPrice price={item.price*item.quantity}/></td>
                           <td>
                             <Button onClick={() => removeProduct(index)}>
                               <DeleteIcon sx={{ color: "crimson" }} />
@@ -103,17 +109,17 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
               </div>
 
               {/* Cart Summary */}
-              <div className="col-md-4">
-                <div className="shadow p-3 Cartdetails">
+              <div className="col-md-3">
+                <div className="shadow p-3 Cartdetails rounded">
                   <h3>Cart Summary</h3>
                   <hr />
                   <div className="d-flex align-items-center justify-content-between mb-2">
                     <span>Subtotal</span>
-                    <span className="ml-auto">₹ {subtotal}</span>
+                    <span className="ml-auto"><FormatPrice price={subtotal}/></span>
                   </div>
                   <div className="d-flex align-items-center justify-content-between mb-2">
                     <span>Shipping</span>
-                    <span className="ml-auto">Free</span>
+                    <span className="ml-auto">{}</span>
                   </div>
                   <div className="d-flex align-items-center justify-content-between mb-2">
                     <span>Estimate for</span>
@@ -124,10 +130,10 @@ const Cart = ({ addtoCart, setAddtoCart }) => {
                   <hr />
                   <div className="d-flex align-items-center justify-content-between mb-2">
                     <span>
-                      <b>Total</b>
+                      <b>Grand Total</b>
                     </span>
                     <span className="ml-auto">
-                      <b>₹ {subtotal}</b>
+                      <b><FormatPrice price={subtotal}/></b>
                     </span>
                   </div>
                   <div className="card-buttons">

@@ -5,18 +5,14 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
-import OpenWithRoundedIcon from "@mui/icons-material/OpenWithRounded";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import Dialog from "@mui/material/Dialog";
-import CloseIcon from "@mui/icons-material/Close";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { ProductContext } from "../context/ProductContextAPI";
 import CircularProgress from "@mui/material/CircularProgress";
 import { NavLink } from "react-router-dom";
 import FormatPrice from "../helpers/FormatPrice";
 
-const Product = ({ data, handleAddtoCart, wishlist, handleWishlist }) => {
+const Product = ({ wishlist, handleWishlist }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -32,7 +28,7 @@ const Product = ({ data, handleAddtoCart, wishlist, handleWishlist }) => {
     setSelectedProduct(null);
   };
 
-  const { product, load } = useContext(ProductContext);
+  const { product, load, handleAddtoCart } = useContext(ProductContext);
 
   return (
     <>
@@ -51,7 +47,6 @@ const Product = ({ data, handleAddtoCart, wishlist, handleWishlist }) => {
               <CardMedia component="img" alt={each.title} image={each.image} />
 
               <div className="expand-whishlist">
-               
                 {wishlist.some((item) => item.id === each.id) ? (
                   <FavoriteIcon
                     fontSize="large"
@@ -67,19 +62,28 @@ const Product = ({ data, handleAddtoCart, wishlist, handleWishlist }) => {
               </div>
               <CardContent sx={{ padding: 0 }}>
                 {/* <Typography component="span">{each.desc.slice(0, 16)}</Typography> */}
-                <Typography variant="body2" color="success">
-                  {each.availability > 0 ? "In stock" : "out of stock"}
+                <Typography
+                  variant="body2"
+                  className={
+                    each.availability > 0
+                      ? "text-success mb-0"
+                      : "text-danger mb-0"
+                  }
+                >
+                  {each.availability > 0 ? "In Stock" : "Out of Stock"}
                 </Typography>
                 <Typography variant="body2">
                   <Rating name="read-only" value={4} readOnly />
                 </Typography>
-                <Typography variant="h6" sx={{ color: "text.secondary" }}>
-                  <p className="mb-0 text-decoration-line-through">
-                    <FormatPrice price={each.price} />
-                  </p>
-                  <p className="price mb-0">
-                    <FormatPrice price={each.price} />
-                  </p>
+                <Typography
+                  variant="h6"
+                  sx={{ color: "text.secondary" }}
+                  className="text-decoration-line-through"
+                >
+                  <FormatPrice price={each.price} />
+                </Typography>
+                <Typography variant="h6" sx={{ color: "crimson" }}>
+                  <FormatPrice price={each.price} />
                 </Typography>
               </CardContent>
               <div className="card-buttons mt-0">
@@ -88,12 +92,6 @@ const Product = ({ data, handleAddtoCart, wishlist, handleWishlist }) => {
                   <Button>details</Button>
                 </NavLink>
               </div>
-
-              {/* <div className="card-buttons mt-0">
-                  <Button size="small" onClick={() => handleAddtoCart(each)}>
-                    <ShoppingCartIcon />
-                  </Button> 
-                </div> */}
             </Card>
           ))}
         </div>

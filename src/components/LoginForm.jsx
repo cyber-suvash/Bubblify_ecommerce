@@ -6,7 +6,7 @@ import google from "/photos/google.png";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { useState } from "react";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const LoginForm = ({ setUser }) => {
   const [logData, setLogdata] = useState({ email: "", password: "" });
@@ -77,7 +77,6 @@ const LoginForm = ({ setUser }) => {
 
   return (
     <>
-      <Toaster />
       <div className="outer min-vh-100">
         <div className="row">
           <div className="col-md-6 col-lg-4 main text-center main-outer">

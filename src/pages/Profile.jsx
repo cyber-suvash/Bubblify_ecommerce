@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Component } from "react";
 import {
   Card,
   CardActions,
@@ -12,7 +12,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const Profile = ({
   user,
@@ -87,11 +87,10 @@ const Profile = ({
     <>
       {isLoggedIn ? (
         <>
-          <Toaster />
           <div className="container pt-5 mt-5">
             <div className="row">
               <div className="col-md-6 mb-3">
-                <Card sx={{ maxWidth: 350 }} className="m-auto">
+                <Card sx={{ maxWidth: 350} } className="m-auto ">
                   <CardMedia
                     component="img"
                     alt="profile-picture"
