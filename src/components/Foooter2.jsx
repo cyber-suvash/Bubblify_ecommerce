@@ -28,7 +28,7 @@ const Foooter2 = () => {
             <div className="info">
               <MailIcon style={{ color: "green" }} />
               <span>
-                <b>Mail us:</b>bublify@xyz.com
+                <b>Mail us:</b>bubblify@xyz.com
               </span>
             </div>
             <div className="info">

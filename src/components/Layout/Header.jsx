@@ -1,4 +1,3 @@
-// Header.jsx
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -51,9 +50,6 @@ const Header = ({
                 </Badge>
               </Button>
             </Link>
-            <Button onClick={() => setDarkmode((prev) => !prev)}>
-              {darkmode ? <LightModeIcon /> : <DarkModeIcon style={{color:"black"}}/>}
-            </Button>
           </div>
         </div>
       </div>
@@ -67,6 +63,9 @@ const Header = ({
       <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header px-3 py-1">
           <img src={logo} alt="" className="mobile-logo" />
+           <Button onClick={() => setDarkmode((prev) => !prev)}>
+              {darkmode ? <LightModeIcon style={{color:"yellow"}} /> : <DarkModeIcon style={{color:"black"}}/>}
+            </Button>
           <Button onClick={toggleSidebar}>
             <CloseIcon sx={{ color: "red" }} />
           </Button>
@@ -131,7 +130,7 @@ const Header = ({
               </Button>
             </Link>
           </div>
-       {isLoggedIn && user.isAdmin ?<Link to={'/admin-dashboard'}><Button>go to Admin</Button></Link>:'' }
+       {isLoggedIn && user.isAdmin ?<Link to={'/admin-dashboard'}><Button className="bg-success text-white">go to Admin</Button></Link>:'' }
         </div>
       </div>
 
@@ -201,7 +200,7 @@ const Header = ({
                 </Link>
               </div>
               <Button onClick={() => setDarkmode((prev) => !prev)}>
-                {darkmode ? <LightModeIcon /> : <DarkModeIcon style={{color:"black"}} />}
+                {darkmode ? <LightModeIcon style={{color:"yellow"}}/> : <DarkModeIcon style={{color:"black"}} />}
               </Button>
             </div>
           </div>

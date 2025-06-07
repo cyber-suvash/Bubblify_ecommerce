@@ -354,13 +354,16 @@ h3 {
   object-fit: contain;
 }
 
-.card {
+.card{
   width: 100%;
   overflow: hidden;
   text-align: center;
 }
-.card:hover {
+.cards{
   box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.7);
+}
+.card:hover{
+   box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.7);
 }
 
 .card-buttons button {
@@ -704,18 +707,11 @@ h3 {
 .dark-mode .card p{
   color: white;
 }
-.dark-mode .mobile-header{
-  background-color: #21262D;
-  color: white;
-}
-.dark-mode .mobile-header button{
-  color: white;
-}
+
 .dark-mode .countryDrop .label{
   color: white;
-}
-.dark-mode .sidebar-header,.sidebar-content {
-
+} 
+.dark-mode .mobile-header{
 background-color: #1e1e1e;
   color: white;
 }

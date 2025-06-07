@@ -11,7 +11,6 @@ const EditProduct = ({ show, handleClose, targetProduct }) => {
     description: "",
     availability: "",
     image: "",
-    rating: null,
   });
 
   useEffect(() => {
@@ -19,10 +18,6 @@ const EditProduct = ({ show, handleClose, targetProduct }) => {
       setEditdata(targetProduct);
     }
   }, [targetProduct]);
-
-  useEffect(()=>{
-    console.log('editdata: ',editData);
-  },[editData])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,7 +44,6 @@ const EditProduct = ({ show, handleClose, targetProduct }) => {
                   onClick={handleClose}
                 ></button>
               </div>
-
               <div className="modal-body">
                 <div className="text-center">
                   <img src={editData.image} alt={editData.name} height={150} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, Component } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Card,
   CardActions,
@@ -27,12 +27,11 @@ const Profile = ({
   const [updateData, setUpdateData] = useState("");
 
   const img_ref = useRef(null); // refecrence of image
-
   const handleClear = () => {
     if (img_ref.current) {
       img_ref.current.value = null;
       setProfile(null);
-      toast.success("input cleared");
+      toast.success("cleared");
     }
   };
 

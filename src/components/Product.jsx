@@ -12,9 +12,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { NavLink } from "react-router-dom";
 import FormatPrice from "../helpers/FormatPrice";
 
+
 const Product = ({ wishlist, handleWishlist }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
 
   // Open product modal dynamically
   const openProductModal = (product) => {
@@ -28,17 +30,17 @@ const Product = ({ wishlist, handleWishlist }) => {
     setSelectedProduct(null);
   };
 
-  const { product, load, handleAddtoCart } = useContext(ProductContext);
+  const { product, loader} = useContext(ProductContext);
 
   return (
     <>
-      {load ? (
+      {loader ? (
         <div className="d-flex justify-content-center align-items-center">
           <CircularProgress />
         </div>
       ) : (
         <div className="productstab">
-          {product?.map((each) => (
+          {product.map((each) => (
             <Card
               sx={{ maxWidth: 240, padding: 1 }}
               className="card"

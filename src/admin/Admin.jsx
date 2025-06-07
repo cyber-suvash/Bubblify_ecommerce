@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
-import AdminSidebar from "../components/AdminSidebar"
+import AdminSidebar from "../components/AdminSidebar";
 import "./Admin.css";
 import Avatar from "@mui/material/Avatar";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -15,13 +15,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 
 const date = new Date();
-
-const Admin = ({ user, handleLogout }) => {
+const Admin = ({ user, handleLogout, profile_img }) => {
   const [isopen, setIsopen] = useState(false);
   const toggleSidebar = () => {
     setIsopen(!isopen);
   };
-
   const [BootModal, setBootModal] = useState(false);
 
   return (
@@ -29,7 +27,8 @@ const Admin = ({ user, handleLogout }) => {
       <div className="row min-vh-100">
         {/* Sidebar */}
         <div className="col-12 col-md-2 ">
-          <AdminSidebar isopen={isopen} toggleSidebar={toggleSidebar} />
+          <AdminSidebar isopen={isopen} toggleSidebar={toggleSidebar} 
+          />
         </div>
 
         {/* Main Content */}
@@ -52,7 +51,6 @@ const Admin = ({ user, handleLogout }) => {
                   Dashboard
                 </Link>
               </div>
-
               <form className="d-none d-md-flex" role="search">
                 <input
                   className="form-control me-2"
@@ -64,7 +62,6 @@ const Admin = ({ user, handleLogout }) => {
                   Search
                 </button>
               </form>
-
               <div className="d-flex align-items-center gap-3">
                 <Button>
                   <Badge badgeContent={4} color="primary">
@@ -83,11 +80,10 @@ const Admin = ({ user, handleLogout }) => {
                   >
                     <Avatar
                       alt="Admin Avatar"
-                      src=""
-                      sx={{ width: 40, height: 40 }}
+                      src={profile_img}
+                      sx={{ width: 60, height: 60 }}
                     />
                   </Dropdown.Toggle>
-
                   <Dropdown.Menu
                     className="custom-dropdown-menu p-2"
                     style={{ minWidth: "240px" }}
@@ -95,12 +91,14 @@ const Admin = ({ user, handleLogout }) => {
                     <Dropdown.Header className="d-flex align-items-center gap-2">
                       <Avatar
                         alt="Admin Avatar"
-                        src="/static/images/avatar/1.jpg"
-                        sx={{ width: 40, height: 40 }}
+                        src={profile_img}
+                        style={{objectFit:"cover"}}
+                        sx={{   }}
                       />
                       <div>
                         <h6 className="mb-0">{user.fullname}</h6>
                         <small>{user.email}</small>
+                           <p className="mb-0">{user.isAdmin ? "Admin" : ""}</p>
                       </div>
                     </Dropdown.Header>
                     <Dropdown.Divider />
@@ -115,13 +113,12 @@ const Admin = ({ user, handleLogout }) => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-
-                <div className="d-none d-md-flex flex-column ms-2">
+                {/* <div className="d-none d-md-flex flex-column ms-2">
                   <span>{user.fullname}</span>
                   <span className="text-secondary">
                     {user.isAdmin ? "Admin" : ""}
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
           </nav>
@@ -156,9 +153,7 @@ const Admin = ({ user, handleLogout }) => {
                 <h2>800</h2>
               </div>
             </div>
-
             <CreateProduct BootModal={BootModal} setBootModal={setBootModal} />
-
             <Outlet />
           </div>
         </div>

@@ -6,22 +6,27 @@ import toast from "react-hot-toast";
 const ProductContext = createContext();
 
 const API = `${import.meta.env.VITE_SERVER_URL}/api/products`;
+// const API ='http://localhost:3000/api/products'
 
 // 2nd step
 const ProductProvider = ({ children }) => {
   const [product, setProduct] = useState([]);
-  const [load, setLoad] = useState(true);
-  
-  const [darkmode,setDarkmode]=useState(false);
-  useEffect(()=>{
-    const root=document.getElementById('root');
-    if(darkmode){
-      root.classList.add('dark-mode');
+  const [oneProduct, setOneProduct] = useState([]);
+   const [review, setReview] = useState({
+    comment: "",
+    rating: 1,
+  });
+  const [loader, setLoader] = useState(true);
+
+  const [darkmode, setDarkmode] = useState(false);
+  useEffect(() => {
+    const root = document.getElementById("root");
+    if (darkmode) {
+      root.classList.add("dark-mode");
+    } else {
+      root.classList.remove("dark-mode");
     }
-    else{
-      root.classList.remove('dark-mode');
-    }
-  },[darkmode])
+  }, [darkmode]);
 
   const [addtoCart, setAddtoCart] = useState(() => {
     const savedCart = localStorage.getItem("Localcart");
@@ -52,17 +57,34 @@ const ProductProvider = ({ children }) => {
     try {
       const response = await axios.get(url);
       console.log(response);
-      setProduct([...response.data.data]||[]);
+      setProduct([...response.data.products] || []);
     } catch (error) {
       console.log("error fetch", error);
-      toast.error('Products fetching error!!')
+      toast.error("Products fetching error!!");
     } finally {
-      setLoad(false);
+      setLoader(false);
     }
   };
+  // single product fetch
+  const OneProductFetch = async (id) => {
+    setLoader(true)
+    try {
+      const res = await axios.get(`${API}/${id}`);
+      if (res.data) {
+        setOneProduct(res.data.product);
+      } else {
+        toast.error("try sometimes later");
+      }
+    } catch (error) {
+      toast.error("single product fetching error");
+    }
+    setLoader(false);
+  };
+
+  // add to cart
+
   const handleAddtoCart = (eachProduct) => {
     const existing = addtoCart.find((item) => item._id === eachProduct._id);
-
     if (existing) {
       if (existing.quantity >= eachProduct.availability) {
         toast.error("Reached maximum stock limit!");
@@ -75,13 +97,30 @@ const ProductProvider = ({ children }) => {
           : item
       );
       setAddtoCart(updateCart);
-      toast.success('Product quality updated!')
+      toast.success("Product quality updated!");
     } else {
       // add new item with quantity 1 or default 1
-      setAddtoCart([...addtoCart, { ...eachProduct, quantity: 1 }||1]);
+      setAddtoCart([...addtoCart, { ...eachProduct, quantity: 1 } || 1]);
       toast.success("Product added Successfully!");
     }
-    
+  };
+
+  // add review
+  const reviewSubmit = async (id) => {
+     const toastID = toast.loading("submitting...");
+    try {
+      const response = await axios.post(
+        `${API}/${id}/review`,
+        review
+      );
+      console.log(response);
+      toast.success("Review submitted!",{id:toastID});
+      setReview({ comment: "", rating: 1 });
+      OneProductFetch(id);
+    } catch (error) {
+      console.log("failed to submit", error);
+      toast.error("failed to submit review");
+    }
   };
 
   useEffect(() => {
@@ -100,15 +139,20 @@ const ProductProvider = ({ children }) => {
     <ProductContext.Provider
       value={{
         product,
-        load,
+        loader,
         darkmode,
+        addtoCart,
+        oneProduct,
+        review,
+        setReview,
         setDarkmode,
         setProduct,
         setIncrease,
         setDecrease,
-        addtoCart,
+        OneProductFetch,
         setAddtoCart,
         handleAddtoCart,
+        reviewSubmit,
       }}
     >
       {children}

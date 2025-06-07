@@ -38,6 +38,9 @@
   transition: left 0.3s ease;
   overflow-y: auto;
 }
+.dark-mode .sidebar{
+  background:#1e1e1e;
+}
 
 .sidebar.open {
   left: 0;

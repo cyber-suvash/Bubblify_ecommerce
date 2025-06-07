@@ -1,9 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-
 export const AdminProductContext = createContext();
-
 export const AdminProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -16,22 +14,19 @@ export const AdminProductProvider = ({ children }) => {
     ];
   const fetchfromAdmin = async () => {
     setLoader(true);
-
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_SERVER_URL}/api/products`
       );
       if (res.data) {
-        setProducts(res.data.data || []);
+        setProducts(res.data.products || []);
       }
     } catch (error) {
       toast.error("Failed to fetch");
     }
     setLoader(false);
   };
-
   //   create product
-
   const createProduct=async(newproduct)=>{
     const toastID=toast.loading('Creating product..') 
     try {
@@ -41,7 +36,7 @@ export const AdminProductProvider = ({ children }) => {
             fetchfromAdmin();
         }
     } catch (error) {
-        toast.error('Craete failed!',{id:toastID})
+        toast.error('Create failed!',{id:toastID})
     }
   }
 

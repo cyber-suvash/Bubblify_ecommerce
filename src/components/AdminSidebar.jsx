@@ -120,12 +120,6 @@ const AdminSidebar = ({ toggleSidebar, isopen }) => {
             </Button>
           </div>
         </div>
-
-        <Avatar
-          alt="Admin Avatar"
-          src="/static/images/avatar/1.jpg"
-          sx={{ width: 50, height: 50 }}
-        />
       </Drawer>
     </div>
   );

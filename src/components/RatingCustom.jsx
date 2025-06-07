@@ -1,5 +1,4 @@
 import React from "react";
-
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import StarIcon from "@mui/icons-material/Star";
@@ -23,8 +22,8 @@ const Rating = ({ stars, reviews }) => {
 
   return (
     <div>
-      {stars}({ratingStar})
-      <p>{reviews} customers review</p>
+      {stars}{ratingStar}
+      <p className="mb-0">{reviews}</p>
     </div>
   );
 };

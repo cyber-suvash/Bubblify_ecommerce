@@ -145,7 +145,7 @@ const App = () => {
         },
         {
           path: "singleproduct/:id",
-          element: <SingleProduct />,
+          element: <SingleProduct user={user} />,
         },
         {
           path: "wishlist",
@@ -181,7 +181,7 @@ const App = () => {
           isLoggedIn={isLoggedIn && user.isAdmin === true}
           user={user}
         >
-          <AdminDashboard user={user} handleLogout={handleLogout} />
+          <AdminDashboard user={user} handleLogout={handleLogout}  profile_img={profile_img}/>
         </ProtectedRoutes>
       ),
       children: [
