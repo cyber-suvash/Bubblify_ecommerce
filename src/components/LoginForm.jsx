@@ -1,18 +1,15 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "/photos/logo.png";
 import google from "/photos/google.png";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setUser, setIsLoggedIn }) => {
   const [logData, setLogdata] = useState({ email: "", password: "" });
-
   const [isloader, setIsloader] = useState(false);
-
   const navigate = useNavigate();
 
   const handleLoginForm = (event) => {
@@ -46,30 +43,43 @@ const LoginForm = ({ setUser }) => {
           email: logData.email.toLowerCase(),
           password: logData.password,
         },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
 
-      if (response.status === 200 && response.data.user) {
-        const user = response.data.user;
-        localStorage.setItem("keepLoggedIn", JSON.stringify(user));
-        setUser(user);
-        toast.success(`Welcome back ${user.fullname}`, { id: toastID });
+      if (response.status === 200 && response.data) {
+        const { user: userData } = response.data;
+        const res = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/api/user/profile`,
+          { withCredentials: true } //use cookies
+        );
+        console.log(res);
+        if (res.data?.user) {
+          setIsLoggedIn(true);
+          setUser(res.data.user);
+          toast.success(`Welcome back ${res.data?.user.fullname}`, {
+            id: toastID,
+          });
+          // ✅ Clear form data
+          setLogdata({ email: "", password: "" });
+        }
 
-          // Navigate based on user role
-        if (user.isAdmin===true) {
-          navigate('/admin-dashboard');
+        // Navigate based on user role
+        if (res.data?.user.role === "admin") {
+          navigate("/admin");
         } else {
-          navigate('/profile');
+          navigate("/");
         }
       } else {
-        toast.error("Login failed, try again later", { id: toastID });
+        toast.error("Login succeeded but user missing", { id: toastID });
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.msg || "An error occurred during login.",
-        { id: toastID }
-      );
       console.error("Login error:", error);
+
+      toast.error(error.response?.data?.msg || "Login failed. Try again.", {
+        id: toastID,
+      });
     } finally {
       setIsloader(false);
     }
@@ -78,11 +88,8 @@ const LoginForm = ({ setUser }) => {
   return (
     <>
       <div className="outer min-vh-100">
-        <div className="row">
+        <div className="row ">
           <div className="col-md-6 col-lg-4 main text-center main-outer">
-            <div className="logo">
-              <img src={logo} alt="Logo" />
-            </div>
             <div className="cancel">
               <Link to={"/"}>
                 <DisabledByDefaultIcon fontSize="large" />
@@ -98,6 +105,8 @@ const LoginForm = ({ setUser }) => {
                 variant="standard"
                 value={logData.email}
                 onChange={handleLoginForm}
+                disabled={isloader}
+                autoComplete="email"
               />
               <TextField
                 id="password"
@@ -107,25 +116,27 @@ const LoginForm = ({ setUser }) => {
                 type="password"
                 value={logData.password}
                 onChange={handleLoginForm}
+                disabled={isloader}
+                autoComplete="current-password"
               />
               <Link to={"/forgotpassword"}>
                 <span>Forgot password?</span>
               </Link>
 
               <div className="signin-btn">
-                <Button type="submit">
-                  {isloader ? "loading...." : "sign in"}
+                <Button type="submit" disabled={isloader} variant="contained">
+                  {isloader ? "Logging in..." : "Sign In"}
                 </Button>
                 <span>or</span>
-                <Button>
-                  <img src={google} alt="" />
+                <Button disabled={isloader}>
+                  <img src={google} alt="Google" />
                   Sign in with Google
                 </Button>
               </div>
 
               <div className="main-last">
                 <p>
-                  Don’t have an account?{" "}
+                  Don't have an account?{" "}
                   <Link to={"/signup"}>
                     <span>Signup</span>
                   </Link>

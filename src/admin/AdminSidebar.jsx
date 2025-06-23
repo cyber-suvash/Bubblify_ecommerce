@@ -1,18 +1,14 @@
-import React, { useState } from "react";
 import logo from "/photos/logo.png";
 import { Link } from "react-router-dom";
-import Avatar from "@mui/material/Avatar";
 import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import OrderIcon from "@mui/icons-material/Description";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import SmsIcon from "@mui/icons-material/Sms";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ReportIcon from "@mui/icons-material/Report";
 import TimelineIcon from "@mui/icons-material/Timeline";
 import HistoryIcon from "@mui/icons-material/History";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Button, Drawer, IconButton, useMediaQuery } from "@mui/material";
+import { Button, Drawer, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -20,7 +16,7 @@ const AdminSidebar = ({ toggleSidebar, isopen }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
-    <div className="admin-sidebar">
+    <>
       {/* drawer component sidebar */}
       <Drawer
         anchor="left"
@@ -46,7 +42,7 @@ const AdminSidebar = ({ toggleSidebar, isopen }) => {
 
           <h3>Overview</h3>
           <div className="d-flex flex-column gap-2">
-            <Link to={"/admin-dashboard"}>
+            <Link to={"/admin"}>
               <Button
                 className={`active`}
                 fullWidth
@@ -85,7 +81,6 @@ const AdminSidebar = ({ toggleSidebar, isopen }) => {
 
         <div>
           <div className="d-flex flex-column">
-           
             <Button
               className="text-start"
               startIcon={<CalendarMonthIcon />}
@@ -104,24 +99,24 @@ const AdminSidebar = ({ toggleSidebar, isopen }) => {
         </div>
 
         <div>
-         
           <div className="d-flex flex-column">
-            <Link to={'history'}>
-             <Button
-              className="text-start"
-              startIcon={<HistoryIcon />}
-              fullWidth>
-              History
-            </Button>
+            <Link to={"history"}>
+              <Button
+                className="text-start"
+                startIcon={<HistoryIcon />}
+                fullWidth
+              >
+                History
+              </Button>
             </Link>
-           
+
             <Button className="text-start" startIcon={<ReportIcon />} fullWidth>
               Help & Support
             </Button>
           </div>
         </div>
       </Drawer>
-    </div>
+    </>
   );
 };
 

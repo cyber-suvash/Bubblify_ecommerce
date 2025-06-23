@@ -11,18 +11,31 @@ import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const [formdata, setFormdata] = useState({
+    secret: "",
     fullname: "",
     email: "",
     phone: "",
     password: "",
-    isAdmin: false,
+    role: "user",
   });
 
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
   const handleFormdata = (event) => {
+    
     const { name, value } = event.target;
+    // if(name==="role"){
+    //   setFormdata({
+    //     role:value,
+    //     secret:"",
+    //     fullname:"",
+    //     email:"",
+    //     phone:"",
+    //     password:""
+    //   })
+    // }
+    setErrors({})
     setFormdata((prevData) => ({
       ...prevData,
       [name]: value,
@@ -33,16 +46,24 @@ const SignupForm = () => {
     event.preventDefault();
 
     const formValidation = {};
+   
+    if(formdata.role==="admin"){
+     if(!formdata.secret.trim()){
+      formValidation.secret="enter secret key"
+    }
+    else if(formdata.secret!=import.meta.env.VITE_SECRET){
+      formValidation.secret='Invalid Secret key'
+    }
+    }
 
     if (!formdata.fullname.trim()) {
       formValidation.fullname = "Full name is required";
     }
-
-    if (!formdata.email.trim()) {
-      formValidation.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formdata.email)) {
-      formValidation.email = "Invalid email format";
-    }
+      if (!formdata.email.trim()) {
+        formValidation.email = "Email is required";
+      } else if (!/\S+@\S+\.\S+/.test(formdata.email)) {
+        formValidation.email = "Invalid email format";
+      }
 
     if (!formdata.phone.trim()) {
       formValidation.phone = "Phone number is required";
@@ -67,11 +88,12 @@ const SignupForm = () => {
         );
         toast.success("Signup Successful", { id: toastID });
         setFormdata({
+          secret: "",
           fullname: "",
           email: "",
           phone: "",
           password: "",
-          isAdmin: "",
+          role: "user",
         });
         navigate("/login");
       } catch (error) {
@@ -81,9 +103,7 @@ const SignupForm = () => {
           toast.error("Something went wrong!", { id: toastID });
         }
       }
-    } else {
-      toast.error("Please enter correct details");
-    }
+    } 
   };
 
   return (
@@ -91,9 +111,6 @@ const SignupForm = () => {
       <div className="outer min-vh-100">
         <div className="row">
           <div className="col-md-6 col-lg-4 main text-center main-outer">
-            <div className="logo">
-              <img src={logo} alt="Logo" />
-            </div>
             <div className="cancel">
               <Link to={"/"}>
                 <DisabledByDefaultIcon fontSize="large" />
@@ -102,40 +119,51 @@ const SignupForm = () => {
             <h3 className="mb-0">Sign Up</h3>
 
             <form className="signup-form" onSubmit={handleSubmit}>
-              <div className="">
-                <div className="form-check form-check-inline">
+              <div className=" ">
+                <div className="form-check form-check-inline  rounded">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="isAdmin"
+                    name="role"
                     id="inlineRadio1"
-                    value="false"
-                    onChange={() =>
-                      setFormdata((prev) => ({ ...prev, isAdmin: false }))
-                    }
-                    checked={formdata.isAdmin === false}
+                    value="user"
+                    onChange={handleFormdata}
+                    checked={formdata.role === "user"}
                   />
                   <label className="form-check-label" htmlFor="inlineRadio1">
-                    User
+                    <strong>User</strong>
                   </label>
                 </div>
+                <span>or </span>
                 <div className="form-check form-check-inline">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="isAdmin"
+                    name="role"
                     id="inlineRadio2"
-                    value={formdata.isAdmin}
-                    onChange={() =>
-                      setFormdata((prev) => ({ ...prev, isAdmin: true }))
-                    }
-                    checked={formdata.isAdmin === true}
+                    value="admin"
+                    onChange={handleFormdata}
+                    checked={formdata.role === "admin"}
                   />
                   <label className="form-check-label" htmlFor="inlineRadio2">
-                    Admin
+                    <strong>Admin</strong>
                   </label>
                 </div>
               </div>
+              {formdata.role === "admin" ? (
+                <TextField
+                  error={Boolean(errors.secret)}
+                  label="Enter secret code"
+                  variant="standard"
+                  name="secret"
+                  value={formdata.secret}
+                  onChange={handleFormdata}
+                  fullWidth
+                  helperText={errors.secret}
+                />
+              ) : (
+                ""
+              )}
               <TextField
                 error={Boolean(errors.fullname)}
                 label="Enter full name"
@@ -146,7 +174,6 @@ const SignupForm = () => {
                 fullWidth
                 helperText={errors.fullname}
               />
-
               <TextField
                 error={Boolean(errors.email)}
                 label="Email"
@@ -181,9 +208,8 @@ const SignupForm = () => {
                 fullWidth
                 helperText={errors.password}
               />
-
               <div className="signup-btn">
-                <Button type="submit">Sign Up</Button>
+                <Button type="submit">register</Button>
                 <span>or</span>
                 <Button>
                   <img src={google} alt="Google" />
@@ -191,7 +217,6 @@ const SignupForm = () => {
                 </Button>
               </div>
             </form>
-
             <div className="main-last">
               <p className="mb-0">
                 Already have an account?{" "}

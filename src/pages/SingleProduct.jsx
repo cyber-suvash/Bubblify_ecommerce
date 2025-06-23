@@ -102,7 +102,7 @@ const SingleProduct = ({ user }) => {
                 </div>
 
                 <div className="card-buttons mt-0 ">
-                  <Button
+                  <Button disabled={oneProduct.availability<=0}
                     size="small"
                     onClick={() => handleAddtoCart({ ...oneProduct, quantity })}
                   >

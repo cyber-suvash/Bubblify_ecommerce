@@ -5,7 +5,7 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import toast from "react-hot-toast";
 import { Home } from "./pages/Home";
 import LoginForm from "./components/LoginForm";
@@ -16,6 +16,7 @@ import Wishlist from "./components/Wishlist";
 import AdminDashboard from "./admin/Admin";
 import UserDashboard from "./pages/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import CircularProgress from "@mui/material/CircularProgress";
 import AppLayout from "./components/Layout/AppLayout";
 import Listing from "./admin/Listing";
 import Customers from "./pages/Customers";
@@ -23,14 +24,16 @@ import Orders from "./components/Orders";
 import History from "./components/History";
 import SingleProduct from "./pages/SingleProduct";
 import { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const App = () => {
+  // const [user, setUser] = useState(() => {
+  //   const data = localStorage.getItem("keepLoggedIn");
+  //   return data ? JSON.parse(data) : null;
+  // });
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-  const [user, setUser] = useState(() => {
-    const data = localStorage.getItem("keepLoggedIn");
-    return data ? JSON.parse(data) : null;
-  });
   const [profile_img, setProfile_img] = useState(null);
 
   //  geting profile image
@@ -55,8 +58,6 @@ const App = () => {
     }
   };
 
-  const isLoggedIn = !!user;
-
   const [wishlist, setWishlist] = useState(() => {
     const savedWishlist = localStorage.getItem("wishlist");
     return savedWishlist ? JSON.parse(savedWishlist) : [];
@@ -72,18 +73,61 @@ const App = () => {
     }
   }, [user]);
 
-  const handleLogout = () => {
-    toast.success("Logging out...");
-    setTimeout(() => {
-      localStorage.removeItem("keepLoggedIn");
+  console.log(isLoggedIn);
+  // const handleLogout = () => {
+  //   const toastID = toast.loading("logging out..");
+  //   setTimeout(() => {
+  //     localStorage.removeItem("keepLoggedIn");
+  //     localStorage.removeItem("token");
+  //     setUser(null);
+  //     setProfile_img(null);
+  //     toast.success("Success", { id: toastID });
+  //   }, 1000);
+  // };
+  const [loading, setLoading] = useState(true); // New
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/api/user/profile`,
+          { withCredentials: true }
+        );
+        console.log(res);
+        if (res.data?.user) {
+          setUser(res.data.user);
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        setUser(null);
+        setIsLoggedIn(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkSession();
+  }, []);
+
+  const handleLogout = async () => {
+    const toastID = toast.loading("Logging out...");
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/user/logout`,
+        {}, // no body
+        {
+          withCredentials: true, // ✅ this ensures cookies are sent
+        }
+      );
       setUser(null);
-      setProfile_img(null);
-    }, 1000);
+      setIsLoggedIn(false);
+      toast.success(res.data.msg, { id: toastID });
+    } catch (error) {
+      console.error(error);
+      toast.error("Logout failed", { id: toastID });
+    }
   };
 
-  const handleWishlist = (eachProduct) => {
-  
-  };
+  const handleWishlist = (eachProduct) => {};
 
   const routers = createBrowserRouter([
     {
@@ -105,35 +149,23 @@ const App = () => {
         },
         {
           path: "login",
-          element: isLoggedIn ? (
-            user?.isAdmin === true ? (
-              <Navigate to={"/admin-dashboard"} />
-            ) : (
-              <Navigate to="/profile" />
-            )
+          element: !isLoggedIn ? (
+            <LoginForm
+              setUser={setUser}
+              User={user}
+              setIsLoggedIn={setIsLoggedIn}
+            />
           ) : (
-            <>
-              <LoginForm
-                isLoggedIn={isLoggedIn}
-                setUser={setUser}
-                User={user}
-              />
-            </>
+            <Navigate to={"/"} />
           ),
         },
         {
           path: "signup",
-          element: isLoggedIn ? (
-            <Navigate to={"/"} />
-          ) : (
-            <>
-              <SignupForm />
-            </>
-          ),
+          element: !isLoggedIn ? <SignupForm /> : <Navigate to={"/"} />,
         },
         {
           path: "forgotpassword",
-          element: isLoggedIn ? <ForgotPass /> : <Navigate to={"/login"} />,
+          element: <ForgotPass />,
         },
         {
           path: "cart",
@@ -158,7 +190,11 @@ const App = () => {
         {
           path: "profile",
           element: (
-            <ProtectedRoutes isLoggedIn={isLoggedIn} user={user}>
+            <ProtectedRoutes
+              isLoggedIn={isLoggedIn}
+              user={user}
+              roles={["user", "admin"]}
+            >
               <UserDashboard
                 user={user}
                 isLoggedIn={isLoggedIn}
@@ -175,13 +211,14 @@ const App = () => {
     },
 
     {
-      path: "/admin-dashboard",
+      path: "/admin",
       element: (
-        <ProtectedRoutes
-          isLoggedIn={isLoggedIn && user.isAdmin === true}
-          user={user}
-        >
-          <AdminDashboard user={user} handleLogout={handleLogout}  profile_img={profile_img}/>
+        <ProtectedRoutes isLoggedIn={isLoggedIn} user={user} roles={["admin"]}>
+          <AdminDashboard
+            user={user}
+            handleLogout={handleLogout}
+            profile_img={profile_img}
+          />
         </ProtectedRoutes>
       ),
       children: [
@@ -204,15 +241,26 @@ const App = () => {
       ],
     },
     {
+      path: "/unauthorized",
+      element: <h3>Unauthorized access</h3>,
+    },
+
+    {
       path: "*",
-      element: <h2>Page not found</h2>,
+      element: <LoginForm />,
     },
   ]);
 
   return (
     <>
       <Toaster position="top-center" />
-      <RouterProvider router={routers} />
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center">
+          <CircularProgress />
+        </div>
+      ) : (
+        <RouterProvider router={routers} />
+      )}
     </>
   );
 };

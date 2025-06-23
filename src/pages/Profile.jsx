@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const Profile = ({
   user,

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
-import AdminSidebar from "../components/AdminSidebar";
+import AdminSidebar from "./AdminSidebar";
 import "./Admin.css";
 import Avatar from "@mui/material/Avatar";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -13,6 +13,7 @@ import { Button } from "@mui/material";
 import CreateProduct from "./CreateProduct";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
+import { AdminProductContext } from "../context/AdminContex";
 
 const date = new Date();
 const Admin = ({ user, handleLogout, profile_img }) => {
@@ -21,16 +22,13 @@ const Admin = ({ user, handleLogout, profile_img }) => {
     setIsopen(!isopen);
   };
   const [BootModal, setBootModal] = useState(false);
+  const {products}=useContext(AdminProductContext);
 
   return (
     <div className="container-fluied px-3 ">
       <div className="row min-vh-100">
         {/* Sidebar */}
-        <div className="col-12 col-md-2 ">
-          <AdminSidebar isopen={isopen} toggleSidebar={toggleSidebar} 
-          />
-        </div>
-
+        <AdminSidebar isopen={isopen} toggleSidebar={toggleSidebar} />
         {/* Main Content */}
         <div className=" col-12 col-md-10 d-flex flex-column p-0">
           {/* Top Navbar */}
@@ -44,10 +42,7 @@ const Admin = ({ user, handleLogout, profile_img }) => {
                 <MenuIcon />
               </IconButton>
               <div className="d-flex align-items-center gap-3">
-                <Link
-                  to="/admin-dashboard"
-                  className="navbar-brand text-primary "
-                >
+                <Link to="/admin" className="navbar-brand text-primary ">
                   Dashboard
                 </Link>
               </div>
@@ -92,13 +87,15 @@ const Admin = ({ user, handleLogout, profile_img }) => {
                       <Avatar
                         alt="Admin Avatar"
                         src={profile_img}
-                        style={{objectFit:"cover"}}
-                        sx={{   }}
+                        style={{ objectFit: "cover" }}
+                        sx={{}}
                       />
                       <div>
                         <h6 className="mb-0">{user.fullname}</h6>
                         <small>{user.email}</small>
-                           <p className="mb-0">{user.isAdmin ? "Admin" : ""}</p>
+                        <p className="mb-0">
+                          {user.role === "admin" ? "Admin" : ""}
+                        </p>
                       </div>
                     </Dropdown.Header>
                     <Dropdown.Divider />
@@ -116,7 +113,7 @@ const Admin = ({ user, handleLogout, profile_img }) => {
                 {/* <div className="d-none d-md-flex flex-column ms-2">
                   <span>{user.fullname}</span>
                   <span className="text-secondary">
-                    {user.isAdmin ? "Admin" : ""}
+                    {user.role ? "Admin" : ""}
                   </span>
                 </div> */}
               </div>
@@ -148,9 +145,9 @@ const Admin = ({ user, handleLogout, profile_img }) => {
                 <h4>Total customers</h4>
                 <h2>500</h2>
               </div>
-              <div className="col-md-3 bg-warning rounded p-3 ">
+              <div className="col-md-3 bg-secondary rounded p-3 text-white ">
                 <h4>Total products</h4>
-                <h2>800</h2>
+                <h2>{products.length}</h2>
               </div>
             </div>
             <CreateProduct BootModal={BootModal} setBootModal={setBootModal} />

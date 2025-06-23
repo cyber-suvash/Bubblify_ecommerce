@@ -586,7 +586,8 @@ h3 {
 /* signup page */
 
 .outer {
-  padding: 40px;
+ margin-top:60px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;

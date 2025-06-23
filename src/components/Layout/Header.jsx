@@ -15,7 +15,6 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import Avatar from "@mui/material/Avatar";
 import { ProductContext } from "../../context/ProductContextAPI";
-import Switch from '@mui/material/Switch';
 
 const Header = ({
   wishlist = [],
@@ -24,7 +23,7 @@ const Header = ({
   user = [],
   profile_img,
 }) => {
-  const { addtoCart,darkmode,setDarkmode } = useContext(ProductContext);
+  const { addtoCart, darkmode, setDarkmode } = useContext(ProductContext);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -63,9 +62,13 @@ const Header = ({
       <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header px-3 py-1">
           <img src={logo} alt="" className="mobile-logo" />
-           <Button onClick={() => setDarkmode((prev) => !prev)}>
-              {darkmode ? <LightModeIcon style={{color:"yellow"}} /> : <DarkModeIcon style={{color:"black"}}/>}
-            </Button>
+          <Button onClick={() => setDarkmode((prev) => !prev)}>
+            {darkmode ? (
+              <LightModeIcon style={{ color: "yellow" }} />
+            ) : (
+              <DarkModeIcon style={{ color: "black" }} />
+            )}
+          </Button>
           <Button onClick={toggleSidebar}>
             <CloseIcon sx={{ color: "red" }} />
           </Button>
@@ -93,7 +96,7 @@ const Header = ({
               <>
                 <Link to="/profile">
                   <Button className="sidebar-link">
-                    <span>welcome, {user.fullname}</span>
+                    <span>Profile</span>
                   </Button>
                 </Link>
 
@@ -130,7 +133,13 @@ const Header = ({
               </Button>
             </Link>
           </div>
-       {isLoggedIn && user.isAdmin ?<Link to={'/admin-dashboard'}><Button className="bg-success text-white">go to Admin</Button></Link>:'' }
+          {isLoggedIn  && user?.role==='admin'? (
+            <Link to={"/admin"}>
+              <Button className="bg-success text-white">go to Admin</Button>
+            </Link>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 
@@ -200,7 +209,11 @@ const Header = ({
                 </Link>
               </div>
               <Button onClick={() => setDarkmode((prev) => !prev)}>
-                {darkmode ? <LightModeIcon style={{color:"yellow"}}/> : <DarkModeIcon style={{color:"black"}} />}
+                {darkmode ? (
+                  <LightModeIcon style={{ color: "yellow" }} />
+                ) : (
+                  <DarkModeIcon style={{ color: "black" }} />
+                )}
               </Button>
             </div>
           </div>
