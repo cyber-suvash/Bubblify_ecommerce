@@ -20,7 +20,7 @@ const Profile = ({
   isLoggedIn,
   handleLogout,
   setUser,
-  getImages,
+  getImage,
   profile_img,
 }) => {
   const [loader, setLoader] = useState(false);
@@ -32,14 +32,14 @@ const Profile = ({
     if (img_ref.current) {
       img_ref.current.value = null;
       setProfile(null);
-      toast.success("cleared");
+      // toast.success("cleared");
     }
   };
 
   const handleUploadImage = async (e) => {
     e.preventDefault();
 
-    if (!updateData.trim() && !profile) {
+    if (!updateData.trim() && profile===null) {
       return toast.error("please select an image or enter a name to update");
     }
     const formdata = new FormData();
@@ -53,25 +53,22 @@ const Profile = ({
 
     try {
       setLoader(true);
-      const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/api/images/upload`,
-        {
-          method: "PUT",
-          body: formdata,
-        }
-      );
+      const response = await fetch(`http://localhost:3000/api/images/upload`, {
+        method: "PUT",
+        body: formdata,
+      });
       const result = await response.json();
-      if (response.ok) {
+      console.log(result);
+      if (response.status===200) {
         toast.success(result.msg || "Profile successfully updated.");
-        console.log(result);
         setUser(result.user);
-        await getImages();
+        await getImage();
         handleClear();
       } else {
         toast.error("Upload image failed!");
       }
     } catch (error) {
-      toast.error("internal server error");
+      toast.error("Internal issue");
     } finally {
       setLoader(false);
     }
@@ -90,7 +87,7 @@ const Profile = ({
           <div className="container pt-5 mt-5">
             <div className="row">
               <div className="col-md-6 mb-3">
-                <Card sx={{ maxWidth: 350} } className="m-auto ">
+                <Card sx={{ maxWidth: 350 }} className="m-auto ">
                   <CardMedia
                     component="img"
                     alt="profile-picture"

@@ -37,17 +37,15 @@ const App = () => {
   const [profile_img, setProfile_img] = useState(null);
 
   //  geting profile image
-  const getImages = async () => {
+  const getImage = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/api/images/${user._id}`
+        `http://localhost:3000/api/images/${user._id}`
       );
       const result = await response.json();
       if (response.ok && result.data) {
-        const imageURl = `${import.meta.env.VITE_SERVER_URL}/uploads/${
-          result.data.filename
-        }`;
-        setProfile_img(imageURl);
+      const imageURL=result.data.image.url;
+        setProfile_img(imageURL);
       } else {
         setProfile_img(null);
       }
@@ -69,7 +67,7 @@ const App = () => {
 
   useEffect(() => {
     if (user?._id) {
-      getImages();
+      getImage();
     }
   }, [user]);
 
@@ -201,7 +199,7 @@ const App = () => {
                 handleLogout={handleLogout}
                 setUser={setUser}
                 profile_img={profile_img}
-                getImages={getImages}
+                getImage={getImage}
                 setProfile_img={setProfile_img}
               />
             </ProtectedRoutes>

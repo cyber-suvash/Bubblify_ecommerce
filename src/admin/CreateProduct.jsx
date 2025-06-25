@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext,useRef } from "react";
 import { AdminProductContext } from "../context/AdminContex";
+import axios from "axios";
 
 const CreateProduct = ({ BootModal, setBootModal }) => {
   const { createProduct, CategoryList } = useContext(AdminProductContext);
@@ -10,12 +11,12 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
     price: "",
     description: "",
     availability: "",
-    image: "",
     rating: null,
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     await createProduct(product_data);
     setBootModal(false);
     setProduct_data({product_name: "",
@@ -23,9 +24,15 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
     price: "",
     description: "",
     availability: "",
-    image: "",
     rating: null})
   };
+
+  const img_reff=useRef(null);
+const [product_image,setProduct_image]=useState(null);
+  const handleImage=(e)=>{
+    console.log(e.target.files[0])
+    setProduct_image(e.target.files[0]);
+  }
 
   const handleProductValue = (e) => {
     const { name, value } = e.target;
@@ -142,16 +149,15 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
                   </div>
                   <div className="mb-2">
                     <label htmlFor="" className="form-label">
-                      Image Link
+                      Upload Image
                     </label>
                     <input
-                      type="text"
+                      type="file"
                       className="form-control"
                       id="image"
-                      value={product_data.image}
-                      onChange={handleProductValue}
-                      placeholder="paste image link here"
+                      onChange={handleImage}
                       name="image"
+                      ref={img_reff}
                     />
                   </div>
                   <div className="col-12 ">

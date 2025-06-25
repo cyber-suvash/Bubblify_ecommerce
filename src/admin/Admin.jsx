@@ -25,7 +25,7 @@ const Admin = ({ user, handleLogout, profile_img }) => {
   const {products}=useContext(AdminProductContext);
 
   return (
-    <div className="container-fluied px-3 ">
+    <div className="container-fluid px-3 ">
       <div className="row min-vh-100">
         {/* Sidebar */}
         <AdminSidebar isopen={isopen} toggleSidebar={toggleSidebar} />
