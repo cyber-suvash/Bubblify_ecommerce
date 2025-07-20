@@ -28,9 +28,8 @@ const CountrydropDown = () => {
   useEffect(() => {
     const fetchCountry = async () => {
       try {
-        console.log("Starting API call...");
         const res = await fetch(
-          "https://countriesnow.space/api/v0.1/countries/"
+          "https://countriesnow.space/api/v0.1/countries"
         );
         if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
         const datafile = await res.json();

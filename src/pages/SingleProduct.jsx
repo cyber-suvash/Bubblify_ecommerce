@@ -49,7 +49,7 @@ const SingleProduct = ({ user }) => {
           </h5>
           <div className="mt-4 row">
             <div className="single-img col-md-5">
-              <img src={oneProduct.image} alt="" />
+              <img src={oneProduct.image.url} alt="" />
             </div>
             <div className="single-data col-md-4">
               <h3>{oneProduct.product_name}</h3>

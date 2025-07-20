@@ -78,7 +78,7 @@ const Cart = () => {
                       {addtoCart.map((item, index) => (
                         <tr key={index}>
                           <td>
-                            <img src={item.image} alt={item.title} width="50" />
+                            <img src={item.image.url} alt={item.title} width="50" />
                           </td>
                           <td>
                             <div className="QuantityBox">

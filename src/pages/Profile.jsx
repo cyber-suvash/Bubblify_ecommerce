@@ -23,9 +23,11 @@ const Profile = ({
   getImage,
   profile_img,
 }) => {
+  const API_URL = import.meta.env.VITE_SERVER_URL;
+  // const API_URL=`http://localhost:3000`
   const [loader, setLoader] = useState(false);
   const [profile, setProfile] = useState(null);
-  const [updateData, setUpdateData] = useState("");
+  const [updatedName, setUpdatedName] = useState("");
 
   const img_ref = useRef(null); // refecrence of image
   const handleClear = () => {
@@ -39,7 +41,7 @@ const Profile = ({
   const handleUploadImage = async (e) => {
     e.preventDefault();
 
-    if (!updateData.trim() && profile===null) {
+    if (!updatedName.trim() && profile === null) {
       return toast.error("please select an image or enter a name to update");
     }
     const formdata = new FormData();
@@ -47,25 +49,25 @@ const Profile = ({
       formdata.append("profile_img", profile);
     }
     formdata.append("userId", user._id);
-    if (updateData.trim()) {
-      formdata.append("fullname", updateData.trim());
+    if (updatedName.trim()) {
+      formdata.append("fullname", updatedName.trim());
     }
-
     try {
       setLoader(true);
-      const response = await fetch(`http://localhost:3000/api/images/upload`, {
+      const response = await fetch(`${API_URL}/api/images/upload`, {
         method: "PUT",
         body: formdata,
       });
+
       const result = await response.json();
       console.log(result);
-      if (response.status===200) {
+      if (response.status === 200) {
         toast.success(result.msg || "Profile successfully updated.");
         setUser(result.user);
         await getImage();
         handleClear();
       } else {
-        toast.error("Upload image failed!");
+        toast.error(result.msg || "Upload image failed!");
       }
     } catch (error) {
       toast.error("Internal issue");
@@ -76,7 +78,7 @@ const Profile = ({
 
   useEffect(() => {
     if (user?.fullname) {
-      setUpdateData(user.fullname);
+      setUpdatedName(user.fullname);
     }
   }, [user]);
 
@@ -110,25 +112,6 @@ const Profile = ({
                       Email ~ {user?.email}
                     </Typography>
                   </CardContent>
-
-                  {/* <CardActions>
-                    <div>
-                      {" "}
-                      <Button className="mb-2 sidebar-link">
-                        <HistoryIcon />
-                        Order History
-                      </Button>
-                      <Button className="mb-2 sidebar-link">
-                        <FavoriteIcon /> Wishlist
-                      </Button>
-                      <Button className="mb-2 sidebar-link">
-                        <HomeIcon /> Address
-                      </Button>
-                      <Button className="mb-2 sidebar-link">
-                        <SettingsIcon /> Profile Settings
-                      </Button>
-                    </div>
-                  </CardActions> */}
                   <CardActions>
                     <Link to={"/"}>
                       <Button>
@@ -153,8 +136,8 @@ const Profile = ({
                   <CardContent>
                     <TextField
                       className="mb-3"
-                      value={updateData}
-                      onChange={(e) => setUpdateData(e.target.value)}
+                      value={updatedName}
+                      onChange={(e) => setUpdatedName(e.target.value)}
                       fullWidth
                       name="fullname"
                       label="Name"
@@ -180,23 +163,26 @@ const Profile = ({
                         ref={img_ref}
                         onChange={(e) => setProfile(e.target.files[0])}
                       />
-                      <Button
-                        type="button"
-                        onClick={handleClear}
-                        className="bg-secondary text-white me-3 px-3"
-                      >
-                        clear
-                      </Button>
-                      <Button
-                        type="submit"
-                        className="bg-success text-white px-3"
-                      >
-                        {loader ? (
-                          <CircularProgress size={24} color="white" />
-                        ) : (
-                          "submit"
-                        )}
-                      </Button>
+
+                      {loader ? (
+                        <CircularProgress size={30} color="white" />
+                      ) : (
+                        <div className="mb-3">
+                          <Button
+                            type="button"
+                            onClick={handleClear}
+                            className="bg-secondary text-white me-3 px-3"
+                          >
+                            clear
+                          </Button>
+                          <Button
+                            type="submit"
+                            className="bg-success text-white px-3"
+                          >
+                            submit
+                          </Button>
+                        </div>
+                      )}
                     </form>
                   </CardContent>
                 </Card>

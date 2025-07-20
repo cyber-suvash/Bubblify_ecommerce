@@ -208,6 +208,13 @@ const Header = ({
                   </Button>
                 </Link>
               </div>
+               {isLoggedIn  && user?.role==='admin'? (
+            <Link to={"/admin"}>
+              <Button className="bg-success text-white">go to Admin</Button>
+            </Link>
+          ) : (
+            ""
+          )}
               <Button onClick={() => setDarkmode((prev) => !prev)}>
                 {darkmode ? (
                   <LightModeIcon style={{ color: "yellow" }} />

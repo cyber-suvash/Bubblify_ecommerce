@@ -5,28 +5,18 @@ import toast from "react-hot-toast";
 // 1st step
 const ProductContext = createContext();
 
-const API = `${import.meta.env.VITE_SERVER_URL}/api/products`;
-// const API ='http://localhost:3000/api/products'
+const API = import.meta.env.VITE_SERVER_URL;
 
 // 2nd step
 const ProductProvider = ({ children }) => {
   const [product, setProduct] = useState([]);
   const [oneProduct, setOneProduct] = useState([]);
-   const [review, setReview] = useState({
+  const [review, setReview] = useState({
     comment: "",
     rating: 1,
   });
   const [loader, setLoader] = useState(true);
-
   const [darkmode, setDarkmode] = useState(false);
-  useEffect(() => {
-    const root = document.getElementById("root");
-    if (darkmode) {
-      root.classList.add("dark-mode");
-    } else {
-      root.classList.remove("dark-mode");
-    }
-  }, [darkmode]);
 
   const [addtoCart, setAddtoCart] = useState(() => {
     const savedCart = localStorage.getItem("Localcart");
@@ -53,23 +43,35 @@ const ProductProvider = ({ children }) => {
     setAddtoCart(UpdateQuantity);
   };
 
-  const fectchingProducts = async (url) => {
+  const fectchingProducts = async () => {
+    // try {
+    //   const response = await axios.get(url);
+    //   if (response.data) {
+    //     setProduct([...response.data.products]);
+    //   }
+    //   setProduct([]);
+    // } catch (error) {
+    //   console.log("error fetch", error);
+    //   toast.error(error.response.data.msg);
+    // } finally {
+    //   setLoader(false);
+    // }
+    setLoader(true);
     try {
-      const response = await axios.get(url);
-      console.log(response);
-      setProduct([...response.data.products] || []);
+      const res = await axios.get(`${API}/api/products`);
+      if (res.data) {
+        setProduct(res.data.products || []);
+      }
     } catch (error) {
-      console.log("error fetch", error);
-      toast.error("Products fetching error!!");
-    } finally {
-      setLoader(false);
+      toast.error("Failed to fetch");
     }
+    setLoader(false);
   };
   // single product fetch
   const OneProductFetch = async (id) => {
-    setLoader(true)
+    setLoader(true);
     try {
-      const res = await axios.get(`${API}/${id}`);
+      const res = await axios.get(`${API}/api/products/${id}`);
       if (res.data) {
         setOneProduct(res.data.product);
       } else {
@@ -107,14 +109,11 @@ const ProductProvider = ({ children }) => {
 
   // add review
   const reviewSubmit = async (id) => {
-     const toastID = toast.loading("submitting...");
+    const toastID = toast.loading("submitting...");
     try {
-      const response = await axios.post(
-        `${API}/${id}/review`,
-        review
-      );
+      const response = await axios.post(`${API}/${id}/review`, review);
       console.log(response);
-      toast.success("Review submitted!",{id:toastID});
+      toast.success("Review submitted!", { id: toastID });
       setReview({ comment: "", rating: 1 });
       OneProductFetch(id);
     } catch (error) {
@@ -122,6 +121,14 @@ const ProductProvider = ({ children }) => {
       toast.error("failed to submit review");
     }
   };
+  useEffect(() => {
+    const root = document.getElementById("root");
+    if (darkmode) {
+      root.classList.add("dark-mode");
+    } else {
+      root.classList.remove("dark-mode");
+    }
+  }, [darkmode]);
 
   useEffect(() => {
     localStorage.setItem("Localcart", JSON.stringify(addtoCart));
@@ -129,7 +136,7 @@ const ProductProvider = ({ children }) => {
 
   useEffect(() => {
     const delayfecth = setTimeout(() => {
-      fectchingProducts(API);
+      fectchingProducts();
     }, 1000);
 
     return () => clearTimeout(delayfecth);

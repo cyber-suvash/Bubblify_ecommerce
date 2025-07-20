@@ -6,6 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import EditIcon from "@mui/icons-material/Edit";
 import FormatPrice from "../helpers/FormatPrice";
 import { AdminProductContext } from "../context/AdminContex";
+// import { ProductContext } from "../context/ProductContextAPI";
 import EditProduct from "./EditProduct";
 
 const Listing = () => {
@@ -18,11 +19,12 @@ const Listing = () => {
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const handleDelete = (id) => {
-    if (window.confirm("Are you serious?")) {
+    if (window.confirm("Are you sure?")) {
       deleteProduct(id);
     }
   };
 
+  console.log(products)
   const handleIdSet = (id) => {
     const eachProduct = products.find((item) => item._id === id);
     if (eachProduct) {
@@ -63,7 +65,7 @@ const Listing = () => {
                         <td>{idx + 1}</td>
                         <td>
                           <img
-                            src={each.image || "https://via.placeholder.com/50"}
+                            src={each.image.url || "https://via.placeholder.com/50"}
                             alt="product"
                             width="60"
                           />

@@ -12,26 +12,24 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { NavLink } from "react-router-dom";
 import FormatPrice from "../helpers/FormatPrice";
 
-
 const Product = ({ wishlist, handleWishlist }) => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
+  // const [isOpenModal, setIsOpenModal] = useState(false);
+  // const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Open product modal dynamically
-  const openProductModal = (product) => {
-    setSelectedProduct(product);
-    setIsOpenModal(true);
-  };
+  // const openProductModal = (product) => {
+  //   setSelectedProduct(product);
+  //   setIsOpenModal(true);
+  // };
 
   // Close modal
-  const closeModal = () => {
-    setIsOpenModal(false);
-    setSelectedProduct(null);
-  };
+  // const closeModal = () => {
+  //   setIsOpenModal(false);
+  //   setSelectedProduct(null);
+  // };
 
-  const { product, loader} = useContext(ProductContext);
-
+  const { product, loader } = useContext(ProductContext);
+  console.log(product)
   return (
     <>
       {loader ? (
@@ -46,7 +44,11 @@ const Product = ({ wishlist, handleWishlist }) => {
               className="card"
               key={each._id}
             >
-              <CardMedia component="img" alt={each.title} image={each.image} />
+              <CardMedia
+                sx={{ height: 140 }}
+                image={each.image.url}
+                title="green iguana"
+              />
 
               <div className="expand-whishlist">
                 {wishlist.some((item) => item.id === each.id) ? (

@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useContext,useRef } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { AdminProductContext } from "../context/AdminContex";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const CreateProduct = ({ BootModal, setBootModal }) => {
-  const { createProduct, CategoryList } = useContext(AdminProductContext);
+  const { createProduct, CategoryList,loader } = useContext(AdminProductContext);
 
   const [product_data, setProduct_data] = useState({
     product_name: "",
@@ -11,34 +12,42 @@ const CreateProduct = ({ BootModal, setBootModal }) => {
     price: "",
     description: "",
     availability: "",
-    rating: null,
+    image: {},
   });
+
+  const [product_image, setProduct_image] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    await createProduct(product_data);
-    setBootModal(false);
-    setProduct_data({product_name: "",
-    category: "",
-    price: "",
-    description: "",
-    availability: "",
-    rating: null})
+
+    if (!product_image) {
+      return toast.error("required image");
+    }
+    try {
+      const Imageform = new FormData();
+      Imageform.append("product_image", product_image);
+      await createProduct(Imageform,product_data);
+      setBootModal(false);
+      setProduct_data({
+        product_name: "",
+        category: "",
+        price: "",
+        description: "",
+        availability:"",
+        image: {},
+      });
+    } catch (error) {
+      console.log("creating failed ",error);
+    }
   };
 
-  const img_reff=useRef(null);
-const [product_image,setProduct_image]=useState(null);
-  const handleImage=(e)=>{
-    console.log(e.target.files[0])
-    setProduct_image(e.target.files[0]);
-  }
+  const img_reff = useRef(null);
 
   const handleProductValue = (e) => {
     const { name, value } = e.target;
     setProduct_data((prev) => ({
       ...prev,
-      [name]: name === "price" ? parseInt(value) : value,
+      [name]:["price", "availability"].includes(name)? parseInt(value) : value,
     }));
   };
 
@@ -63,7 +72,11 @@ const [product_image,setProduct_image]=useState(null);
               </div>
 
               <div className="modal-body">
-                <form className="row g-3" onSubmit={handleSubmit}>
+                <form
+                  className="row g-3"
+                  onSubmit={handleSubmit}
+                  encType="multipart/form-data"
+                >
                   <div className="col-md-6">
                     <label htmlFor="product_name" className="form-label">
                       Product Name
@@ -143,7 +156,6 @@ const [product_image,setProduct_image]=useState(null);
                       value={product_data.description}
                       onChange={handleProductValue}
                       name="description"
-                      required
                       placeholder="product describe here"
                     ></textarea>
                   </div>
@@ -154,14 +166,14 @@ const [product_image,setProduct_image]=useState(null);
                     <input
                       type="file"
                       className="form-control"
-                      id="image"
-                      onChange={handleImage}
-                      name="image"
+                      id="product_image"
+                      onChange={(e) => setProduct_image(e.target.files[0])}
+                      name="product_image"
                       ref={img_reff}
                     />
                   </div>
                   <div className="col-12 ">
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" disabled={loader}className="btn btn-primary">
                       Create Product
                     </button>
                   </div>

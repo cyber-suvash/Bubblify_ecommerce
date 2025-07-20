@@ -1,8 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
 import { AdminProductContext } from "../context/AdminContex";
+import toast from "react-hot-toast";
+
 
 const EditProduct = ({ show, handleClose, targetProduct }) => {
-  const { updateProduct, products ,CategoryList} = useContext(AdminProductContext);
+  const { updateProduct, products, CategoryList } =
+    useContext(AdminProductContext);
+  const [pic, setpic] = useState(null);
 
   const [editData, setEditdata] = useState({
     product_name: "",
@@ -10,7 +14,7 @@ const EditProduct = ({ show, handleClose, targetProduct }) => {
     price: "",
     description: "",
     availability: "",
-    image: "",
+    image: {},
   });
 
   useEffect(() => {
@@ -23,9 +27,15 @@ const EditProduct = ({ show, handleClose, targetProduct }) => {
     const { name, value } = e.target;
     setEditdata((prev) => ({ ...prev, [name]: value }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    updateProduct(editData._id, editData);
+    const formpic = new FormData();
+    if (!pic) {
+      toast.error("choose an image");
+    }
+    formpic.append("product_image", pic);
+
+    await updateProduct(editData._id, formpic, editData);
     handleClose();
   };
 
@@ -46,7 +56,12 @@ const EditProduct = ({ show, handleClose, targetProduct }) => {
               </div>
               <div className="modal-body">
                 <div className="text-center">
-                  <img src={editData.image} alt={editData.name} height={150} />
+                  <img
+                    src={editData.image.url}
+                    alt={editData.name}
+                    height={200}
+                    className=""
+                  />
                 </div>
                 <form className="row g-3" onSubmit={handleSubmit}>
                   <div className="col-md-6">
@@ -111,16 +126,14 @@ const EditProduct = ({ show, handleClose, targetProduct }) => {
                   </div>
                   <div className="mb-2">
                     <label htmlFor="" className="form-label">
-                      Image Link
+                      Chnage Image
                     </label>
                     <input
-                      type="text"
+                      type="file"
                       className="form-control"
-                      id="image"
-                      value={editData.image}
-                      onChange={handleChange}
-                      placeholder="paste image link here"
-                      name="image"
+                      id="product_image"
+                      onChange={(e) => setpic(e.target.files[0])}
+                      name="product_image"
                     />
                   </div>
                   <div className="mb-2">

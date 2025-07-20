@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 import "./Admin.css";
@@ -22,15 +22,15 @@ const Admin = ({ user, handleLogout, profile_img }) => {
     setIsopen(!isopen);
   };
   const [BootModal, setBootModal] = useState(false);
-  const {products}=useContext(AdminProductContext);
+  const { products } = useContext(AdminProductContext);
 
   return (
     <div className="container-fluid px-3 ">
       <div className="row min-vh-100">
-        {/* Sidebar */}
-        <AdminSidebar isopen={isopen} toggleSidebar={toggleSidebar} />
-        {/* Main Content */}
-        <div className=" col-12 col-md-10 d-flex flex-column p-0">
+        <div className="col-md-2">
+          <AdminSidebar isopen={isopen} toggleSidebar={toggleSidebar} />
+        </div>
+        <div className="col-md-10 d-flex flex-column p-0">
           {/* Top Navbar */}
           <nav className="navbar navbar-expand-lg bg-body-tertiary px-3">
             <div className="container-fluid d-flex justify-content-between align-items-center">

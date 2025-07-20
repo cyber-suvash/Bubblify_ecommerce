@@ -47,7 +47,7 @@ const LoginForm = ({ setUser, setIsLoggedIn }) => {
           withCredentials: true,
         }
       );
-
+        console.log(response)
       if (response.status === 200 && response.data) {
         const { user: userData } = response.data;
         const res = await axios.get(

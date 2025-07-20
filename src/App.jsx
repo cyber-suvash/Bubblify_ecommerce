@@ -27,24 +27,22 @@ import { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 const App = () => {
-  // const [user, setUser] = useState(() => {
-  //   const data = localStorage.getItem("keepLoggedIn");
-  //   return data ? JSON.parse(data) : null;
-  // });
+
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [profile_img, setProfile_img] = useState(null);
 
   //  geting profile image
   const getImage = async () => {
+
     try {
       const response = await fetch(
-        `http://localhost:3000/api/images/${user._id}`
+        `${import.meta.env.VITE_SERVER_URL}/api/images/${user._id}`
       );
       const result = await response.json();
-      if (response.ok && result.data) {
-      const imageURL=result.data.image.url;
+      console.log(result);
+      if (response.ok ) {
+      const imageURL=result.imagefile.image.url;
         setProfile_img(imageURL);
       } else {
         setProfile_img(null);
@@ -91,7 +89,6 @@ const App = () => {
           `${import.meta.env.VITE_SERVER_URL}/api/user/profile`,
           { withCredentials: true }
         );
-        console.log(res);
         if (res.data?.user) {
           setUser(res.data.user);
           setIsLoggedIn(true);
@@ -249,18 +246,13 @@ const App = () => {
     },
   ]);
 
-  return (
-    <>
-      <Toaster position="top-center" />
-      {loading ? (
-        <div className="d-flex justify-content-center align-items-center">
-          <CircularProgress />
-        </div>
-      ) : (
-        <RouterProvider router={routers} />
-      )}
-    </>
-  );
-};
+return (
+  <>
+    <Toaster position="top-center" />
+    <RouterProvider router={routers} />
+  </>
+);
+}
+
 
 export default App;
